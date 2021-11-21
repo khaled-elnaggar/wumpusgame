@@ -7,7 +7,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import utilities.RandomNumberGenerator;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +45,7 @@ public class NewGameModelTests {
         game.startGame();
         GameMap gameMap = game.getGameMap();
 
-        assertEquals(GameInitialConfigurations.NUMBER_OF_CAVES,gameMap.getCaves().size());
+        assertEquals(GameInitialConfigurations.NUMBER_OF_CAVES, gameMap.getCaves().size());
     }
 
     @Test
@@ -53,19 +55,19 @@ public class NewGameModelTests {
         GameMap gameMap = game.getGameMap();
         final List<Cave> mapCaves = gameMap.getCaves();
 
-        final int[] caveLinkIndexesToTest= new int[]{0,9,3,4};
+        final int[] caveLinkIndexesToTest = new int[]{0, 9, 3, 4};
 
-        for(int caveLinkIndexToTest:caveLinkIndexesToTest){
+        for (int caveLinkIndexToTest : caveLinkIndexesToTest) {
             final Cave firstCave = mapCaves.get(
                     caveLinkIndexToTest);
 
             final int connectedCavesCount = 3;
             final List<Cave> actualLinkedCavesToFirstCave = firstCave.getLinkedCaves();
-            assertEquals(connectedCavesCount,actualLinkedCavesToFirstCave.size());
+            assertEquals(connectedCavesCount, actualLinkedCavesToFirstCave.size());
 
             final int[] expectedLinkedCavesToFirstCave = GameInitialConfigurations.CAVE_LINKS[caveLinkIndexToTest];
 
-            for(int caveLink:expectedLinkedCavesToFirstCave){
+            for (int caveLink : expectedLinkedCavesToFirstCave) {
                 assertTrue(actualLinkedCavesToFirstCave.contains(new Cave(caveLink)));
             }
         }
@@ -92,23 +94,23 @@ public class NewGameModelTests {
         final int actualPlayerCaveIndex = game.getPlayerCave();
         assertEquals(PLAYER_STARTING_CAVE_INDEX, actualPlayerCaveIndex);
 
-        Cave playerCave=game.getGameMap().getCaves().get(PLAYER_STARTING_CAVE_INDEX);
-        Player player=game.getPlayer();
+        Cave playerCave = game.getGameMap().getCaves().get(PLAYER_STARTING_CAVE_INDEX);
+        Player player = game.getPlayer();
         assertTrue(playerCave.getGameObjects().contains(player));
     }
 
     @Test
-    public void testThatWumpusIsAddedToCaveGameMap(){
+    public void testThatWumpusIsAddedToCaveGameMap() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
         final int actualWumpusCaveIndex = game.getWumpusCave();
-        assertEquals(WUMPUS_STARTING_CAVE_INDEX,actualWumpusCaveIndex);
+        assertEquals(WUMPUS_STARTING_CAVE_INDEX, actualWumpusCaveIndex);
 
-        Cave wumpusCave=game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
-        Wumpus wumpus=game.getWumpus();
+        Cave wumpusCave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
+        Wumpus wumpus = game.getWumpus();
         assertTrue(wumpusCave.getGameObjects().contains(wumpus));
 
     }
@@ -124,18 +126,18 @@ public class NewGameModelTests {
 
         List<Bat> listOfBats = game.getBats();
 
-        assertEquals(GameInitialConfigurations.NUMBER_OF_BATS,listOfBats.size());
+        assertEquals(GameInitialConfigurations.NUMBER_OF_BATS, listOfBats.size());
 
-        for(int i = 0; i < listOfBats.size(); i++) {
+        for (int i = 0; i < listOfBats.size(); i++) {
             assertEquals(batsStartingCavesIndexes[i], listOfBats.get(i).getCave().getNumber());
-            Cave batCave= game.getGameMap().getCaves().get(batsStartingCavesIndexes[i]);
+            Cave batCave = game.getGameMap().getCaves().get(batsStartingCavesIndexes[i]);
             Bat bat = listOfBats.get(i);
             assertTrue(batCave.getGameObjects().contains(bat));
         }
     }
 
     @Test
-    public void testThatTwoPitsAreAddedToCaveGameMap(){
+    public void testThatTwoPitsAreAddedToCaveGameMap() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         int[] pitsInCavesIndexes = {FIRST_PIT_CAVE, SECOND_PIT_CAVE};
@@ -145,11 +147,11 @@ public class NewGameModelTests {
 
         List<Pit> listOfPits = game.getPits();
 
-        assertEquals(GameInitialConfigurations.NUMBER_OF_PITS,listOfPits.size());
+        assertEquals(GameInitialConfigurations.NUMBER_OF_PITS, listOfPits.size());
 
-        for(int i = 0; i < listOfPits.size(); i++) {
+        for (int i = 0; i < listOfPits.size(); i++) {
             assertEquals(pitsInCavesIndexes[i], listOfPits.get(i).getCave().getNumber());
-            Cave PitInCave= game.getGameMap().getCaves().get(pitsInCavesIndexes[i]);
+            Cave PitInCave = game.getGameMap().getCaves().get(pitsInCavesIndexes[i]);
             Pit pit = listOfPits.get(i);
             assertTrue(PitInCave.getGameObjects().contains(pit));
         }
@@ -157,7 +159,7 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testThatWumpusIsNotInitializedInSameCaveAsPlayer(){
+    public void testThatWumpusIsNotInitializedInSameCaveAsPlayer() {
         final int wumpusStartingWrongCaveIndex = 9;
         final int wumpusStartingCorrectCaveIndex = 17;
 
@@ -170,21 +172,21 @@ public class NewGameModelTests {
                 THIRD_BAT_STARTING_CAVE_INDEX,
                 FIRST_PIT_CAVE,
                 SECOND_PIT_CAVE
-                );
+        );
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
         final int actualWumpusCaveIndex = game.getWumpusCave();
-        assertEquals(wumpusStartingCorrectCaveIndex,actualWumpusCaveIndex);
+        assertEquals(wumpusStartingCorrectCaveIndex, actualWumpusCaveIndex);
 
-        Cave wumpusCave=game.getGameMap().getCaves().get(wumpusStartingCorrectCaveIndex);
-        Wumpus wumpus=game.getWumpus();
+        Cave wumpusCave = game.getGameMap().getCaves().get(wumpusStartingCorrectCaveIndex);
+        Wumpus wumpus = game.getWumpus();
         assertTrue(wumpusCave.getGameObjects().contains(wumpus));
     }
 
     @Test
-    public void testThatBatsAreNotInitializedAtSameLocation(){
+    public void testThatBatsAreNotInitializedAtSameLocation() {
         final int secondBatWrongStartingCaveIndex = 19;
         final int thirdBatWrongStartingCaveIndex = 19;
 
@@ -209,18 +211,18 @@ public class NewGameModelTests {
 
         List<Bat> listOfBats = game.getBats();
 
-        assertEquals(GameInitialConfigurations.NUMBER_OF_BATS,listOfBats.size());
+        assertEquals(GameInitialConfigurations.NUMBER_OF_BATS, listOfBats.size());
 
-        for(int i = 0; i < listOfBats.size(); i++) {
+        for (int i = 0; i < listOfBats.size(); i++) {
             assertEquals(batsStartingCavesIndexes[i], listOfBats.get(i).getCave().getNumber());
-            Cave batCave= game.getGameMap().getCaves().get(batsStartingCavesIndexes[i]);
+            Cave batCave = game.getGameMap().getCaves().get(batsStartingCavesIndexes[i]);
             Bat bat = listOfBats.get(i);
             assertTrue(batCave.getGameObjects().contains(bat));
         }
     }
 
     @Test
-    public void testThatPitsAreNotInitializedAtSameLocation(){
+    public void testThatPitsAreNotInitializedAtSameLocation() {
         final int secondWrongPitCave = 3;
         final int secondCorrectPitCave = 13;
         int[] correctPitsInCavesIndexes = {FIRST_PIT_CAVE, secondCorrectPitCave};
@@ -241,11 +243,11 @@ public class NewGameModelTests {
 
         List<Pit> listOfPits = game.getPits();
 
-        assertEquals(GameInitialConfigurations.NUMBER_OF_PITS,listOfPits.size());
+        assertEquals(GameInitialConfigurations.NUMBER_OF_PITS, listOfPits.size());
 
-        for(int i = 0; i < listOfPits.size(); i++) {
+        for (int i = 0; i < listOfPits.size(); i++) {
             assertEquals(correctPitsInCavesIndexes[i], listOfPits.get(i).getCave().getNumber());
-            Cave PitInCave= game.getGameMap().getCaves().get(correctPitsInCavesIndexes[i]);
+            Cave PitInCave = game.getGameMap().getCaves().get(correctPitsInCavesIndexes[i]);
             Pit pit = listOfPits.get(i);
             assertTrue(PitInCave.getGameObjects().contains(pit));
         }
@@ -280,21 +282,21 @@ public class NewGameModelTests {
         game.startGame();
 
         final int actualWumpusCaveIndex = game.getWumpusCave();
-        assertEquals(wumpusStartingCorrectCaveIndex,actualWumpusCaveIndex);
+        assertEquals(wumpusStartingCorrectCaveIndex, actualWumpusCaveIndex);
 
-        Cave wumpusCave =game.getGameMap().getCaves().get(wumpusStartingCorrectCaveIndex);
-        Wumpus wumpus= game.getWumpus();
+        Cave wumpusCave = game.getGameMap().getCaves().get(wumpusStartingCorrectCaveIndex);
+        Wumpus wumpus = game.getWumpus();
         assertTrue(wumpusCave.getGameObjects().contains(wumpus));
 
         final int actualFirstBatCaveIndex = game.getBats().get(0).getCave().getNumber();
-        assertEquals(firstBatStartingCorrectCaveIndex,actualFirstBatCaveIndex);
+        assertEquals(firstBatStartingCorrectCaveIndex, actualFirstBatCaveIndex);
 
         Cave firstBatCave = game.getGameMap().getCaves().get(firstBatStartingCorrectCaveIndex);
         Bat bat = game.getBats().get(0);
         assertTrue(firstBatCave.getGameObjects().contains(bat));
 
         final int actualFirstPitCaveIndex = game.getPits().get(0).getCave().getNumber();
-        assertEquals(firstPitStartingCorrectCaveIndex,actualFirstPitCaveIndex);
+        assertEquals(firstPitStartingCorrectCaveIndex, actualFirstPitCaveIndex);
 
         Cave firstPitCave = game.getGameMap().getCaves().get(firstPitStartingCorrectCaveIndex);
         Pit pit = game.getPits().get(0);
@@ -302,7 +304,7 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testThatThePlayerCanMoveToALinkedCave(){
+    public void testThatThePlayerCanMoveToALinkedCave() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         NewGame game = new NewGame(randomNumberGenerator);
@@ -345,15 +347,15 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testMovingPlayerToCaveThatHasAWumups(){
+    public void testMovingPlayerToCaveThatHasAWumups() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-        int[] journeyPath = new int[] {10, 18};
+        int[] journeyPath = new int[]{10, 18};
 
-        for(int cave:journeyPath){
+        for (int cave : journeyPath) {
             game.playerMovesToCave(cave);
         }
 
@@ -373,9 +375,9 @@ public class NewGameModelTests {
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-        int[] journeyPath = new int[] {10};
+        int[] journeyPath = new int[]{10};
 
-        for(int cave:journeyPath){
+        for (int cave : journeyPath) {
             game.playerMovesToCave(cave);
         }
 
@@ -409,7 +411,7 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testKillingTheWumpus(){
+    public void testKillingTheWumpus() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         NewGame game = new NewGame(randomNumberGenerator);
@@ -504,7 +506,7 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testThatPlayerShootsAnArrowMissesWumpusAndWumpusWakesUpAndMoveToEatThePlayer(){
+    public void testThatPlayerShootsAnArrowMissesWumpusAndWumpusWakesUpAndMoveToEatThePlayer() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
@@ -565,7 +567,7 @@ public class NewGameModelTests {
         game.startGame();
 
         final int[] journeyPath = {10, 11, 12, FIRST_BAT_STARTING_CAVE_INDEX};
-        for(int cave: journeyPath){
+        for (int cave : journeyPath) {
             game.playerMovesToCave(cave);
         }
 
@@ -619,7 +621,7 @@ public class NewGameModelTests {
         game.startGame();
 
         final int[] journeyPath = {10, 11, 12, FIRST_BAT_STARTING_CAVE_INDEX};
-        for(int cave: journeyPath){
+        for (int cave : journeyPath) {
             game.playerMovesToCave(cave);
         }
 
@@ -637,7 +639,7 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testThatPlayerEnterRoomWithPitAndBat(){
+    public void testThatPlayerEnterRoomWithPitAndBat() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         NewGame game = new NewGame(randomNumberGenerator);
@@ -654,7 +656,7 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testThatHazardsInASingleCaveAreSortedByPrecedence(){
+    public void testThatHazardsInASingleCaveAreSortedByPrecedence() {
         final int WUMPUS_STARTING_CAVE_INDEX = 18;
         final int FIRST_BAT_STARTING_CAVE_INDEX = 18;
         final int FIRST_PIT_CAVE = 18;
@@ -672,12 +674,44 @@ public class NewGameModelTests {
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-        Cave cave=game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
+        Cave cave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
 
         assertTrue(cave.getGameObjects().get(0) instanceof Pit);
         assertTrue(cave.getGameObjects().get(1) instanceof Wumpus);
         assertTrue(cave.getGameObjects().get(2) instanceof Bat);
 
+    }
+
+    @Test
+    public void testTheInitialNumberOfAllCreatures() {
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        NewGame game = new NewGame(randomNumberGenerator);
+        game.startGame();
+
+        Map<String, Integer> creaturesAndTheirCount = new HashMap<>();
+        String[] creatureNames = {Player.class.getSimpleName(), Wumpus.class.getSimpleName(), Pit.class.getSimpleName(), Bat.class.getSimpleName()};
+        for(String creatureName: creatureNames ){
+            creaturesAndTheirCount.put(creatureName, 0);
+        }
+
+        List<Cave> allCaves = game.getGameMap().getCaves();
+
+        allCaves.stream()
+                .flatMap(cave -> cave.getGameObjects().stream())
+                .map(gameObject -> gameObject.getClass().getSimpleName())
+                .forEach(gameObjectClassName -> creaturesAndTheirCount.put(gameObjectClassName, creaturesAndTheirCount.get(gameObjectClassName) + 1));
+
+        final int playersCount = 1;
+        assertEquals(playersCount, creaturesAndTheirCount.get("Player"));
+
+        final int wumpusCount = 1;
+        assertEquals(wumpusCount, creaturesAndTheirCount.get("Wumpus"));
+
+        final int batsCount = 2;
+        assertEquals(batsCount, creaturesAndTheirCount.get("Bat"));
+
+        final int pitsCount = 2;
+        assertEquals(pitsCount, creaturesAndTheirCount.get("Pit"));
     }
 
     //TODO Implement same test cases as those in presenter
