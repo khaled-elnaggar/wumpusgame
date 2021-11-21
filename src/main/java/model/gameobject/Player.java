@@ -14,16 +14,6 @@ public class Player extends GameObject {
     private Arrow arrow;
     private List<String> warnings;
 
-    public Teleportation getTeleportation() {
-        return teleportation;
-    }
-
-    public void setTeleportation(Teleportation teleportation) {
-        this.teleportation = teleportation;
-    }
-
-    private Teleportation teleportation;
-
     public void setDead(boolean dead) {
         this.dead = dead;
     }
@@ -49,16 +39,10 @@ public class Player extends GameObject {
         this.warnings.clear();
         changeTheCaveLocation(caveToMoveTo);
         addWarning("a bat dropped you in a random cave");
-        moveBat();
         executePostMoveActions();
         senseWarning();
     }
 
-    private void moveBat() {
-        Bat bat=teleportation.getBat();
-        bat.move();
-        teleportation=null;
-    }
 
     private void changeTheCaveLocation(Cave caveToMoveTo) {
         this.getCave().removeGameObject(this);
@@ -89,7 +73,9 @@ public class Player extends GameObject {
 
     private void executePostMoveActions() {
         List<GameObject> gameObjects = this.getCave().getGameObjects();
-        for(GameObject gameObject : gameObjects){
+        List<GameObject> copyOfGameObjects = new ArrayList<>(gameObjects);
+
+        for(GameObject gameObject : copyOfGameObjects){
             if(gameObject instanceof Hazard){
                 ((Hazard)gameObject).executeActionOnPlayer(this);
                 if(isDead()){

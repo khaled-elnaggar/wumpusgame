@@ -173,11 +173,6 @@ public class NewGame implements Game {
     public void playerMovesToCave(int cave) {
         Cave caveToMoveTo = gameMap.getCaves().get(cave);
         player.move(caveToMoveTo);
-        Teleportation teleportation= player.getTeleportation();
-        if(teleportation!=null){
-            caveToMoveTo= getRandomCave();
-            player.teleport(caveToMoveTo);
-        }
     }
 
     @Override
