@@ -1,5 +1,13 @@
-package model;
+package model.game;
 
+import model.*;
+import model.gamemap.Cave;
+import model.gamemap.GameMap;
+import model.gameobject.GameObject;
+import model.gameobject.hazard.Bat;
+import model.gameobject.hazard.Pit;
+import model.gameobject.Player;
+import model.gameobject.hazard.Wumpus;
 import utilities.RandomNumberGenerator;
 
 import java.util.ArrayList;

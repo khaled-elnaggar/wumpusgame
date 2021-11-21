@@ -1,4 +1,6 @@
-package model;
+package model.gameobject;
+
+import model.gamemap.Cave;
 
 import java.util.Objects;
 

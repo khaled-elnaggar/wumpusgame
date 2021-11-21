@@ -1,5 +1,13 @@
 package model;
 
+import model.game.GameInitialConfigurations;
+import model.game.NewGame;
+import model.gamemap.Cave;
+import model.gamemap.GameMap;
+import model.gameobject.hazard.Bat;
+import model.gameobject.hazard.Pit;
+import model.gameobject.Player;
+import model.gameobject.hazard.Wumpus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

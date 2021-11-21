@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 import utilities.RandomNumberGenerator;
 
@@ -7,7 +7,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-public class LegacyGame implements Game{
+public class LegacyGame implements Game {
 
     boolean gameOver= true;
     int numberOfArrows;

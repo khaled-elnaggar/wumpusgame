@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 public enum LegacyHazard {
     Wumpus("there's an awful smell"),

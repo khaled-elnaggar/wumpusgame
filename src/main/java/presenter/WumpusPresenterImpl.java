@@ -1,7 +1,7 @@
 package presenter;
 
-import model.Game;
-import model.NewGame;
+import model.game.Game;
+import model.game.NewGame;
 import utilities.RandomNumberGenerator;
 
 import java.util.List;

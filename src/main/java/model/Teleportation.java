@@ -1,5 +1,7 @@
 package model;
 
+import model.gameobject.hazard.Bat;
+
 public class Teleportation {
     private Bat bat;
 

@@ -1,7 +1,7 @@
 package presenter;
 
-import model.GameInitialConfigurations;
-import model.LegacyHazard;
+import model.game.GameInitialConfigurations;
+import model.game.LegacyHazard;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

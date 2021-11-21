@@ -1,4 +1,6 @@
-package model;
+package model.gamemap;
+
+import model.gameobject.GameObject;
 
 import java.util.ArrayList;
 import java.util.Collections;

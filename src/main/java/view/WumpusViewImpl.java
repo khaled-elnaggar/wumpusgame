@@ -1,6 +1,6 @@
 package view;
 
-import model.GameInitialConfigurations;
+import model.game.GameInitialConfigurations;
 import presenter.WumpusPresenter;
 import presenter.WumpusPresenterImpl;
 
