@@ -14,7 +14,7 @@ public interface GameInitialConfigurations {
     String WUMPUS_ID = "The Wumpus";
     String BAT_ID_PREFIX = "Bat ";
     String PITS_ID_PREFIX = "The pit ";
-    int NUMBER_OF_BATS = 3;
+    int NUMBER_OF_BATS = 2;
     int NUMBER_OF_PITS = 2;
     int MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY = 4;
     int NUMBER_OF_LINKED_CAVES = 3;
