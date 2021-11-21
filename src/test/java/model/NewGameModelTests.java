@@ -33,7 +33,6 @@ public class NewGameModelTests {
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 SECOND_BAT_STARTING_CAVE_INDEX,
-                THIRD_BAT_STARTING_CAVE_INDEX,
                 FIRST_PIT_CAVE,
                 SECOND_PIT_CAVE
         );
@@ -119,7 +118,7 @@ public class NewGameModelTests {
     public void testThatThreeBatsAreAddedToCaveGameMap() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        int[] batsStartingCavesIndexes = {FIRST_BAT_STARTING_CAVE_INDEX, SECOND_BAT_STARTING_CAVE_INDEX, THIRD_BAT_STARTING_CAVE_INDEX};
+        int[] batsStartingCavesIndexes = {FIRST_BAT_STARTING_CAVE_INDEX, SECOND_BAT_STARTING_CAVE_INDEX};
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -169,7 +168,6 @@ public class NewGameModelTests {
                 wumpusStartingCorrectCaveIndex,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 SECOND_BAT_STARTING_CAVE_INDEX,
-                THIRD_BAT_STARTING_CAVE_INDEX,
                 FIRST_PIT_CAVE,
                 SECOND_PIT_CAVE
         );
@@ -232,7 +230,6 @@ public class NewGameModelTests {
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 SECOND_BAT_STARTING_CAVE_INDEX,
-                THIRD_BAT_STARTING_CAVE_INDEX,
                 FIRST_PIT_CAVE,
                 secondWrongPitCave,
                 secondCorrectPitCave
@@ -272,7 +269,6 @@ public class NewGameModelTests {
                 firstBatStartingWrongCaveIndex,
                 firstBatStartingCorrectCaveIndex,
                 SECOND_BAT_STARTING_CAVE_INDEX,
-                THIRD_BAT_STARTING_CAVE_INDEX,
                 firstPitStartingWrongCaveIndex,
                 firstPitStartingCorrectCaveIndex,
                 SECOND_PIT_CAVE
@@ -546,20 +542,20 @@ public class NewGameModelTests {
         final int firstBatFinalCaveIndex = 2;
 
         final int playerSecondDropDownCaveIndex = 6;
-        final int thirdBatFinalCaveIndex = 0;
+        final int secondBatFinalCaveIndex = 0;
 
+        final int secondBatStartingCaveIndex = 14;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
-                SECOND_BAT_STARTING_CAVE_INDEX,
-                THIRD_BAT_STARTING_CAVE_INDEX,
+                secondBatStartingCaveIndex,
                 FIRST_PIT_CAVE,
                 SECOND_PIT_CAVE,
                 playerFirstDropDownCaveIndex,
                 firstBatFinalCaveIndex,
                 playerSecondDropDownCaveIndex,
-                thirdBatFinalCaveIndex
+                secondBatFinalCaveIndex
         );
 
 
@@ -583,19 +579,19 @@ public class NewGameModelTests {
         assertFalse(previousCave.getGameObjects().contains(game.getPlayer()));
         assertFalse(previousCave.getGameObjects().contains(firstBat));
 
-        game.playerMovesToCave(THIRD_BAT_STARTING_CAVE_INDEX);
+        game.playerMovesToCave(secondBatStartingCaveIndex);
 
         final int actualPlayerSecondCaveIndex = game.getPlayerCave();
         assertEquals(playerSecondDropDownCaveIndex, actualPlayerSecondCaveIndex);
 
 
-        final Bat thirdBat = game.getBats().get(2);
-        final Cave thirdBatActualCave = thirdBat.getCave();
-        assertEquals(thirdBatFinalCaveIndex, thirdBatActualCave.getNumber());
+        final Bat secondBat = game.getBats().get(1);
+        final Cave thirdBatActualCave = secondBat.getCave();
+        assertEquals(secondBatFinalCaveIndex, thirdBatActualCave.getNumber());
 
-        final Cave thirdBatPreviousCave = game.getGameMap().getCaves().get(THIRD_BAT_STARTING_CAVE_INDEX);
+        final Cave thirdBatPreviousCave = game.getGameMap().getCaves().get(secondBatStartingCaveIndex);
         assertFalse(thirdBatPreviousCave.getGameObjects().contains(game.getPlayer()));
-        assertFalse(thirdBatPreviousCave.getGameObjects().contains(thirdBat));
+        assertFalse(thirdBatPreviousCave.getGameObjects().contains(secondBat));
 
     }
 
@@ -609,7 +605,6 @@ public class NewGameModelTests {
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 SECOND_BAT_STARTING_CAVE_INDEX,
-                THIRD_BAT_STARTING_CAVE_INDEX,
                 FIRST_PIT_CAVE,
                 SECOND_PIT_CAVE,
                 playerDropDownCaveIndex,
@@ -666,7 +661,6 @@ public class NewGameModelTests {
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 SECOND_BAT_STARTING_CAVE_INDEX,
-                THIRD_BAT_STARTING_CAVE_INDEX,
                 FIRST_PIT_CAVE,
                 SECOND_PIT_CAVE
         );

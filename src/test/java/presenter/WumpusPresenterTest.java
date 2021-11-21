@@ -24,7 +24,6 @@ class WumpusPresenterTest {
     final int wumpusStartingCave = 18;
     final int firstBatStartingCave = 19;
     final int secondBatStartingCave = 13;
-    final int thirdBatStartingCave = 14;
     final int firstPitCave = 3;
     final int secondPitCave = 13;
 
@@ -35,7 +34,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -61,7 +59,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -86,7 +83,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -110,7 +106,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -141,7 +136,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave,
                 playerDropDownCave,
@@ -170,7 +164,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -194,7 +187,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -222,7 +214,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -247,7 +238,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -282,7 +272,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -323,7 +312,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -356,7 +344,6 @@ class WumpusPresenterTest {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
