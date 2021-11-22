@@ -60,7 +60,7 @@ public class NewGame implements Game {
     private void initializeBats() {
         bats = new ArrayList<>();
         for (int index = 0; index < GameInitialConfigurations.NUMBER_OF_BATS; index++) {
-            Bat bat = new Bat(randomNumberGenerator, gameMap);
+            Bat bat = new Bat(gameMap);
             bats.add(bat);
             bats.get(index).setId(GameInitialConfigurations.BAT_ID_PREFIX + index);
             setGameObjectInitialCave(bats.get(index));
@@ -80,15 +80,13 @@ public class NewGame implements Game {
     }
 
     private void setGameObjectInitialCave(GameObject gameObject) {
-        Cave cave = getRandomCave();
-
+        Cave cave = gameMap.getRandomCave();
         if (caveIsNotValidForGameObject(gameObject, cave)) {
             setGameObjectInitialCave(gameObject);
         } else {
             gameObject.setCave(cave);
             cave.addGameObject(gameObject);
         }
-
     }
 
     private boolean caveIsNotValidForGameObject(GameObject gameObject, Cave cave) {
@@ -124,14 +122,8 @@ public class NewGame implements Game {
                 .anyMatch(cave::equals);
     }
 
-    private Cave getRandomCave() {
-        int randomCaveIndex = randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES);
-        return gameMap.getCaves().get(randomCaveIndex);
-    }
-
     private void buildGameMap() {
-        gameMap = new GameMap();
-        gameMap.buildGameMap();
+        gameMap = new GameMap(randomNumberGenerator);
     }
 
     public GameMap getGameMap() {
