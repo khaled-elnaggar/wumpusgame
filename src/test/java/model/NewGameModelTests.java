@@ -368,7 +368,7 @@ public class NewGameModelTests {
         final boolean gameIsOver = true;
         assertEquals(gameIsOver, actualGameState);
 
-        List<String> messages = game.getMessages();
+        List<String> messages = game.getWarnings();
         assertTrue(messages.contains(game.getWumpus().getWarningInTheSameCave()));
     }
 
@@ -390,7 +390,7 @@ public class NewGameModelTests {
         final boolean gameIsNotOver = false;
         assertEquals(gameIsNotOver, actualGameState);
 
-        List<String> messages = game.getMessages();
+        List<String> messages = game.getWarnings();
         assertTrue(messages.contains(game.getWumpus().getWarningInTheLinkedCave()));
     }
 
@@ -410,7 +410,7 @@ public class NewGameModelTests {
         final boolean gameIsOver = true;
         assertEquals(actualGameState, gameIsOver);
 
-        List<String> messages = game.getMessages();
+        List<String> messages = game.getWarnings();
         assertTrue(messages.contains(game.getPits().get(0).getWarningInTheSameCave()));
     }
 

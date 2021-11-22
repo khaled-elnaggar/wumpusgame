@@ -17,12 +17,12 @@ import java.util.Map;
 public class NewGame implements Game {
 
     private GameMap gameMap;
-    private RandomNumberGenerator randomNumberGenerator;
+    private final RandomNumberGenerator randomNumberGenerator;
     private Player player;
     private Wumpus wumpus;
     private List<Bat> bats;
     private List<Pit> pits;
-    private Map<String, List<? extends GameObject>> hazardsMap = new HashMap<>();
+    private final Map<String, List<? extends GameObject>> hazardsMap = new HashMap<>();
 
     public NewGame() {
         this.randomNumberGenerator = new RandomNumberGenerator();
@@ -91,7 +91,7 @@ public class NewGame implements Game {
 
     private boolean caveIsNotValidForGameObject(GameObject gameObject, Cave cave) {
         if (!isGameObjectInTheSameCaveAsPlayer(cave)) {
-            return isHazardousGameObjectLocatedNearPlayerAsItsLikes(cave) ||
+            return isHazardousGameObjectLocatedNearPlayersCave(cave) ||
                     isHazardousGameObjectLocatedInTheSameCaveAsItsLikes(gameObject, cave);
         }
 
@@ -108,7 +108,7 @@ public class NewGame implements Game {
         return false;
     }
 
-    private boolean isHazardousGameObjectLocatedNearPlayerAsItsLikes(Cave cave) {
+    private boolean isHazardousGameObjectLocatedNearPlayersCave(Cave cave) {
         List<Cave> linkedCaves = cave.getLinkedCaves();
         Cave playerCave = player.getCave();
         return linkedCaves.contains(playerCave);
@@ -157,7 +157,7 @@ public class NewGame implements Game {
     }
 
     @Override
-    public List<String> getMessages() {
+    public List<String> getWarnings() {
         return player.getWarnings();
     }
 

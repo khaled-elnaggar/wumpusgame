@@ -1,6 +1,6 @@
 package model.gameobject;
 
-import model.*;
+import model.Arrow;
 import model.gamemap.Cave;
 import model.gameobject.hazard.Hazard;
 import model.gameobject.hazard.Wumpus;
@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Player extends GameObject {
     private boolean dead;
-    private Arrow arrow;
-    private List<String> warnings;
+    private final Arrow arrow;
+    private final List<String> warnings;
 
     public void setDead(boolean dead) {
         this.dead = dead;
@@ -26,45 +26,30 @@ public class Player extends GameObject {
     public void move(Cave caveToMoveTo) {
         this.warnings.clear();
 
-        if (this.isMoveValid(caveToMoveTo)) {
-            changeTheCaveLocation(caveToMoveTo);
+        if (this.isMyCurrentCaveLinkedTo(caveToMoveTo)) {
+            changeMyCaveLocationTo(caveToMoveTo);
         }
 
         executePostMoveActions();
-        senseWarning();
+        senseWarnings();
+    }
+
+    private boolean isMyCurrentCaveLinkedTo(Cave caveToMoveTo) {
+        return this.getCave().getLinkedCaves().contains(caveToMoveTo);
     }
 
     public void teleport(Cave caveToMoveTo) {
         this.warnings.clear();
-        changeTheCaveLocation(caveToMoveTo);
-        addWarning("a bat dropped you in a random cave");
+        changeMyCaveLocationTo(caveToMoveTo);
+        addAWarning("a bat dropped you in a random cave");
         executePostMoveActions();
-        senseWarning();
+        senseWarnings();
     }
 
-
-    private void changeTheCaveLocation(Cave caveToMoveTo) {
+    private void changeMyCaveLocationTo(Cave caveToMoveTo) {
         this.getCave().removeGameObject(this);
         this.setCave(caveToMoveTo);
         caveToMoveTo.addGameObject(this);
-    }
-
-    public List<String> getWarnings() {
-        return warnings;
-    }
-
-    private void senseWarning() {
-        List<Cave> linkedCaves = this.getCave().getLinkedCaves();
-
-        linkedCaves.stream()
-                .flatMap(cave -> cave.getGameObjects().stream())
-                .filter(gameObject -> gameObject instanceof Hazard)
-                .map(gameObject-> ((Hazard) gameObject).getWarningInTheLinkedCave())
-                .forEach(warning -> warnings.add(warning));
-    }
-
-    public void addWarning(String warning) {
-        warnings.add(warning);
     }
 
     private void executePostMoveActions() {
@@ -81,8 +66,19 @@ public class Player extends GameObject {
         }
     }
 
-    private boolean isMoveValid(Cave caveToMoveTo) {
-        return this.getCave().getLinkedCaves().contains(caveToMoveTo);
+    private void senseWarnings() {
+        List<Cave> linkedCaves = this.getCave().getLinkedCaves();
+
+        linkedCaves.stream()
+                .flatMap(cave -> cave.getGameObjects().stream())
+                .filter(gameObject -> gameObject instanceof Hazard)
+                .map(gameObject -> ((Hazard) gameObject))
+                .map(Hazard::getWarningInTheLinkedCave)
+                .forEach(warnings::add);
+    }
+
+    public void addAWarning(String warning) {
+        warnings.add(warning);
     }
 
     public boolean isDead() {
@@ -105,7 +101,11 @@ public class Player extends GameObject {
     }
 
     public boolean hasNoArrows() {
-        return getArrows().getNumber() == 0;
+        return arrow.getNumber() == 0;
+    }
+
+    public List<String> getWarnings() {
+        return warnings;
     }
 
     public Arrow getArrows() {

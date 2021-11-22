@@ -10,14 +10,14 @@ public class Bat extends GameObject implements Hazard {
     final String warningInTheSameCave = "a bat dropped you in a random cave";
     final String warningInTheLinkedCave = "you hear a rustling";
 
-    private GameMap gameMap;
+    private final GameMap gameMap;
 
     public Bat(GameMap gameMap) {
         this.gameMap = gameMap;
     }
 
-    public void move() {
-        Cave caveToMoveTo = getValidRelocationCave();
+    public void teleport() {
+        Cave caveToMoveTo = getRandomCaveWithNoPlayerOrBatInsideIt();
         this.getCave().removeGameObject(this);
         this.setCave(caveToMoveTo);
         caveToMoveTo.addGameObject(this);
@@ -25,12 +25,12 @@ public class Bat extends GameObject implements Hazard {
 
     @Override
     public void executeActionOnPlayer(Player player) {
-        player.teleport(getValidRelocationCave());
-        move();
+        player.teleport(getRandomCaveWithNoPlayerOrBatInsideIt());
+        this.teleport();
     }
 
-    private Cave getValidRelocationCave() {
-        return gameMap.getACaveThatMeetsCondition(cave -> cave.getGameObjects().stream().noneMatch(gameObject -> gameObject instanceof Player || gameObject instanceof Bat));
+    private Cave getRandomCaveWithNoPlayerOrBatInsideIt() {
+        return gameMap.getACaveThatMeetsCondition(cave -> cave.getGameObjects().stream().allMatch(gameObject -> !(gameObject instanceof Player) && !(gameObject instanceof Bat)));
     }
 
     @Override

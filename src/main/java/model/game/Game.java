@@ -8,7 +8,7 @@ public interface Game {
      void playerShootsToCave(int cave);
      boolean isGameOver();
      int getNumberOfArrows();
-     List<String> getMessages();
+     List<String> getWarnings();
      int getWumpusCave();
      int getPlayerCave();
 }

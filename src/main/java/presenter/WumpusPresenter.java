@@ -9,6 +9,6 @@ public interface WumpusPresenter {
     boolean isGameOver();
     void shoot(int cave);
     int getNumberOfArrows();
-    List<String> getMessages();
+    List<String> getWarnings();
     int getWumpusCave();
 }

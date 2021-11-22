@@ -184,7 +184,7 @@ public class LegacyGame implements Game {
     }
 
     @Override
-    public List<String> getMessages() {
+    public List<String> getWarnings() {
         return messages;
     }
 

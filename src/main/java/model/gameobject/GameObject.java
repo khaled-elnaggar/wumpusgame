@@ -8,7 +8,6 @@ public abstract class GameObject implements Comparable<GameObject> {
     String id;
     private Cave cave;
 
-
     public void setId(String id) {
         this.id = id;
     }

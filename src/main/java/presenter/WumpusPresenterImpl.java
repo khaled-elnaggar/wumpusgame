@@ -56,8 +56,8 @@ public class WumpusPresenterImpl implements WumpusPresenter {
     }
 
     @Override
-    public List<String> getMessages() {
-        return gameModel.getMessages();
+    public List<String> getWarnings() {
+        return gameModel.getWarnings();
     }
 
 }

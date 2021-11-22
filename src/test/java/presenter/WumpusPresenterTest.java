@@ -117,7 +117,7 @@ class WumpusPresenterTest {
             wumpusPresenter.move(caveNumber);
         }
 
-        List<String> messages = wumpusPresenter.getMessages();
+        List<String> messages = wumpusPresenter.getWarnings();
         assertTrue(messages.contains(LegacyHazard.Wumpus.getWarning()));
 
         final boolean actualGameState = wumpusPresenter.isGameOver();
@@ -329,7 +329,7 @@ class WumpusPresenterTest {
         }
 
         final String runningOutOfArrowsMessage = "You ran out of arrows";
-        final List<String> actualGameMessages = wumpusPresenter.getMessages();
+        final List<String> actualGameMessages = wumpusPresenter.getWarnings();
         assertTrue(actualGameMessages.contains(runningOutOfArrowsMessage));
 
         final boolean expectedGameStateGameIsOver = true;
@@ -373,7 +373,7 @@ class WumpusPresenterTest {
         assertEquals(wumpusCaveCurrLocation, wumpusCaveLocation);
 
         final String wokeTheWumpusMessage = "You woke the Wumpus and it ate you";
-        final List<String> actualGameMessages = wumpusPresenter.getMessages();
+        final List<String> actualGameMessages = wumpusPresenter.getWarnings();
         assertTrue(actualGameMessages.contains(wokeTheWumpusMessage));
 
         final boolean expectedGameStateGameIsOver = true;

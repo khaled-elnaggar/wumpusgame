@@ -121,10 +121,10 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
         if (!wumpusPresenter.isGameOver())
             g.drawString("Arrows  " + wumpusPresenter.getNumberOfArrows(), 610, 30);
 
-        if (wumpusPresenter.getMessages() != null) {
+        if (wumpusPresenter.getWarnings() != null) {
             g.setColor(Color.black);
 
-            List<String> messages = wumpusPresenter.getMessages();
+            List<String> messages = wumpusPresenter.getWarnings();
             // collapse identical messages
             messages = messages.stream().distinct().collect(toList());
 
