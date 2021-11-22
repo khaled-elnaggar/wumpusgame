@@ -60,4 +60,9 @@ public class Bat extends GameObject implements Hazard {
     public String getWarningInTheSameCave() {
         return this.warningInTheSameCave;
     }
+
+    @Override
+    public int getPrecedence() {
+        return 3;
+    }
 }

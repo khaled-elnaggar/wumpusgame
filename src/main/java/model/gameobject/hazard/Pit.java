@@ -23,4 +23,9 @@ public class Pit extends GameObject implements Hazard {
         player.setDead(true);
         player.addWarning(this.warningInTheSameCave);
     }
+
+    @Override
+    public int getPrecedence() {
+        return 1;
+    }
 }

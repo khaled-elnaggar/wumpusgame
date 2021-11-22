@@ -4,14 +4,13 @@ import model.gamemap.Cave;
 
 import java.util.Objects;
 
-public abstract class GameObject implements Comparable<GameObject>{
+public abstract class GameObject implements Comparable<GameObject> {
     String id;
     private Cave cave;
-    private int precedence;
 
 
     public void setId(String id) {
-        this.id=id;
+        this.id = id;
     }
 
     @Override
@@ -35,15 +34,9 @@ public abstract class GameObject implements Comparable<GameObject>{
         return cave;
     }
 
-    public void setPrecedence(int precedence) {
-        this.precedence=precedence;
-    }
+    public abstract int getPrecedence();
 
-    public int getPrecedence() {
-        return precedence;
-    }
-
-    public int compareTo(GameObject gameObject){
-        return this.precedence-gameObject.getPrecedence();
+    public int compareTo(GameObject gameObject) {
+        return this.getPrecedence() - gameObject.getPrecedence();
     }
 }

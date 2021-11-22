@@ -50,7 +50,6 @@ public class NewGame implements Game {
 
     private void initializeWumpus() {
         wumpus = new Wumpus(randomNumberGenerator);
-        wumpus.setPrecedence(2);
         wumpus.setId(GameInitialConfigurations.WUMPUS_ID);
         setGameObjectInitialCave(wumpus);
         List<Wumpus> wumpusList = new ArrayList<>();
@@ -62,7 +61,6 @@ public class NewGame implements Game {
         bats = new ArrayList<>();
         for (int index = 0; index < GameInitialConfigurations.NUMBER_OF_BATS; index++) {
             Bat bat = new Bat(randomNumberGenerator, gameMap);
-            bat.setPrecedence(3);
             bats.add(bat);
             bats.get(index).setId(GameInitialConfigurations.BAT_ID_PREFIX + index);
             setGameObjectInitialCave(bats.get(index));
@@ -74,7 +72,6 @@ public class NewGame implements Game {
         pits = new ArrayList<>();
         for (int index = 0; index < GameInitialConfigurations.NUMBER_OF_PITS; index++) {
             Pit pit = new Pit();
-            pit.setPrecedence(1);
             pits.add(pit);
             pits.get(index).setId(GameInitialConfigurations.PITS_ID_PREFIX + index);
             setGameObjectInitialCave(pits.get(index));

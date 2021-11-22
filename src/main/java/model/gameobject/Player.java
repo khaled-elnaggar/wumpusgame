@@ -111,4 +111,9 @@ public class Player extends GameObject {
     public Arrow getArrows() {
         return this.arrow;
     }
+
+    @Override
+    public int getPrecedence() {
+        return 4;
+    }
 }

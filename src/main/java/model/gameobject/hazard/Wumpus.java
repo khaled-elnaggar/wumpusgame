@@ -69,4 +69,9 @@ public class Wumpus extends GameObject implements Hazard {
                 wakeup(randomLinkedCaveIndex);
         }
     }
+
+    @Override
+    public int getPrecedence() {
+        return 2;
+    }
 }
