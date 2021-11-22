@@ -1,6 +1,5 @@
 package model.game;
 
-import model.*;
 import model.gamemap.Cave;
 import model.gamemap.GameMap;
 import model.gameobject.GameObject;
@@ -69,7 +68,6 @@ public class NewGame implements Game {
             setGameObjectInitialCave(bats.get(index));
             hazardsMap.put(Bat.class.getSimpleName(), bats);
         }
-
     }
 
     private void initializePits() {
@@ -105,26 +103,6 @@ public class NewGame implements Game {
         return true;
     }
 
-    private boolean isHazardousGameObjectLocatedNearPlayerAsItsLikes(Cave cave) {
-        List<Cave> linkedCaves = cave.getLinkedCaves();
-        Cave playerCave = player.getCave();
-        return linkedCaves.contains(playerCave);
-    }
-
-    private boolean isHazardousGameObjectLocatedInTheSameCaveAsItsLikes(GameObject gameObject, Cave cave) {
-        List<? extends GameObject> hazardsList = hazardsMap.get(gameObject.getClass().getSimpleName());
-        if (hazardsList != null) {
-            for (GameObject hazard : hazardsList) {
-                Cave hazardCave = hazard.getCave();
-                if (cave.equals(hazardCave)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     private boolean isGameObjectInTheSameCaveAsPlayer(Cave cave) {
         Cave playerCave = player.getCave();
 
@@ -133,6 +111,20 @@ public class NewGame implements Game {
         }
 
         return false;
+    }
+
+    private boolean isHazardousGameObjectLocatedNearPlayerAsItsLikes(Cave cave) {
+        List<Cave> linkedCaves = cave.getLinkedCaves();
+        Cave playerCave = player.getCave();
+        return linkedCaves.contains(playerCave);
+    }
+
+    private boolean isHazardousGameObjectLocatedInTheSameCaveAsItsLikes(GameObject gameObject, Cave cave) {
+        return hazardsMap.entrySet().stream()
+                .filter(entry -> gameObject.getClass().getSimpleName().equals(entry.getKey()))
+                .flatMap(entrySet -> entrySet.getValue().stream())
+                .map(GameObject::getCave)
+                .anyMatch(cave::equals);
     }
 
     private Cave getRandomCave() {

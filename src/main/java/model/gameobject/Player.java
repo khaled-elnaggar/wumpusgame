@@ -2,7 +2,6 @@ package model.gameobject;
 
 import model.*;
 import model.gamemap.Cave;
-import model.gameobject.hazard.Bat;
 import model.gameobject.hazard.Hazard;
 import model.gameobject.hazard.Wumpus;
 
@@ -57,14 +56,11 @@ public class Player extends GameObject {
     private void senseWarning() {
         List<Cave> linkedCaves = this.getCave().getLinkedCaves();
 
-        for(Cave linkedCave: linkedCaves) {
-            List<GameObject> gameObjects = linkedCave.getGameObjects();
-            for(GameObject gameObject : gameObjects){
-                if(gameObject instanceof Hazard){
-                    warnings.add(((Hazard) gameObject).getWarningInTheLinkedCave());
-                }
-            }
-        }
+        linkedCaves.stream()
+                .flatMap(cave -> cave.getGameObjects().stream())
+                .filter(gameObject -> gameObject instanceof Hazard)
+                .map(gameObject-> ((Hazard) gameObject).getWarningInTheLinkedCave())
+                .forEach(warning -> warnings.add(warning));
     }
 
     public void addWarning(String warning) {
@@ -75,10 +71,10 @@ public class Player extends GameObject {
         List<GameObject> gameObjects = this.getCave().getGameObjects();
         List<GameObject> copyOfGameObjects = new ArrayList<>(gameObjects);
 
-        for(GameObject gameObject : copyOfGameObjects){
-            if(gameObject instanceof Hazard){
-                ((Hazard)gameObject).executeActionOnPlayer(this);
-                if(isDead()){
+        for (GameObject gameObject : copyOfGameObjects) {
+            if (gameObject instanceof Hazard) {
+                ((Hazard) gameObject).executeActionOnPlayer(this);
+                if (isDead()) {
                     break;
                 }
             }
@@ -98,20 +94,18 @@ public class Player extends GameObject {
 
         arrow.decrementByOne();
 
-        List<GameObject> gameObjects = caveToShoot.getGameObjects();
-        for(GameObject gameObject : gameObjects){
-            if(gameObject instanceof Wumpus){
-                ((Wumpus)gameObject).setDead(true);
-            }
-        }
+        caveToShoot.getGameObjects().stream()
+                .filter(gameObject -> gameObject instanceof Wumpus)
+                .map(gameObject -> ((Wumpus) gameObject))
+                .forEach(wumpus -> wumpus.setDead(true));
 
-        if(hasNoArrows()){
+        if (hasNoArrows()) {
             warnings.add("You ran out of arrows");
         }
     }
 
-    public boolean hasNoArrows(){
-        return getArrows().getNumber()==0;
+    public boolean hasNoArrows() {
+        return getArrows().getNumber() == 0;
     }
 
     public Arrow getArrows() {

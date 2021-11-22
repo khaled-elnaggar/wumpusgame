@@ -31,7 +31,10 @@ public class Wumpus extends GameObject implements Hazard {
     public void wakeup(int randomLinkedCaveIndex) {
         this.move(randomLinkedCaveIndex);
 
-        Optional<GameObject> player = this.getCave().getGameObjects().stream().filter(gameObject -> gameObject instanceof Player).findFirst();
+        Optional<GameObject> player = this.getCave().getGameObjects().stream()
+                .filter(gameObject -> gameObject instanceof Player)
+                .findFirst();
+
         if(player.isPresent()){
             executeActionOnPlayer((Player) player.get());
         }
