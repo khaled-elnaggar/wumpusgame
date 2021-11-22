@@ -134,27 +134,7 @@ public class NewGame implements Game {
 
     private void buildGameMap() {
         gameMap = new GameMap();
-        List<Cave> caves = new ArrayList<>();
-        buildCaves(caves);
-        gameMap.setCaves(caves);
-        buildCaveLinks(caves);
-    }
-
-    private void buildCaves(List<Cave> caves) {
-        for (int i = 0; i < GameInitialConfigurations.NUMBER_OF_CAVES; i++) {
-            caves.add(new Cave(i));
-        }
-    }
-
-    private void buildCaveLinks(List<Cave> caves) {
-        for (int i = 0; i < caves.size(); i++) {
-            int[] link = GameInitialConfigurations.CAVE_LINKS[i];
-            Cave cave = caves.get(i);
-            for (int caveNumber : link) {
-                Cave linkedCave = caves.get(caveNumber);
-                cave.addLink(linkedCave);
-            }
-        }
+        gameMap.buildGameMap();
     }
 
     public GameMap getGameMap() {
