@@ -1,6 +1,7 @@
 package acceptance;
 
 import io.cucumber.java.PendingException;
+import io.cucumber.java.Transpose;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -82,6 +83,15 @@ public class StepDefinition {
         wumpusPresenter.move(caveToMoveTo);
     }
 
+    @When("player moves to caves")
+    public void playerMovesToCaves(@Transpose List<Integer> cavesToMoveTo) {
+        initializeWumpusPresenter();
+        for (int caveToMoveTo : cavesToMoveTo) {
+            wumpusPresenter.move(caveToMoveTo);
+        }
+    }
+
+
     @Then("player senses that {string}")
     public void playerSensesThat(String warning) {
         List<String> warnings = this.wumpusPresenter.getWarnings();
@@ -120,4 +130,5 @@ public class StepDefinition {
     public void pitIsInCave(int cave) {
         this.firstBatStartingCave = cave;
     }
+
 }

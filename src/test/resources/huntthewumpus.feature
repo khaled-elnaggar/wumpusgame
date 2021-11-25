@@ -16,8 +16,8 @@ Feature: Hunt the Wumpus
   If the player enters a cave with wumpus inside it, the player should die and the game should be over
     Given player is in cave 9
     And wumpus is in cave 18
-    When player moves to cave 10
-    When player moves to cave 18
+    When player moves to caves
+      | 10 | 18 |
     Then game is over
 
   Scenario: Player senses the wumpus in a linked cave
@@ -32,8 +32,8 @@ Feature: Hunt the Wumpus
     Given player is in cave 11
     And a bat is in cave 19
     And bat will teleport player to cave 8 and itself to cave 4
-    When player moves to cave 12
-    When player moves to cave 19
+    When player moves to caves
+      | 12 | 19 |
     Then player will be at cave 8
     And a bat will be at cave 4
 
@@ -41,6 +41,6 @@ Feature: Hunt the Wumpus
   If the player enters a room with pit, the player should die and the game should be over
     Given player is in cave 11
     And pit is in cave 3
-    When player moves to cave 2
-    When player moves to cave 3
+    When player moves to caves
+      | 2 | 3 |
     Then game is over
