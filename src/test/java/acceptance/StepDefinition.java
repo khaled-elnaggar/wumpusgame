@@ -115,4 +115,9 @@ public class StepDefinition {
         final boolean isGameOver = wumpusPresenter.isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
     }
+
+    @And("pit is in cave {int}")
+    public void pitIsInCave(int cave) {
+        this.firstBatStartingCave = cave;
+    }
 }

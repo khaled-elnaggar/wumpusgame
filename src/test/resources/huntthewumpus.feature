@@ -21,7 +21,7 @@ Feature: Hunt the Wumpus
     Then game is over
 
   Scenario: Player senses the wumpus in a linked cave
-  The player should sense the wumpus and all the other hazards when in a linked cave to his current
+  The player should sense the wumpus when in a linked cave to his current
     Given player is in cave 9
     And wumpus is in cave 18
     When player moves to cave 10
@@ -37,3 +37,10 @@ Feature: Hunt the Wumpus
     Then player will be at cave 8
     And a bat will be at cave 4
 
+  Scenario: Player moves to cave with pit
+  If the player enters a room with pit, the player should die and the game should be over
+    Given player is in cave 11
+    And pit is in cave 3
+    When player moves to cave 2
+    When player moves to cave 3
+    Then game is over
