@@ -18,15 +18,22 @@ public class StepDefinition {
 
     RandomNumberGenerator randomNumberGenerator;
     WumpusPresenter wumpusPresenter;
+    int playerStartingCave = 0;
+    int wumpusStartingCave = 18;
+    int firstBatStartingCave = 19;
+    int secondBatStartingCave = 13;
+    int firstPitCave = 3;
+    int secondPitCave = 13;
 
-    final int wumpusStartingCave = 18;
-    final int firstBatStartingCave = 19;
-    final int secondBatStartingCave = 13;
-    final int firstPitCave = 3;
-    final int secondPitCave = 13;
+    public void initializeWumpusPresenter(){
+        if(this.wumpusPresenter == null){
+            mockTheRandomNumberGenerator();
+            wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
+            wumpusPresenter.startNewGame();
+        }
+    }
 
-    @Given("player is in cave {int}")
-    public void player_is_in_cave(Integer playerStartingCave) {
+    private void mockTheRandomNumberGenerator() {
         randomNumberGenerator=mock(RandomNumberGenerator.class);
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 playerStartingCave,
@@ -35,13 +42,21 @@ public class StepDefinition {
                 secondBatStartingCave,
                 firstPitCave,
                 secondPitCave);
+    }
 
-        wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
-        wumpusPresenter.startNewGame();
+    @Given("player is in cave {int}")
+    public void player_is_in_cave(int playerStartingCave) {
+        this.playerStartingCave = playerStartingCave;
+    }
+
+    @And("wumpus is in cave {int}")
+    public void wumpusIsInCave(int wumpusStartingCave) {
+        this.wumpusStartingCave = wumpusStartingCave;
     }
 
     @When("player moves to cave {int}")
     public void player_moves_to_cave(Integer caveToMoveTo) {
+        initializeWumpusPresenter();
         wumpusPresenter.move(caveToMoveTo);
     }
 
@@ -55,13 +70,10 @@ public class StepDefinition {
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
     }
 
-    @And("wumpus is in cave {int}")
-    public void wumpusIsInCave(int cave) {
-        throw new PendingException();
-    }
-
     @Then("game is over")
     public void gameIsOver() {
-        throw new PendingException();
+        final boolean expectedStatusOfGameIsOver = true;
+        final boolean isGameOver = wumpusPresenter.isGameOver();
+        assertEquals(isGameOver, expectedStatusOfGameIsOver);
     }
 }
