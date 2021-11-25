@@ -43,7 +43,7 @@ class WumpusPresenterTest {
         final int playerNextCave = 7;
         wumpusPresenter.move(playerNextCave);
 
-        final int playerCurrentRoom = wumpusPresenter.getPlayerCave();
+        final int playerCurrentRoom = wumpusPresenter.getPlayerCaveIndex();
         assertEquals(playerNextCave, playerCurrentRoom);
 
         final boolean expectedStatusOfGameIsOver = false;
@@ -68,7 +68,7 @@ class WumpusPresenterTest {
         final int playerNextCave = 16;
         wumpusPresenter.move(playerNextCave);
 
-        final int playerCurrentRoom = wumpusPresenter.getPlayerCave();
+        final int playerCurrentRoom = wumpusPresenter.getPlayerCaveIndex();
         assertEquals(playerStartingCave, playerCurrentRoom);
 
         final boolean gameIsNotOver = false;
@@ -149,7 +149,7 @@ class WumpusPresenterTest {
             wumpusPresenter.move(caveNumber);
         }
 
-        final int playerCurrentCave = wumpusPresenter.getPlayerCave();
+        final int playerCurrentCave = wumpusPresenter.getPlayerCaveIndex();
         assertEquals(playerDropDownCave, playerCurrentCave);
 
         final boolean actualGameState = wumpusPresenter.isGameOver();
@@ -257,7 +257,7 @@ class WumpusPresenterTest {
         final int shootToCave = 11;
         wumpusPresenter.shoot(shootToCave);
 
-        final int wumpusCaveLocation = wumpusPresenter.getWumpusCave();
+        final int wumpusCaveLocation = wumpusPresenter.getWumpusCaveIndex();
         assertEquals(wumpusCaveLocation, wumpusStartingCave);
 
         final boolean actualGameState = wumpusPresenter.isGameOver();
@@ -296,7 +296,7 @@ class WumpusPresenterTest {
         final int shootToCave = 11;
         wumpusPresenter.shoot(shootToCave);
 
-        final int wumpusCaveLocation = wumpusPresenter.getWumpusCave();
+        final int wumpusCaveLocation = wumpusPresenter.getWumpusCaveIndex();
         final int wumpusCaveCurrLocation = 17;
         assertEquals(wumpusCaveCurrLocation, wumpusCaveLocation);
 
@@ -368,8 +368,8 @@ class WumpusPresenterTest {
         final int shootToCave = 11;
         wumpusPresenter.shoot(shootToCave);
 
-        final int wumpusCaveLocation = wumpusPresenter.getWumpusCave();
-        final int wumpusCaveCurrLocation = wumpusPresenter.getPlayerCave();
+        final int wumpusCaveLocation = wumpusPresenter.getWumpusCaveIndex();
+        final int wumpusCaveCurrLocation = wumpusPresenter.getPlayerCaveIndex();
         assertEquals(wumpusCaveCurrLocation, wumpusCaveLocation);
 
         final String wokeTheWumpusMessage = "You woke the Wumpus and it ate you";

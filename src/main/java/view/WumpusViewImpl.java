@@ -57,8 +57,8 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
     }
 
     void drawPlayer() {
-        int x = cavesCoordinates[wumpusPresenter.getPlayerCave()][0] + (getCaveSize() - getPlayerSize()) / 2;
-        int y = cavesCoordinates[wumpusPresenter.getPlayerCave()][1] + (getCaveSize() - getPlayerSize()) - 2;
+        int x = cavesCoordinates[wumpusPresenter.getPlayerCaveIndex()][0] + (getCaveSize() - getPlayerSize()) / 2;
+        int y = cavesCoordinates[wumpusPresenter.getPlayerCaveIndex()][1] + (getCaveSize() - getPlayerSize()) - 2;
 
         Path2D player = new Path2D.Double();
         player.moveTo(x, y);
@@ -108,7 +108,7 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
 
         if (!wumpusPresenter.isGameOver()) {
             g.setColor(Color.magenta);
-            for (int link : GameInitialConfigurations.CAVE_LINKS[wumpusPresenter.getPlayerCave()])
+            for (int link : GameInitialConfigurations.CAVE_LINKS[wumpusPresenter.getPlayerCaveIndex()])
                 g.fillOval(cavesCoordinates[link][0], cavesCoordinates[link][1], getCaveSize(), getCaveSize());
         }
 

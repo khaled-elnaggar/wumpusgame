@@ -35,14 +35,14 @@ public class WumpusPresenterImpl implements WumpusPresenter {
 
 
     @Override
-    public int getWumpusCave() {
-        return gameModel.getWumpusCave();
+    public int getWumpusCaveIndex() {
+        return gameModel.getWumpusCaveIndex();
     }
 
 
     @Override
-    public int getPlayerCave() {
-        return gameModel.getPlayerCave();
+    public int getPlayerCaveIndex() {
+        return gameModel.getPlayerCaveIndex();
     }
 
     @Override

@@ -189,12 +189,12 @@ public class LegacyGame implements Game {
     }
 
     @Override
-    public int getWumpusCave() {
+    public int getWumpusCaveIndex() {
         return wumpusCave;
     }
 
     @Override
-    public int getPlayerCave() {
+    public int getPlayerCaveIndex() {
         return playerCave;
     }
 

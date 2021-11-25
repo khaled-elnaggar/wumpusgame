@@ -12,7 +12,7 @@ import utilities.RandomNumberGenerator;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 
-public class MovePlayerToCave {
+public class StepDefinitions {
 
     RandomNumberGenerator randomNumberGenerator;
     WumpusPresenter wumpusPresenter;
@@ -20,7 +20,6 @@ public class MovePlayerToCave {
     final int wumpusStartingCave = 18;
     final int firstBatStartingCave = 19;
     final int secondBatStartingCave = 13;
-    final int thirdBatStartingCave = 14;
     final int firstPitCave = 3;
     final int secondPitCave = 13;
 
@@ -32,7 +31,6 @@ public class MovePlayerToCave {
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
-                thirdBatStartingCave,
                 firstPitCave,
                 secondPitCave);
 
@@ -45,7 +43,7 @@ public class MovePlayerToCave {
     }
     @Then("player will be at cave {int}")
     public void player_will_be_at_cave(Integer expectedPlayerCave) {
-        final int playerCurrentRoom = wumpusPresenter.getPlayerCave();
+        final int playerCurrentRoom = wumpusPresenter.getPlayerCaveIndex();
         assertEquals(expectedPlayerCave, playerCurrentRoom);
 
         final boolean expectedStatusOfGameIsOver = false;

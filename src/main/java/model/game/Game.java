@@ -9,6 +9,6 @@ public interface Game {
      boolean isGameOver();
      int getNumberOfArrows();
      List<String> getWarnings();
-     int getWumpusCave();
-     int getPlayerCave();
+     int getWumpusCaveIndex();
+     int getPlayerCaveIndex();
 }

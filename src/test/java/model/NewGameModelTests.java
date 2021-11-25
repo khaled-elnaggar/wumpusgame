@@ -86,7 +86,7 @@ public class NewGameModelTests {
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-        final int actualPlayerCaveIndex = game.getPlayerCave();
+        final int actualPlayerCaveIndex = game.getPlayerCaveIndex();
         assertEquals(PLAYER_STARTING_CAVE_INDEX, actualPlayerCaveIndex);
     }
 
@@ -97,7 +97,7 @@ public class NewGameModelTests {
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-        final int actualPlayerCaveIndex = game.getPlayerCave();
+        final int actualPlayerCaveIndex = game.getPlayerCaveIndex();
         assertEquals(PLAYER_STARTING_CAVE_INDEX, actualPlayerCaveIndex);
 
         Cave playerCave = game.getGameMap().getCaves().get(PLAYER_STARTING_CAVE_INDEX);
@@ -112,7 +112,7 @@ public class NewGameModelTests {
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-        final int actualWumpusCaveIndex = game.getWumpusCave();
+        final int actualWumpusCaveIndex = game.getWumpusCaveIndex();
         assertEquals(WUMPUS_STARTING_CAVE_INDEX, actualWumpusCaveIndex);
 
         Cave wumpusCave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
@@ -182,7 +182,7 @@ public class NewGameModelTests {
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-        final int actualWumpusCaveIndex = game.getWumpusCave();
+        final int actualWumpusCaveIndex = game.getWumpusCaveIndex();
         assertEquals(wumpusStartingCorrectCaveIndex, actualWumpusCaveIndex);
 
         Cave wumpusCave = game.getGameMap().getCaves().get(wumpusStartingCorrectCaveIndex);
@@ -280,7 +280,7 @@ public class NewGameModelTests {
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-        final int actualWumpusCaveIndex = game.getWumpusCave();
+        final int actualWumpusCaveIndex = game.getWumpusCaveIndex();
         assertEquals(wumpusStartingCorrectCaveIndex, actualWumpusCaveIndex);
 
         Cave wumpusCave = game.getGameMap().getCaves().get(wumpusStartingCorrectCaveIndex);
@@ -312,7 +312,7 @@ public class NewGameModelTests {
         final int caveIndexToMoveTo = 1;
         game.playerMovesToCave(caveIndexToMoveTo);
 
-        final int actualPlayerCaveIndex = game.getPlayerCave();
+        final int actualPlayerCaveIndex = game.getPlayerCaveIndex();
         assertEquals(caveIndexToMoveTo, actualPlayerCaveIndex);
 
         Cave currentPlayerCave = game.getGameMap().getCaves().get(caveIndexToMoveTo);
@@ -333,7 +333,7 @@ public class NewGameModelTests {
         final int caveIndexToMoveTo = 17;
         game.playerMovesToCave(caveIndexToMoveTo);
 
-        final int actualPlayerCaveIndex = game.getPlayerCave();
+        final int actualPlayerCaveIndex = game.getPlayerCaveIndex();
         assertNotEquals(caveIndexToMoveTo, actualPlayerCaveIndex);
         assertEquals(PLAYER_STARTING_CAVE_INDEX, actualPlayerCaveIndex);
 
@@ -442,7 +442,7 @@ public class NewGameModelTests {
         final int caveToShootTo = 11;
         game.playerShootsToCave(caveToShootTo);
 
-        final int wumpusCaveLocation = game.getWumpusCave();
+        final int wumpusCaveLocation = game.getWumpusCaveIndex();
         assertEquals(wumpusCaveLocation, WUMPUS_STARTING_CAVE_INDEX);
 
         final boolean actualGameState = game.isGameOver();
@@ -470,7 +470,7 @@ public class NewGameModelTests {
         final int caveToShootTo = 1;
         game.playerShootsToCave(caveToShootTo);
 
-        final int actualWumpusCaveIndex = game.getWumpusCave();
+        final int actualWumpusCaveIndex = game.getWumpusCaveIndex();
         final int expectedWumpusCaveIndex = 17;
         assertEquals(expectedWumpusCaveIndex, actualWumpusCaveIndex);
 
@@ -527,7 +527,7 @@ public class NewGameModelTests {
         final int caveToShootTo = 11;
         game.playerShootsToCave(caveToShootTo);
 
-        final int actualWumpusCaveIndex = game.getWumpusCave();
+        final int actualWumpusCaveIndex = game.getWumpusCaveIndex();
         final int expectedWumpusCaveIndex = 10;
         assertEquals(expectedWumpusCaveIndex, actualWumpusCaveIndex);
 
@@ -570,7 +570,7 @@ public class NewGameModelTests {
             game.playerMovesToCave(cave);
         }
 
-        final int actualPlayerCaveIndex = game.getPlayerCave();
+        final int actualPlayerCaveIndex = game.getPlayerCaveIndex();
         assertEquals(playerFirstDropDownCaveIndex, actualPlayerCaveIndex);
 
 
@@ -584,7 +584,7 @@ public class NewGameModelTests {
 
         game.playerMovesToCave(secondBatStartingCaveIndex);
 
-        final int actualPlayerSecondCaveIndex = game.getPlayerCave();
+        final int actualPlayerSecondCaveIndex = game.getPlayerCaveIndex();
         assertEquals(playerSecondDropDownCaveIndex, actualPlayerSecondCaveIndex);
 
 
@@ -623,7 +623,7 @@ public class NewGameModelTests {
             game.playerMovesToCave(cave);
         }
 
-        final int actualPlayerCaveIndex = game.getPlayerCave();
+        final int actualPlayerCaveIndex = game.getPlayerCaveIndex();
         assertEquals(playerDropDownCaveIndex, actualPlayerCaveIndex);
 
 

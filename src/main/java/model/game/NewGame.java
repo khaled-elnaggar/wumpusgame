@@ -162,12 +162,12 @@ public class NewGame implements Game {
     }
 
     @Override
-    public int getWumpusCave() {
+    public int getWumpusCaveIndex() {
         return wumpus.getCave().getNumber();
     }
 
     @Override
-    public int getPlayerCave() {
+    public int getPlayerCaveIndex() {
         return player.getCave().getNumber();
     }
 
