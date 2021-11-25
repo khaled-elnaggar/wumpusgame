@@ -1,6 +1,5 @@
 package acceptance;
 
-import io.cucumber.java.PendingException;
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -25,7 +24,7 @@ import static org.mockito.Mockito.mock;
 public class StepDefinition {
 
     RandomNumberGenerator randomNumberGenerator;
-    WumpusPresenter wumpusPresenter;
+    GameWorld gameWorld = new GameWorld();
     List<Integer> randomReturnsWhenCalledWith20 = new ArrayList<>();
     int playerStartingCave = 0;
     int wumpusStartingCave = 18;
@@ -34,11 +33,16 @@ public class StepDefinition {
     int firstPitCave = 3;
     int secondPitCave = 13;
 
-    public void initializeWumpusPresenter() {
-        if (this.wumpusPresenter == null) {
-            mockTheRandomNumberGenerator();
-            wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
-            wumpusPresenter.startNewGame();
+    class GameWorld {
+        private WumpusPresenter wumpusPresenter;
+
+        public WumpusPresenter getWumpusPresenter(){
+            if (this.wumpusPresenter == null) {
+                mockTheRandomNumberGenerator();
+                this.wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
+                this.wumpusPresenter.startNewGame();
+            }
+            return this.wumpusPresenter;
         }
     }
 
@@ -79,13 +83,13 @@ public class StepDefinition {
 
     @When("player moves to cave {int}")
     public void player_moves_to_cave(Integer caveToMoveTo) {
-        initializeWumpusPresenter();
+        WumpusPresenter wumpusPresenter = gameWorld.getWumpusPresenter();
         wumpusPresenter.move(caveToMoveTo);
     }
 
     @When("player moves to caves")
     public void playerMovesToCaves(@Transpose List<Integer> cavesToMoveTo) {
-        initializeWumpusPresenter();
+        WumpusPresenter wumpusPresenter = gameWorld.getWumpusPresenter();
         for (int caveToMoveTo : cavesToMoveTo) {
             wumpusPresenter.move(caveToMoveTo);
         }
@@ -94,12 +98,14 @@ public class StepDefinition {
 
     @Then("player senses that {string}")
     public void playerSensesThat(String warning) {
-        List<String> warnings = this.wumpusPresenter.getWarnings();
+        WumpusPresenter wumpusPresenter = gameWorld.getWumpusPresenter();
+        List<String> warnings = wumpusPresenter.getWarnings();
         assertTrue(warnings.contains(warning));
     }
 
     @Then("player will be at cave {int}")
     public void player_will_be_at_cave(Integer expectedPlayerCave) {
+        WumpusPresenter wumpusPresenter = gameWorld.getWumpusPresenter();
         final int playerCurrentRoom = wumpusPresenter.getPlayerCaveIndex();
         assertEquals(expectedPlayerCave, playerCurrentRoom);
 
@@ -121,6 +127,7 @@ public class StepDefinition {
 
     @Then("game is over")
     public void gameIsOver() {
+        WumpusPresenter wumpusPresenter = gameWorld.getWumpusPresenter();
         final boolean expectedStatusOfGameIsOver = true;
         final boolean isGameOver = wumpusPresenter.isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
