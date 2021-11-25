@@ -7,10 +7,14 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.game.GameInitialConfigurations;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import presenter.WumpusPresenter;
 import presenter.WumpusPresenterImpl;
 import utilities.RandomNumberGenerator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,6 +25,7 @@ public class StepDefinition {
 
     RandomNumberGenerator randomNumberGenerator;
     WumpusPresenter wumpusPresenter;
+    List<Integer> randomReturnsWhenCalledWith20 = new ArrayList<>();
     int playerStartingCave = 0;
     int wumpusStartingCave = 18;
     int firstBatStartingCave = 19;
@@ -38,13 +43,22 @@ public class StepDefinition {
 
     private void mockTheRandomNumberGenerator() {
         randomNumberGenerator = mock(RandomNumberGenerator.class);
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                playerStartingCave,
+        randomReturnsWhenCalledWith20.addAll(Arrays.asList(playerStartingCave,
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
                 firstPitCave,
-                secondPitCave);
+                secondPitCave));
+
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenAnswer(new Answer<Integer>() {
+            int current = 0;
+
+            @Override
+            public Integer answer(InvocationOnMock invocationOnMock) throws Throwable {
+                return randomReturnsWhenCalledWith20.get(current++);
+            }
+        });
+
     }
 
     @Given("player is in cave {int}")
@@ -59,7 +73,7 @@ public class StepDefinition {
 
     @And("a bat is in cave {int}")
     public void aBatIsInCave(int cave) {
-        throw new PendingException();
+        this.firstBatStartingCave = cave;
     }
 
     @When("player moves to cave {int}")
@@ -86,12 +100,13 @@ public class StepDefinition {
 
     @And("a bat will be at cave {int}")
     public void aBatWillBeAtCave(int cave) {
-        throw new PendingException();
+        //TODO: add bat caves to presenter API?
     }
 
     @And("bat will teleport player to cave {int} and itself to cave {int}")
     public void batWillTeleportPlayerToCaveAndItselfToCave(int playerCave, int batCave) {
-        throw new PendingException();
+        randomReturnsWhenCalledWith20.add(playerCave);
+        randomReturnsWhenCalledWith20.add(batCave);
     }
 
     @Then("game is over")
