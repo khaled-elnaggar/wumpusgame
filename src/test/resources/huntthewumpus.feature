@@ -12,7 +12,6 @@ Feature: Hunt the Wumpus
     When player moves to cave 12
     Then player will be at cave 0
 
-
   Scenario: Player moves to a cave with wumpus and gets eaten
   If the player enters a cave with wumpus inside it, the player should die and the game should be over
     Given player is in cave 9
@@ -20,3 +19,10 @@ Feature: Hunt the Wumpus
     When player moves to cave 10
     When player moves to cave 18
     Then game is over
+
+  Scenario: Player senses the wumpus in a linked cave
+  The player should sense the wumpus and all the other hazards when in a linked cave to his current
+    Given player is in cave 9
+    And wumpus is in cave 18
+    When player moves to cave 10
+    Then player senses that "there's an awful smell"

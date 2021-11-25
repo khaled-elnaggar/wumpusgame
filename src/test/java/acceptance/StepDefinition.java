@@ -11,7 +11,10 @@ import presenter.WumpusPresenter;
 import presenter.WumpusPresenterImpl;
 import utilities.RandomNumberGenerator;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 public class StepDefinition {
@@ -75,5 +78,11 @@ public class StepDefinition {
         final boolean expectedStatusOfGameIsOver = true;
         final boolean isGameOver = wumpusPresenter.isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
+    }
+
+    @Then("player senses that {string}")
+    public void playerSensesThat(String warning) {
+        List<String> warnings = this.wumpusPresenter.getWarnings();
+        assertTrue(warnings.contains(warning));
     }
 }
