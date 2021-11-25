@@ -28,8 +28,8 @@ public class StepDefinition {
     int firstPitCave = 3;
     int secondPitCave = 13;
 
-    public void initializeWumpusPresenter(){
-        if(this.wumpusPresenter == null){
+    public void initializeWumpusPresenter() {
+        if (this.wumpusPresenter == null) {
             mockTheRandomNumberGenerator();
             wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
             wumpusPresenter.startNewGame();
@@ -37,7 +37,7 @@ public class StepDefinition {
     }
 
     private void mockTheRandomNumberGenerator() {
-        randomNumberGenerator=mock(RandomNumberGenerator.class);
+        randomNumberGenerator = mock(RandomNumberGenerator.class);
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 playerStartingCave,
                 wumpusStartingCave,
@@ -74,16 +74,6 @@ public class StepDefinition {
         assertTrue(warnings.contains(warning));
     }
 
-    @Then("player teleports to cave {int}")
-    public void playerTeleportsToCave(int cave) {
-        throw new PendingException();
-    }
-
-    @And("bat teleports to cave {int}")
-    public void batTeleportsToCave(int cave) {
-        throw new PendingException();
-    }
-
     @Then("player will be at cave {int}")
     public void player_will_be_at_cave(Integer expectedPlayerCave) {
         final int playerCurrentRoom = wumpusPresenter.getPlayerCaveIndex();
@@ -92,6 +82,16 @@ public class StepDefinition {
         final boolean expectedStatusOfGameIsOver = false;
         final boolean isGameOver = wumpusPresenter.isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
+    }
+
+    @And("a bat will be at cave {int}")
+    public void aBatWillBeAtCave(int cave) {
+        throw new PendingException();
+    }
+
+    @And("bat will teleport player to cave {int} and itself to cave {int}")
+    public void batWillTeleportPlayerToCaveAndItselfToCave(int playerCave, int batCave) {
+        throw new PendingException();
     }
 
     @Then("game is over")
