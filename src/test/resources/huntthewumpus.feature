@@ -26,3 +26,13 @@ Feature: Hunt the Wumpus
     And wumpus is in cave 18
     When player moves to cave 10
     Then player senses that "there's an awful smell"
+
+  Scenario: Player moves to cave with bat
+    The player should change location when he enters a cave with bat, the bat will also change location
+    Given player is in cave 11
+    And a bat is in cave 19
+    When player moves to cave 12
+    When player moves to cave 19
+    Then player teleports to cave 8
+    And bat teleports to cave 4
+

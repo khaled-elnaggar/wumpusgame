@@ -57,10 +57,31 @@ public class StepDefinition {
         this.wumpusStartingCave = wumpusStartingCave;
     }
 
+    @And("a bat is in cave {int}")
+    public void aBatIsInCave(int cave) {
+        throw new PendingException();
+    }
+
     @When("player moves to cave {int}")
     public void player_moves_to_cave(Integer caveToMoveTo) {
         initializeWumpusPresenter();
         wumpusPresenter.move(caveToMoveTo);
+    }
+
+    @Then("player senses that {string}")
+    public void playerSensesThat(String warning) {
+        List<String> warnings = this.wumpusPresenter.getWarnings();
+        assertTrue(warnings.contains(warning));
+    }
+
+    @Then("player teleports to cave {int}")
+    public void playerTeleportsToCave(int cave) {
+        throw new PendingException();
+    }
+
+    @And("bat teleports to cave {int}")
+    public void batTeleportsToCave(int cave) {
+        throw new PendingException();
     }
 
     @Then("player will be at cave {int}")
@@ -78,11 +99,5 @@ public class StepDefinition {
         final boolean expectedStatusOfGameIsOver = true;
         final boolean isGameOver = wumpusPresenter.isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
-    }
-
-    @Then("player senses that {string}")
-    public void playerSensesThat(String warning) {
-        List<String> warnings = this.wumpusPresenter.getWarnings();
-        assertTrue(warnings.contains(warning));
     }
 }
