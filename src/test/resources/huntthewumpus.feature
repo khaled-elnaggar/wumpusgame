@@ -13,3 +13,10 @@ Feature: Hunt the Wumpus
     Then player will be at cave 0
 
 
+  Scenario: Player moves to a cave with wumpus and gets eaten
+  If the player enters a cave with wumpus inside it, the player should die and the game should be over
+    Given player is in cave 9
+    And wumpus is in cave 18
+    When player moves to cave 10
+    When player moves to cave 18
+    Then game is over

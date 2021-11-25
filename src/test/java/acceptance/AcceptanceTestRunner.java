@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
         features = {"classpath:huntthewumpus.feature"},
         plugin = {"pretty"},
         snippets = CucumberOptions.SnippetType.CAMELCASE)
-public class RunAcceptanceTests {
+public class AcceptanceTestRunner {
 }
 
 
