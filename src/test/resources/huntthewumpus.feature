@@ -61,3 +61,12 @@ Feature: Hunt the Wumpus
     When player moves to cave 10
     And player shoots at cave 18
     Then game is over
+
+  Scenario: Player misses the wumpus and it remains asleep
+  If the player shoots misses the wumpus cave, the wumpus may remain a sleep and not move
+    Given player is in cave 0
+    And wumpus is in cave 18
+    And wumpus will remain asleep
+    When player shoots at cave 1
+    Then wumpus will be at cave 18
+    And game is still on

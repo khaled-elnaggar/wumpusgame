@@ -14,7 +14,7 @@ import static org.mockito.Mockito.mock;
 
 public class RandomNumberGeneratorBuilder {
 
-    RandomNumberGenerator randomNumberGenerator;
+    RandomNumberGenerator randomNumberGenerator = mock(RandomNumberGenerator.class);
 
     List<Integer> randomReturnsWhenCalledWith20 = new ArrayList<>();
     List<Integer> teleportCaves = new ArrayList<>();
@@ -27,15 +27,11 @@ public class RandomNumberGeneratorBuilder {
     int secondPitCave = 13;
 
     public RandomNumberGenerator build() {
-        if(randomNumberGenerator == null){
-            mockTheRandomNumberGenerator();
-        }
-
+        mockTheRandomNumberGenerator();
         return randomNumberGenerator;
     }
 
     private void mockTheRandomNumberGenerator() {
-        randomNumberGenerator = mock(RandomNumberGenerator.class);
         randomReturnsWhenCalledWith20.addAll(Arrays.asList(playerStartingCave,
                 wumpusStartingCave,
                 firstBatStartingCave,
@@ -59,6 +55,13 @@ public class RandomNumberGeneratorBuilder {
         this.playerStartingCave = playerStartingCave;
     }
 
+    public void makeWumpusSleep() {
+        final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
+        final int numberAtWhichWumpusWillRemainSleeping = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability)).thenReturn(
+                numberAtWhichWumpusWillRemainSleeping);
+    }
+
     public void setWumpusStartingCave(int wumpusStartingCave) {
         this.wumpusStartingCave = wumpusStartingCave;
     }
@@ -71,7 +74,7 @@ public class RandomNumberGeneratorBuilder {
         this.firstPitCave = firstPitCave;
     }
 
-    public void addCaveToTeleportTo(int cave){
+    public void addCaveToTeleportTo(int cave) {
         teleportCaves.add(cave);
     }
 }

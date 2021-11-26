@@ -15,11 +15,6 @@ public class OtherSteps {
     }
 
 
-    @And("wumpus is in cave {int}")
-    public void wumpusIsInCave(int wumpusStartingCave) {
-        gameWorld.getRNGBuilder().setWumpusStartingCave(wumpusStartingCave);
-    }
-
     @And("pit is in cave {int}")
     public void pitIsInCave(int cave) {
         gameWorld.getRNGBuilder().setFirstPitCave(cave);
@@ -34,4 +29,11 @@ public class OtherSteps {
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
     }
 
+    @And("game is still on")
+    public void gameIsStillOn() {
+        WumpusPresenter wumpusPresenter = gameWorld.getWumpusPresenter();
+        final boolean expectedStatusOfGameIsOver = false;
+        final boolean isGameOver = wumpusPresenter.isGameOver();
+        assertEquals(isGameOver, expectedStatusOfGameIsOver);
+    }
 }
