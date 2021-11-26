@@ -25,6 +25,7 @@ public class RandomNumberGeneratorBuilder {
     int secondBatStartingCave = 13;
     int firstPitCave = 3;
     int secondPitCave = 13;
+    public static final int MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY = 4;
 
     public RandomNumberGenerator build() {
         mockTheRandomNumberGenerator();
@@ -56,10 +57,18 @@ public class RandomNumberGeneratorBuilder {
     }
 
     public void makeWumpusSleep() {
-        final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
         final int numberAtWhichWumpusWillRemainSleeping = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability)).thenReturn(
+        Mockito.when(randomNumberGenerator.generateNumber(MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY)).thenReturn(
                 numberAtWhichWumpusWillRemainSleeping);
+    }
+
+    public void makeWumpusMoveTo(int caveIndex) {
+        final int numberAtWhichWumpusWillWakeup = 1;
+        Mockito.when(randomNumberGenerator.generateNumber(MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY)).thenReturn(
+                numberAtWhichWumpusWillWakeup);
+
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+                caveIndex);
     }
 
     public void setWumpusStartingCave(int wumpusStartingCave) {
