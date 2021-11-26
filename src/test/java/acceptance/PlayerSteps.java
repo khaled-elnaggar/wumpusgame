@@ -1,6 +1,7 @@
 package acceptance;
 
 import io.cucumber.java.Transpose;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -32,6 +33,11 @@ public class PlayerSteps {
         for (int caveToMoveTo : cavesToMoveTo) {
             gameWorld.getWumpusPresenter().move(caveToMoveTo);
         }
+    }
+
+    @And("player shoots at cave {int}")
+    public void playerShootsAtCave(int cave) {
+        gameWorld.getWumpusPresenter().shoot(cave);
     }
 
     @Then("player senses that {string}")
