@@ -71,13 +71,19 @@ Feature: Hunt the Wumpus
     Then wumpus will be at cave 18
     And game is still on
 
-  Scenario: Player misses the wumpus and it wakes up and moves to the player's cave
-  If the player shoots misses the wumpus cave, the wumpus may wake up and move to a linked cave
-  if player is in that cave, the wumpus will eat him
-    Given player is in cave 9
-    And wumpus is in cave 18
-    But wumpus will wake up and move to cave 10
-    When player moves to cave 10
-    And player shoots at cave 11
-    Then wumpus will be at cave 10
-    And game is over
+  Scenario Outline: Player misses the wumpus and it wakes up and moves
+  If the player shoots but misses the wumpus cave, the wumpus may wake up and move to a linked cave
+  If player is in that cave, the wumpus will eat him
+    Given player is in cave <PlayerStartingCave>
+    And wumpus is in cave <WumpusStartingCave>
+    But wumpus will wake up and move to cave <WumpusNextCave>
+    When player moves to cave <PlayerNextCave>
+    And player shoots at cave <CaveToShootAt>
+    Then wumpus will be at cave <WumpusNextCave>
+    And game is <GameStatus>
+
+    Examples:
+      | PlayerStartingCave | WumpusStartingCave | WumpusNextCave | PlayerNextCave | CaveToShootAt | GameStatus |
+      | 9                  | 18                 | 19             | 10             | 11            | still on   |
+      | 9                  | 18                 | 10             | 10             | 11            | over       |
+
