@@ -44,3 +44,13 @@ Feature: Hunt the Wumpus
     When player moves to caves
       | 2 | 3 |
     Then game is over
+
+  Scenario: Player moves to cave with pit and bat
+  If the player enters a room with pit and bat, the player should die and the game should be over
+    Given player is in cave 11
+    And a bat is in cave 19
+    And pit is in cave 19
+    When player moves to caves
+      | 12 | 19 |
+    Then game is over
+
