@@ -1,45 +1,27 @@
 package acceptance;
 
 import io.cucumber.java.Transpose;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import presenter.WumpusPresenter;
 import support.GameWorld;
-import utilities.RandomNumberGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class StepDefinition {
-    RandomNumberGenerator randomNumberGenerator;
-    GameWorld gameWorld = new GameWorld();
-    List<Integer> randomReturnsWhenCalledWith20 = new ArrayList<>();
+public class PlayerSteps {
+    private final GameWorld gameWorld;
+
+    public PlayerSteps(GameWorld gameWorld) {
+        this.gameWorld = gameWorld;
+    }
 
     @Given("player is in cave {int}")
     public void player_is_in_cave(int playerStartingCave) {
         gameWorld.getRNGBuilder().setPlayerStartingCave(playerStartingCave);
     }
-
-    @And("wumpus is in cave {int}")
-    public void wumpusIsInCave(int wumpusStartingCave) {
-        gameWorld.getRNGBuilder().setWumpusStartingCave(wumpusStartingCave);
-    }
-
-    @And("a bat is in cave {int}")
-    public void aBatIsInCave(int cave) {
-        gameWorld.getRNGBuilder().setFirstBatStartingCave(cave);
-    }
-
-    @And("pit is in cave {int}")
-    public void pitIsInCave(int cave) {
-        gameWorld.getRNGBuilder().setFirstPitCave(cave);
-    }
-
     @When("player moves to cave {int}")
     public void player_moves_to_cave(Integer caveToMoveTo) {
         gameWorld.getWumpusPresenter().move(caveToMoveTo);
@@ -67,24 +49,4 @@ public class StepDefinition {
         final boolean isGameOver = gameWorld.getWumpusPresenter().isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
     }
-
-    @And("a bat will be at cave {int}")
-    public void aBatWillBeAtCave(int cave) {
-        //TODO: add bat caves to presenter API?
-    }
-
-    @And("bat will teleport player to cave {int} and itself to cave {int}")
-    public void batWillTeleportPlayerToCaveAndItselfToCave(int playerCave, int batCave) {
-        gameWorld.getRNGBuilder().addCaveToTeleportTo(playerCave);
-        gameWorld.getRNGBuilder().addCaveToTeleportTo(batCave);
-    }
-
-    @Then("game is over")
-    public void gameIsOver() {
-        WumpusPresenter wumpusPresenter = gameWorld.getWumpusPresenter();
-        final boolean expectedStatusOfGameIsOver = true;
-        final boolean isGameOver = wumpusPresenter.isGameOver();
-        assertEquals(isGameOver, expectedStatusOfGameIsOver);
-    }
-
 }
