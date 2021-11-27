@@ -42,6 +42,15 @@ public class PlayerSteps {
         gameWorld.getWumpusPresenter().shoot(cave);
     }
 
+    @When("player shoots an arrow at caves")
+    public void playerShootsAnArrowAtCaves(@Transpose List<Integer> cavesToShoot) {
+        int[] cavesArray = new int[cavesToShoot.size()];
+        for(int i = 0; i < cavesToShoot.size(); i++){
+            cavesArray[i] = cavesToShoot.get(i);
+        }
+        gameWorld.getWumpusPresenter().shoot(cavesArray);
+    }
+
     @Then("player senses that {string}")
     public void playerSensesThat(String warning) {
         List<String> warnings = gameWorld.getWumpusPresenter().getWarnings();

@@ -95,3 +95,11 @@ Feature: Hunt the Wumpus
     And player used all arrows but 1
     When player shoots at cave 4
     Then game is over
+
+  Scenario: Player shoots an arrow through multiple caves
+  The player can choose up to 5 caves to shoot at, if any of them is not linked, the arrow goes to a random linked cave
+    Given player is in cave 0
+    And wumpus is in cave 18
+    When player shoots an arrow at caves
+      | 7 | 8 | 9 | 10 | 18 |
+    Then game is over
