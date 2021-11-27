@@ -721,5 +721,8 @@ public class NewGameModelTests {
         game.playerShootsToCave(cavesToShootAt);
 
         assertTrue(game.getWumpus().isDead());
+
+        final int expectedRemainingArrows = GameInitialConfigurations.NUMBER_OF_ARROWS - 1;
+        assertEquals(expectedRemainingArrows, game.getNumberOfArrows());
     }
 }
