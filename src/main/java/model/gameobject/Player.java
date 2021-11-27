@@ -3,18 +3,18 @@ package model.gameobject;
 import model.Arrow;
 import model.gamemap.Cave;
 import model.gameobject.hazard.Hazard;
-import model.gameobject.hazard.Wumpus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements Killable {
     private boolean dead;
     private final Arrow arrow;
     private final List<String> warnings;
 
-    public void setDead(boolean dead) {
-        this.dead = dead;
+    @Override
+    public void kill() {
+        this.dead = true;
     }
 
     public Player(int numberOfArrows) {
@@ -98,14 +98,9 @@ public class Player extends GameObject {
 
     public void shootSingle(Cave caveToShoot) {
         caveToShoot.getGameObjects().stream()
-                .filter(gameObject -> gameObject instanceof Wumpus)
-                .map(gameObject -> ((Wumpus) gameObject))
-                .forEach(wumpus -> wumpus.setDead(true));
-
-        caveToShoot.getGameObjects().stream()
-                .filter(gameObject -> gameObject instanceof Player)
-                .map(gameObject -> ((Player) gameObject))
-                .forEach(player -> player.setDead(true));
+                .filter(gameObject -> gameObject instanceof Killable)
+                .map(gameObject -> ((Killable) gameObject))
+                .forEach(Killable::kill);
     }
 
     public boolean hasNoArrows() {

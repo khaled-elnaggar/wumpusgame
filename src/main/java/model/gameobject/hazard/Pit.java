@@ -20,7 +20,7 @@ public class Pit extends GameObject implements Hazard {
 
     @Override
     public void executeActionOnPlayer(Player player) {
-        player.setDead(true);
+        player.kill();
         player.addAWarning(this.warningInTheSameCave);
     }
 
