@@ -687,7 +687,7 @@ public class NewGameModelTests {
 
         Map<String, Integer> creaturesAndTheirCount = new HashMap<>();
         String[] creatureNames = {Player.class.getSimpleName(), Wumpus.class.getSimpleName(), Pit.class.getSimpleName(), Bat.class.getSimpleName()};
-        for(String creatureName: creatureNames ){
+        for (String creatureName : creatureNames) {
             creaturesAndTheirCount.put(creatureName, 0);
         }
 
@@ -712,17 +712,36 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testThatPlayerShootsMultipleLinkedCavesWithOneArrow(){
+    public void testThatPlayerShootsMultipleLinkedCavesWithOneArrow() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-        int[] cavesToShootAt = new int[] {7, 8, 9, 10, 18};
+        int[] cavesToShootAt = new int[]{7, 8, 9, 10, 18};
         game.playerShootsToCave(cavesToShootAt);
 
         assertTrue(game.getWumpus().isDead());
 
         final int expectedRemainingArrows = GameInitialConfigurations.NUMBER_OF_ARROWS - 1;
         assertEquals(expectedRemainingArrows, game.getNumberOfArrows());
+    }
+
+    @Test
+    public void testThatPlayerShootsMultipleNonLinkedCavesWithOneArrow() {
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        NewGame game = new NewGame(randomNumberGenerator);
+        game.startGame();
+
+        int[] cavesToShootAt = new int[]{15, 8, 9, 10, 3};
+        final int cave7IndexFrom0 = 2;
+        final int cave18IndexFrom10 = 2;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+                cave7IndexFrom0,
+                cave18IndexFrom10);
+
+
+        game.playerShootsToCave(cavesToShootAt);
+
+        assertTrue(game.getWumpus().isDead());
     }
 }
