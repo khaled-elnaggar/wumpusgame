@@ -137,8 +137,8 @@ public class NewGame implements Game {
     }
 
     @Override
-    public void playerShootsToCave(int cave) {
-        Cave caveToShoot = gameMap.getCaves().get(cave);
+    public void playerShootsToCave(int... cave) {
+        Cave caveToShoot = gameMap.getCaves().get(cave[0]);
         player.shoot(caveToShoot);
 
         if (!wumpus.isDead()) {

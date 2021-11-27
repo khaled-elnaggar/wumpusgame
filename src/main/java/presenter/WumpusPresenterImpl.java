@@ -29,7 +29,7 @@ public class WumpusPresenterImpl implements WumpusPresenter {
     }
 
     @Override
-    public void shoot(int cave) {
+    public void shoot(int... cave) {
         gameModel.playerShootsToCave(cave);
     }
 

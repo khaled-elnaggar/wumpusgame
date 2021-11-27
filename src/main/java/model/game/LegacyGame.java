@@ -86,9 +86,9 @@ public class LegacyGame implements Game {
     }
 
     @Override
-    public void playerShootsToCave(int cave) {
+    public void playerShootsToCave(int... cave) {
         final int maximumNumberForCalculatingWumpusWakeupProbability=4;
-        if (hazards[cave].contains(LegacyHazard.Wumpus)) {
+        if (hazards[cave[0]].contains(LegacyHazard.Wumpus)) {
             messages.add("You win! You've killed the Wumpus!");
             gameOver = true;
 
