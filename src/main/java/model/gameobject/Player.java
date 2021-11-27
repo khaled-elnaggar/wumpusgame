@@ -101,6 +101,11 @@ public class Player extends GameObject {
                 .filter(gameObject -> gameObject instanceof Wumpus)
                 .map(gameObject -> ((Wumpus) gameObject))
                 .forEach(wumpus -> wumpus.setDead(true));
+
+        caveToShoot.getGameObjects().stream()
+                .filter(gameObject -> gameObject instanceof Player)
+                .map(gameObject -> ((Player) gameObject))
+                .forEach(player -> player.setDead(true));
     }
 
     public boolean hasNoArrows() {
