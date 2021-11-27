@@ -85,19 +85,22 @@ public class Player extends GameObject {
         return dead;
     }
 
-    public void shoot(Cave caveToShoot) {
+    public void shoot(List<Cave> caves) {
         this.warnings.clear();
-
+        for (Cave cave : caves) {
+            shootSingle(cave);
+        }
         arrow.decrementByOne();
+        if (hasNoArrows()) {
+            warnings.add("You ran out of arrows");
+        }
+    }
 
+    public void shootSingle(Cave caveToShoot) {
         caveToShoot.getGameObjects().stream()
                 .filter(gameObject -> gameObject instanceof Wumpus)
                 .map(gameObject -> ((Wumpus) gameObject))
                 .forEach(wumpus -> wumpus.setDead(true));
-
-        if (hasNoArrows()) {
-            warnings.add("You ran out of arrows");
-        }
     }
 
     public boolean hasNoArrows() {
@@ -116,4 +119,5 @@ public class Player extends GameObject {
     public int getPrecedence() {
         return 4;
     }
+
 }

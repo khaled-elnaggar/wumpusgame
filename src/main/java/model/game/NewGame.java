@@ -9,10 +9,8 @@ import model.gameobject.Player;
 import model.gameobject.hazard.Wumpus;
 import utilities.RandomNumberGenerator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class NewGame implements Game {
 
@@ -138,10 +136,8 @@ public class NewGame implements Game {
 
     @Override
     public void playerShootsToCave(int... caves) {
-        for (int cave : caves) {
-            Cave caveToShoot = gameMap.getCaves().get(cave);
-            player.shoot(caveToShoot);
-        }
+        List<Cave> cavesToShoot = Arrays.stream(caves).mapToObj(cave -> gameMap.getCaves().get(cave)).collect(Collectors.toList());
+        player.shoot(cavesToShoot);
 
         if (!wumpus.isDead()) {
             wumpus.attemptToWakeup();
