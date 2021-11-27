@@ -1,11 +1,13 @@
 package model.gamemap;
 
 import model.gameobject.GameObject;
+import model.gameobject.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Cave {
     private int number;
@@ -59,4 +61,21 @@ public class Cave {
     public boolean isLinkedTo(Cave cave) {
         return this.linkedCaves.contains(cave);
     }
+
+    public boolean isFreeFromPlayerAndLinkedPlayer(){
+        List<GameObject> allGameObjects = new ArrayList<>(gameObjects);
+        List<GameObject> linkedCavesGameObjects = linkedCaves.stream().flatMap(cave -> cave.getGameObjects().stream()).collect(Collectors.toList());
+        allGameObjects.addAll(linkedCavesGameObjects);
+        return allGameObjects.stream().noneMatch(gameObject -> gameObject instanceof Player);
+    }
+
+    public boolean containsAny(List<? extends GameObject> gameObjectsToLookFor){
+        for(GameObject gameObjectToLookFor: gameObjectsToLookFor){
+            if(gameObjects.contains(gameObjectToLookFor)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
