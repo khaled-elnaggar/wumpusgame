@@ -87,3 +87,11 @@ Feature: Hunt the Wumpus
       | 9                  | 18                 | 19             | 10             | 11            | still on   |
       | 9                  | 18                 | 10             | 10             | 11            | over       |
 
+  Scenario: Player runs out of arrows
+  If the player runs out of arrows before killing the wumpus, the game is over
+    Given player is in cave 0
+    And wumpus is in cave 18
+    And wumpus will remain asleep
+    And player used all arrows but 1
+    When player shoots at cave 4
+    Then game is over

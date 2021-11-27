@@ -5,6 +5,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import model.game.GameInitialConfigurations;
 import support.GameWorld;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class PlayerSteps {
     public void player_is_in_cave(int playerStartingCave) {
         gameWorld.getRNGBuilder().setPlayerStartingCave(playerStartingCave);
     }
+
     @When("player moves to cave {int}")
     public void player_moves_to_cave(Integer caveToMoveTo) {
         gameWorld.getWumpusPresenter().move(caveToMoveTo);
@@ -54,5 +56,18 @@ public class PlayerSteps {
         final boolean expectedStatusOfGameIsOver = false;
         final boolean isGameOver = gameWorld.getWumpusPresenter().isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
+    }
+
+    @And("player used all arrows but {int}")
+    public void playerHasArrowLeft(int remainingAroows) throws Exception {
+        if (remainingAroows > GameInitialConfigurations.NUMBER_OF_ARROWS) {
+            throw new Exception("Logical error, remaining arrows can not be greater than initial arrows");
+        }
+
+        final int playerCave = gameWorld.getWumpusPresenter().getPlayerCaveIndex();
+        final int firstLinkedCave = GameInitialConfigurations.CAVE_LINKS[playerCave][0];
+        for (int i = 0; i < GameInitialConfigurations.NUMBER_OF_ARROWS - remainingAroows; i++) {
+            gameWorld.getWumpusPresenter().shoot(firstLinkedCave);
+        }
     }
 }
