@@ -55,4 +55,8 @@ public class Cave {
     public void removeGameObject(GameObject gameObject) {
         this.gameObjects.remove(gameObject);
     }
+
+    public boolean isLinkedTo(Cave cave) {
+        return this.linkedCaves.contains(cave);
+    }
 }

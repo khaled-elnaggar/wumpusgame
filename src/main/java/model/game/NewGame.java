@@ -136,12 +136,40 @@ public class NewGame implements Game {
 
     @Override
     public void playerShootsToCave(int... caves) {
-        List<Cave> cavesToShoot = Arrays.stream(caves).mapToObj(cave -> gameMap.getCaves().get(cave)).collect(Collectors.toList());
+        List<Cave> cavesToShoot = validateCavesToShootAt(caves);
         player.shoot(cavesToShoot);
 
         if (!wumpus.isDead()) {
             wumpus.attemptToWakeup();
         }
+    }
+
+    private List<Cave> validateCavesToShootAt(int... caves) {
+        List<Cave> cavesToShootAt = Arrays.stream(caves).mapToObj(cave -> gameMap.getCaves().get(cave)).collect(Collectors.toList());
+
+        List<Cave> validCavesToShootAt = new ArrayList<>();
+
+        final Cave playerCurrentCave = player.getCave();
+        final Cave arrowFirstCave = cavesToShootAt.get(0);
+
+        if (playerCurrentCave.isLinkedTo(arrowFirstCave)) {
+            validCavesToShootAt.add(arrowFirstCave);
+        }else{
+            validCavesToShootAt.add(playerCurrentCave.getLinkedCaves().get(randomNumberGenerator.generateNumber(3)));
+        }
+
+        for (int i = 1; i < caves.length; i++) {
+            Cave arrowCurrentCave = validCavesToShootAt.get(validCavesToShootAt.size() - 1);
+            Cave arrowNextCave = cavesToShootAt.get(i);
+
+            if (arrowCurrentCave.isLinkedTo(arrowNextCave)) {
+                validCavesToShootAt.add(arrowNextCave);
+            }else{
+                validCavesToShootAt.add(arrowCurrentCave.getLinkedCaves().get(randomNumberGenerator.generateNumber(3)));
+            }
+        }
+
+        return validCavesToShootAt;
     }
 
     @Override
