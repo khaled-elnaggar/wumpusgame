@@ -146,20 +146,11 @@ public class NewGame implements Game {
 
     private List<Cave> validateCavesToShootAt(int... caves) {
         List<Cave> cavesToShootAt = Arrays.stream(caves).mapToObj(cave -> gameMap.getCaves().get(cave)).collect(Collectors.toList());
-
         List<Cave> validCavesToShootAt = new ArrayList<>();
 
-        final Cave playerCurrentCave = player.getCave();
-        final Cave arrowFirstCave = cavesToShootAt.get(0);
+        Cave arrowCurrentCave = player.getCave();
 
-        if (playerCurrentCave.isLinkedTo(arrowFirstCave)) {
-            validCavesToShootAt.add(arrowFirstCave);
-        }else{
-            validCavesToShootAt.add(playerCurrentCave.getLinkedCaves().get(randomNumberGenerator.generateNumber(3)));
-        }
-
-        for (int i = 1; i < caves.length; i++) {
-            Cave arrowCurrentCave = validCavesToShootAt.get(validCavesToShootAt.size() - 1);
+        for (int i = 0; i < caves.length; i++) {
             Cave arrowNextCave = cavesToShootAt.get(i);
 
             if (arrowCurrentCave.isLinkedTo(arrowNextCave)) {
@@ -167,8 +158,8 @@ public class NewGame implements Game {
             }else{
                 validCavesToShootAt.add(arrowCurrentCave.getLinkedCaves().get(randomNumberGenerator.generateNumber(3)));
             }
+            arrowCurrentCave = validCavesToShootAt.get(validCavesToShootAt.size() - 1);
         }
-
         return validCavesToShootAt;
     }
 
