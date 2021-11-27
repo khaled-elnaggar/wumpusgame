@@ -1,7 +1,9 @@
 package acceptance;
 
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.But;
 import io.cucumber.java.en.Then;
+import model.game.GameInitialConfigurations;
 import presenter.WumpusPresenter;
 import support.GameWorld;
 
@@ -35,5 +37,19 @@ public class OtherSteps {
         final boolean expectedStatusOfGameIsOver = false;
         final boolean isGameOver = wumpusPresenter.isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
+    }
+
+    @But("cave {int} is not linked to {int}, so arrow will go to {int} instead")
+    public void caveIsNotLinkedToSoArrowWillGotToInstead(int wrongCave, int currentCave, int nextRandomCave) {
+        int[] caveLinks = GameInitialConfigurations.CAVE_LINKS[currentCave];
+        int caveIndex = 0;
+
+        for(int i = 0; i < caveLinks.length; i++){
+            if(caveLinks[i] == nextRandomCave){
+                caveIndex = i;
+            }
+        }
+
+        gameWorld.getRNGBuilder().setNextRandomCaveForArrow(caveIndex);
     }
 }
