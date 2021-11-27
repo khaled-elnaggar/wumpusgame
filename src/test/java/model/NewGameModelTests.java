@@ -751,4 +751,20 @@ public class NewGameModelTests {
 
         assertTrue(game.getWumpus().isDead());
     }
+
+    @Test
+    public void testThatPlayerShootsMultipleNonLinkedCavesWithOneArrowAndDies() {
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        NewGame game = new NewGame(randomNumberGenerator);
+        game.startGame();
+
+        int[] cavesToShootAt = new int[]{1, 15};
+        final int cave9IndexFrom1 = 1;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+                cave9IndexFrom1);
+
+        game.playerShootsToCave(cavesToShootAt);
+
+        assertTrue(game.getPlayer().isDead());
+    }
 }
