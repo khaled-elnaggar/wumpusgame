@@ -713,7 +713,15 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerShootsMultipleLinkedCavesWithOneArrow() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        final int playerStartingCave = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+                playerStartingCave,
+                WUMPUS_STARTING_CAVE_INDEX,
+                FIRST_BAT_STARTING_CAVE_INDEX,
+                SECOND_BAT_STARTING_CAVE_INDEX,
+                FIRST_PIT_CAVE,
+                SECOND_PIT_CAVE
+        );
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
@@ -732,13 +740,12 @@ public class NewGameModelTests {
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-        int[] cavesToShootAt = new int[]{15, 8, 9, 10, 3};
-        final int cave7IndexFrom0 = 2;
-        final int cave18IndexFrom10 = 2;
+        int[] cavesToShootAt = new int[]{15, 2, 11, 10, 3};
+        final int cave1IndexFrom0 = 1;
+        final int cave18IndexFrom10 = 1;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
-                cave7IndexFrom0,
+                cave1IndexFrom0,
                 cave18IndexFrom10);
-
 
         game.playerShootsToCave(cavesToShootAt);
 
