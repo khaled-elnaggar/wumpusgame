@@ -20,7 +20,7 @@ public class NewGameInitializer {
     private ArrayList<Pit> pits;
     private final GameMap gameMap;
 
-    public NewGameInitializer(RandomNumberGenerator randomNumberGenerator, GameMap gameMap){
+    public NewGameInitializer(RandomNumberGenerator randomNumberGenerator, GameMap gameMap) {
         this.randomNumberGenerator = randomNumberGenerator;
         this.gameMap = gameMap;
         initializePlayer();
@@ -32,15 +32,17 @@ public class NewGameInitializer {
     private void initializePlayer() {
         player = new Player(GameInitialConfigurations.NUMBER_OF_ARROWS);
         player.setId(GameInitialConfigurations.PLAYER_ID);
-        InitializeCaveAccordingToCondition(player, cave -> true);
+        Cave cave1 = gameMap.getACaveThatMeetsCondition(cave -> true);
+        cave1.addPlayer(player);
+        player.setCave(cave1);
     }
 
     private void initializeWumpus() {
         wumpus = new Wumpus(randomNumberGenerator);
         wumpus.setId(GameInitialConfigurations.WUMPUS_ID);
 
-        final Predicate<Cave> cavePredicate = Cave::isFreeFromPlayerAndLinkedPlayer;
-        InitializeCaveAccordingToCondition(wumpus, cavePredicate);
+        final Predicate<Cave> cavePredicate = Cave::containsNoPlayerNorLinkedCavePlayer;
+        initializeHazardInCaveAccordingToCondition(wumpus, cavePredicate);
     }
 
     private void initializeBats() {
@@ -49,8 +51,8 @@ public class NewGameInitializer {
             Bat bat = new Bat(gameMap);
             bats.add(bat);
             bat.setId(GameInitialConfigurations.BAT_ID_PREFIX + index);
-            final Predicate<Cave> cavePredicate = cave -> cave.isFreeFromPlayerAndLinkedPlayer() && !cave.containsAny(bats);
-            InitializeCaveAccordingToCondition(bat, cavePredicate);
+            final Predicate<Cave> cavePredicate = cave -> cave.containsNoPlayerNorLinkedCavePlayer() && !cave.containsAny(bats);
+            initializeHazardInCaveAccordingToCondition(bat, cavePredicate);
         }
     }
 
@@ -60,15 +62,15 @@ public class NewGameInitializer {
             Pit pit = new Pit();
             pits.add(pit);
             pit.setId(GameInitialConfigurations.PITS_ID_PREFIX + index);
-            final Predicate<Cave> cavePredicate = cave -> cave.isFreeFromPlayerAndLinkedPlayer() && !cave.containsAny(pits);
-            InitializeCaveAccordingToCondition(pit, cavePredicate);
+            final Predicate<Cave> cavePredicate = cave -> cave.containsNoPlayerNorLinkedCavePlayer() && !cave.containsAny(pits);
+            initializeHazardInCaveAccordingToCondition(pit, cavePredicate);
         }
     }
 
-    private void InitializeCaveAccordingToCondition(GameObject gameObject, Predicate<Cave> cavePredicate) {
-        Cave batCave = gameMap.getACaveThatMeetsCondition(cavePredicate);
-        batCave.addGameObject(gameObject);
-        gameObject.setCave(batCave);
+    private void initializeHazardInCaveAccordingToCondition(GameObject hazard, Predicate<Cave> cavePredicate) {
+        Cave cave = gameMap.getACaveThatMeetsCondition(cavePredicate);
+        cave.addHazard(hazard);
+        hazard.setCave(cave);
     }
 
     public Player getPlayer() {

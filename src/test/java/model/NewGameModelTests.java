@@ -18,6 +18,7 @@ import utilities.RandomNumberGenerator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -102,7 +103,7 @@ public class NewGameModelTests {
 
         Cave playerCave = game.getGameMap().getCaves().get(PLAYER_STARTING_CAVE_INDEX);
         Player player = game.getPlayer();
-        assertTrue(playerCave.getGameObjects().contains(player));
+        assertTrue(playerCave.containsAny(player));
     }
 
     @Test
@@ -117,7 +118,7 @@ public class NewGameModelTests {
 
         Cave wumpusCave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
         Wumpus wumpus = game.getWumpus();
-        assertTrue(wumpusCave.getGameObjects().contains(wumpus));
+        assertTrue(wumpusCave.containsAny(wumpus));
 
     }
 
@@ -138,7 +139,7 @@ public class NewGameModelTests {
             assertEquals(batsStartingCavesIndexes[i], listOfBats.get(i).getCave().getNumber());
             Cave batCave = game.getGameMap().getCaves().get(batsStartingCavesIndexes[i]);
             Bat bat = listOfBats.get(i);
-            assertTrue(batCave.getGameObjects().contains(bat));
+            assertTrue(batCave.containsAny(bat));
         }
     }
 
@@ -159,7 +160,7 @@ public class NewGameModelTests {
             assertEquals(pitsInCavesIndexes[i], listOfPits.get(i).getCave().getNumber());
             Cave PitInCave = game.getGameMap().getCaves().get(pitsInCavesIndexes[i]);
             Pit pit = listOfPits.get(i);
-            assertTrue(PitInCave.getGameObjects().contains(pit));
+            assertTrue(PitInCave.containsAny(pit));
         }
 
     }
@@ -187,7 +188,7 @@ public class NewGameModelTests {
 
         Cave wumpusCave = game.getGameMap().getCaves().get(wumpusStartingCorrectCaveIndex);
         Wumpus wumpus = game.getWumpus();
-        assertTrue(wumpusCave.getGameObjects().contains(wumpus));
+        assertTrue(wumpusCave.containsAny(wumpus));
     }
 
     @Test
@@ -218,7 +219,7 @@ public class NewGameModelTests {
             assertEquals(batsStartingCavesIndexes[i], listOfBats.get(i).getCave().getNumber());
             Cave batCave = game.getGameMap().getCaves().get(batsStartingCavesIndexes[i]);
             Bat bat = listOfBats.get(i);
-            assertTrue(batCave.getGameObjects().contains(bat));
+            assertTrue(batCave.containsAny(bat));
         }
     }
 
@@ -249,7 +250,7 @@ public class NewGameModelTests {
             assertEquals(correctPitsInCavesIndexes[i], listOfPits.get(i).getCave().getNumber());
             Cave PitInCave = game.getGameMap().getCaves().get(correctPitsInCavesIndexes[i]);
             Pit pit = listOfPits.get(i);
-            assertTrue(PitInCave.getGameObjects().contains(pit));
+            assertTrue(PitInCave.containsAny(pit));
         }
 
     }
@@ -285,21 +286,21 @@ public class NewGameModelTests {
 
         Cave wumpusCave = game.getGameMap().getCaves().get(wumpusStartingCorrectCaveIndex);
         Wumpus wumpus = game.getWumpus();
-        assertTrue(wumpusCave.getGameObjects().contains(wumpus));
+        assertTrue(wumpusCave.containsAny(wumpus));
 
         final int actualFirstBatCaveIndex = game.getBats().get(0).getCave().getNumber();
         assertEquals(firstBatStartingCorrectCaveIndex, actualFirstBatCaveIndex);
 
         Cave firstBatCave = game.getGameMap().getCaves().get(firstBatStartingCorrectCaveIndex);
         Bat bat = game.getBats().get(0);
-        assertTrue(firstBatCave.getGameObjects().contains(bat));
+        assertTrue(firstBatCave.containsAny(bat));
 
         final int actualFirstPitCaveIndex = game.getPits().get(0).getCave().getNumber();
         assertEquals(firstPitStartingCorrectCaveIndex, actualFirstPitCaveIndex);
 
         Cave firstPitCave = game.getGameMap().getCaves().get(firstPitStartingCorrectCaveIndex);
         Pit pit = game.getPits().get(0);
-        assertTrue(firstPitCave.getGameObjects().contains(pit));
+        assertTrue(firstPitCave.containsAny(pit));
     }
 
     @Test
@@ -317,10 +318,10 @@ public class NewGameModelTests {
 
         Cave currentPlayerCave = game.getGameMap().getCaves().get(caveIndexToMoveTo);
         Player player = game.getPlayer();
-        assertTrue(currentPlayerCave.getGameObjects().contains(player));
+        assertTrue(currentPlayerCave.containsAny(player));
 
         Cave pastPlayerCave = game.getGameMap().getCaves().get(PLAYER_STARTING_CAVE_INDEX);
-        assertFalse(pastPlayerCave.getGameObjects().contains(player));
+        assertFalse(pastPlayerCave.containsAny(player));
     }
 
     @Test
@@ -339,10 +340,10 @@ public class NewGameModelTests {
 
         Cave currentPlayerCave = game.getGameMap().getCaves().get(caveIndexToMoveTo);
         Player player = game.getPlayer();
-        assertFalse(currentPlayerCave.getGameObjects().contains(player));
+        assertFalse(currentPlayerCave.containsAny(player));
 
         Cave pastPlayerCave = game.getGameMap().getCaves().get(PLAYER_STARTING_CAVE_INDEX);
-        assertTrue(pastPlayerCave.getGameObjects().contains(player));
+        assertTrue(pastPlayerCave.containsAny(player));
     }
 
     @Test
@@ -475,7 +476,7 @@ public class NewGameModelTests {
         assertEquals(expectedWumpusCaveIndex, actualWumpusCaveIndex);
 
         final Cave initialWumpusCave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
-        assertFalse(initialWumpusCave.getGameObjects().contains(game.getWumpus()));
+        assertFalse(initialWumpusCave.containsAny(game.getWumpus()));
 
         final boolean actualGameState = game.isGameOver();
         final boolean gameIsNotOver = false;
@@ -532,7 +533,7 @@ public class NewGameModelTests {
         assertEquals(expectedWumpusCaveIndex, actualWumpusCaveIndex);
 
         final Cave initialWumpusCave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
-        assertFalse(initialWumpusCave.getGameObjects().contains(game.getWumpus()));
+        assertFalse(initialWumpusCave.containsAny(game.getWumpus()));
 
         final boolean actualGameState = game.isGameOver();
         final boolean gameIsOver = true;
@@ -579,8 +580,8 @@ public class NewGameModelTests {
         assertEquals(firstBatFinalCaveIndex, firstBatActualCave.getNumber());
 
         final Cave previousCave = game.getGameMap().getCaves().get(FIRST_BAT_STARTING_CAVE_INDEX);
-        assertFalse(previousCave.getGameObjects().contains(game.getPlayer()));
-        assertFalse(previousCave.getGameObjects().contains(firstBat));
+        assertFalse(previousCave.containsAny(game.getPlayer()));
+        assertFalse(previousCave.containsAny(firstBat));
 
         game.playerMovesToCave(secondBatStartingCaveIndex);
 
@@ -593,8 +594,8 @@ public class NewGameModelTests {
         assertEquals(secondBatFinalCaveIndex, secondBatActualCave.getNumber());
 
         final Cave secondBatPreviousCave = game.getGameMap().getCaves().get(secondBatStartingCaveIndex);
-        assertFalse(secondBatPreviousCave.getGameObjects().contains(game.getPlayer()));
-        assertFalse(secondBatPreviousCave.getGameObjects().contains(secondBat));
+        assertFalse(secondBatPreviousCave.containsAny(game.getPlayer()));
+        assertFalse(secondBatPreviousCave.containsAny(secondBat));
 
     }
 
@@ -632,8 +633,8 @@ public class NewGameModelTests {
         assertEquals(firstBatFinalCaveIndex, firstBatActualCave.getNumber());
 
         final Cave previousCave = game.getGameMap().getCaves().get(FIRST_BAT_STARTING_CAVE_INDEX);
-        assertFalse(previousCave.getGameObjects().contains(game.getPlayer()));
-        assertFalse(previousCave.getGameObjects().contains(firstBat));
+        assertFalse(previousCave.containsAny(game.getPlayer()));
+        assertFalse(previousCave.containsAny(firstBat));
     }
 
     @Test
@@ -673,9 +674,9 @@ public class NewGameModelTests {
 
         Cave cave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
 
-        assertTrue(cave.getGameObjects().get(0) instanceof Pit);
-        assertTrue(cave.getGameObjects().get(1) instanceof Wumpus);
-        assertTrue(cave.getGameObjects().get(2) instanceof Bat);
+        assertTrue(cave.getHazards().get(0) instanceof Pit);
+        assertTrue(cave.getHazards().get(1) instanceof Wumpus);
+        assertTrue(cave.getHazards().get(2) instanceof Bat);
 
     }
 
@@ -694,7 +695,7 @@ public class NewGameModelTests {
         List<Cave> allCaves = game.getGameMap().getCaves();
 
         allCaves.stream()
-                .flatMap(cave -> cave.getGameObjects().stream())
+                .flatMap(cave -> Stream.concat(cave.getPlayers().stream(), cave.getHazards().stream()))
                 .map(gameObject -> gameObject.getClass().getSimpleName())
                 .forEach(gameObjectClassName -> creaturesAndTheirCount.put(gameObjectClassName, creaturesAndTheirCount.get(gameObjectClassName) + 1));
 

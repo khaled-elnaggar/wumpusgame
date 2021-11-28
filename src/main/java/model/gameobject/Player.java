@@ -49,19 +49,14 @@ public class Player extends GameObject implements Killable {
     private void changeMyCaveLocationTo(Cave caveToMoveTo) {
         this.getCave().removeGameObject(this);
         this.setCave(caveToMoveTo);
-        caveToMoveTo.addGameObject(this);
+        caveToMoveTo.addPlayer(this);
     }
 
     private void executePostMoveActions() {
-        List<GameObject> gameObjects = this.getCave().getGameObjects();
-        List<GameObject> copyOfGameObjects = new ArrayList<>(gameObjects);
-
-        for (GameObject gameObject : copyOfGameObjects) {
-            if (gameObject instanceof Hazard) {
-                ((Hazard) gameObject).executeActionOnPlayer(this);
-                if (isDead()) {
-                    break;
-                }
+        for (Hazard hazard : getCave().getHazards()) {
+            hazard.executeActionOnPlayer(this);
+            if (isDead()) {
+                break;
             }
         }
     }
@@ -70,9 +65,7 @@ public class Player extends GameObject implements Killable {
         List<Cave> linkedCaves = this.getCave().getLinkedCaves();
 
         linkedCaves.stream()
-                .flatMap(cave -> cave.getGameObjects().stream())
-                .filter(gameObject -> gameObject instanceof Hazard)
-                .map(gameObject -> ((Hazard) gameObject))
+                .flatMap(cave -> cave.getHazards().stream())
                 .map(Hazard::getWarningInTheLinkedCave)
                 .forEach(warnings::add);
     }
@@ -97,9 +90,7 @@ public class Player extends GameObject implements Killable {
     }
 
     public void shootSingle(Cave caveToShoot) {
-        caveToShoot.getGameObjects().stream()
-                .filter(gameObject -> gameObject instanceof Killable)
-                .map(gameObject -> ((Killable) gameObject))
+        caveToShoot.getKillables()
                 .forEach(Killable::kill);
     }
 

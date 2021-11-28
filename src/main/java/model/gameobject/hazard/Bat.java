@@ -20,7 +20,7 @@ public class Bat extends GameObject implements Hazard {
         Cave caveToMoveTo = getRandomCaveWithNoPlayerOrBatInsideIt();
         this.getCave().removeGameObject(this);
         this.setCave(caveToMoveTo);
-        caveToMoveTo.addGameObject(this);
+        caveToMoveTo.addHazard(this);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class Bat extends GameObject implements Hazard {
     }
 
     private Cave getRandomCaveWithNoPlayerOrBatInsideIt() {
-        return gameMap.getACaveThatMeetsCondition(cave -> cave.getGameObjects().stream().allMatch(gameObject -> !(gameObject instanceof Player) && !(gameObject instanceof Bat)));
+        return gameMap.getACaveThatMeetsCondition(Cave::containsNoPlayerNorBat);
     }
 
     @Override

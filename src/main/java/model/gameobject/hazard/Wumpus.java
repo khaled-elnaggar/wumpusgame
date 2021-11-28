@@ -31,14 +31,7 @@ public class Wumpus extends GameObject implements Hazard, Killable {
 
     public void wakeup(int randomLinkedCaveIndex) {
         this.move(randomLinkedCaveIndex);
-
-        Optional<GameObject> player = this.getCave().getGameObjects().stream()
-                .filter(gameObject -> gameObject instanceof Player)
-                .findFirst();
-
-        if(player.isPresent()){
-            executeActionOnPlayer((Player) player.get());
-        }
+        this.getCave().getPlayers().forEach(this::executeActionOnPlayer);
     }
 
     private void move(int randomLinkedCaveIndex) {
@@ -46,7 +39,7 @@ public class Wumpus extends GameObject implements Hazard, Killable {
 
         Cave caveToMoveTo = (Cave) this.getCave().getLinkedCaves().toArray()[randomLinkedCaveIndex];
         this.setCave(caveToMoveTo);
-        caveToMoveTo.addGameObject(this);
+        caveToMoveTo.addHazard(this);
     }
 
     @Override
