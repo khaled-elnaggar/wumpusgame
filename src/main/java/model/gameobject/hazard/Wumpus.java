@@ -2,14 +2,12 @@ package model.gameobject.hazard;
 
 import model.gamemap.Cave;
 import model.game.GameInitialConfigurations;
-import model.gameobject.GameObject;
 import model.gameobject.Killable;
 import model.gameobject.Player;
 import utilities.RandomNumberGenerator;
 
-import java.util.Optional;
 
-public class Wumpus extends GameObject implements Hazard, Killable {
+public class Wumpus extends Hazard implements Killable {
     final String warningInTheSameCave = "You woke the Wumpus and it ate you";
     final String warningInTheLinkedCave = "there's an awful smell";
     private final RandomNumberGenerator randomNumberGenerator;

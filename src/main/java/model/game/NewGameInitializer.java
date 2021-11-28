@@ -2,9 +2,9 @@ package model.game;
 
 import model.gamemap.Cave;
 import model.gamemap.GameMap;
-import model.gameobject.GameObject;
 import model.gameobject.Player;
 import model.gameobject.hazard.Bat;
+import model.gameobject.hazard.Hazard;
 import model.gameobject.hazard.Pit;
 import model.gameobject.hazard.Wumpus;
 import utilities.RandomNumberGenerator;
@@ -67,7 +67,7 @@ public class NewGameInitializer {
         }
     }
 
-    private void initializeHazardInCaveAccordingToCondition(GameObject hazard, Predicate<Cave> cavePredicate) {
+    private void initializeHazardInCaveAccordingToCondition(Hazard hazard, Predicate<Cave> cavePredicate) {
         Cave cave = gameMap.getACaveThatMeetsCondition(cavePredicate);
         cave.addHazard(hazard);
         hazard.setCave(cave);

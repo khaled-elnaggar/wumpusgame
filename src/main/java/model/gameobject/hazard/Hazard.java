@@ -1,9 +1,12 @@
 package model.gameobject.hazard;
 
+import model.gameobject.GameObject;
 import model.gameobject.Player;
 
-public interface Hazard {
-    void executeActionOnPlayer(Player player);
-    String getWarningInTheLinkedCave();
-    String getWarningInTheSameCave();
+public abstract class Hazard extends GameObject {
+    public abstract void executeActionOnPlayer(Player player);
+
+    public abstract String getWarningInTheLinkedCave();
+
+    public abstract String getWarningInTheSameCave();
 }

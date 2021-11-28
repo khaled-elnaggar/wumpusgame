@@ -17,7 +17,7 @@ public class Cave {
     private final int number;
     private final List<Cave> linkedCaves = new ArrayList<>();
     private final List<Player> players = new ArrayList<>();
-    private final List<GameObject> hazards = new ArrayList<>();
+    private final List<Hazard> hazards = new ArrayList<>();
 
     public Cave(int number) {
         this.number = number;
@@ -38,7 +38,7 @@ public class Cave {
         this.players.add(player);
     }
 
-    public void addHazard(GameObject hazard) {
+    public void addHazard(Hazard hazard) {
         this.hazards.add(hazard);
         Collections.sort(this.hazards);
     }
@@ -57,11 +57,11 @@ public class Cave {
     }
 
     public List<Hazard> getHazards() {
-        return this.hazards.stream().map(gameObject -> (Hazard) gameObject).collect(toList());
+        return new ArrayList<>(this.hazards);
     }
 
     public List<Player> getPlayers() {
-        return this.players;
+        return new ArrayList<>(this.players);
     }
 
     public List<Killable> getKillables() {
