@@ -10,7 +10,7 @@ import java.util.List;
 public class Player extends GameObject implements Killable {
     private boolean dead;
     private final Arrow arrow;
-    private final List<String> warnings;
+    private final List<String> warnings = new ArrayList<>();
 
     @Override
     public void kill() {
@@ -18,14 +18,10 @@ public class Player extends GameObject implements Killable {
     }
 
     public Player(int numberOfArrows) {
-        warnings = new ArrayList<>();
-        arrow = new Arrow();
-        this.arrow.initializeNumberOfArrows(numberOfArrows);
+        arrow = new Arrow(numberOfArrows);
     }
 
     public void move(Cave caveToMoveTo) {
-        this.warnings.clear();
-
         if (this.isMyCurrentCaveLinkedTo(caveToMoveTo)) {
             changeMyCaveLocationTo(caveToMoveTo);
         }
@@ -35,11 +31,10 @@ public class Player extends GameObject implements Killable {
     }
 
     private boolean isMyCurrentCaveLinkedTo(Cave caveToMoveTo) {
-        return this.getCave().getLinkedCaves().contains(caveToMoveTo);
+        return this.getCave().isLinkedTo(caveToMoveTo);
     }
 
     public void teleport(Cave caveToMoveTo) {
-        this.warnings.clear();
         changeMyCaveLocationTo(caveToMoveTo);
         addAWarning("a bat dropped you in a random cave");
         executePostMoveActions();
@@ -47,6 +42,7 @@ public class Player extends GameObject implements Killable {
     }
 
     private void changeMyCaveLocationTo(Cave caveToMoveTo) {
+        this.warnings.clear();
         this.getCave().removeGameObject(this);
         this.setCave(caveToMoveTo);
         caveToMoveTo.addPlayer(this);

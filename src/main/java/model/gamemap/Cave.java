@@ -79,7 +79,7 @@ public class Cave {
         return this.players.isEmpty();
     }
     public boolean containsNoPlayerNorLinkedCavePlayer() {
-        return containsNoPlayer() && this.getLinkedCaves().stream().allMatch(Cave::containsNoPlayer);
+        return containsNoPlayer() && this.linkedCaves.stream().allMatch(Cave::containsNoPlayer);
     }
 
     public boolean containsNoPlayerNorBat(){

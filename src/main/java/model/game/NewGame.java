@@ -9,7 +9,8 @@ import model.gameobject.hazard.Wumpus;
 import utilities.RandomNumberGenerator;
 
 import java.util.*;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public class NewGame implements Game {
 
@@ -57,7 +58,7 @@ public class NewGame implements Game {
     }
 
     private List<Cave> validateCavesToShootAt(int... caves) {
-        List<Cave> cavesToShootAt = Arrays.stream(caves).mapToObj(cave -> gameMap.getCaves().get(cave)).collect(Collectors.toList());
+        List<Cave> cavesToShootAt = Arrays.stream(caves).mapToObj(cave -> gameMap.getCaves().get(cave)).collect(toList());
         List<Cave> validCavesToShootAt = new ArrayList<>();
 
         Cave arrowCurrentCave = player.getCave();

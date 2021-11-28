@@ -18,13 +18,17 @@ public class Wumpus extends Hazard implements Killable {
     }
 
     @Override
-    public String getWarningInTheLinkedCave() {
-        return this.warningInTheLinkedCave;
+    public void executeActionOnPlayer(Player player) {
+        player.kill();
+        player.addAWarning(this.warningInTheSameCave);
     }
 
-    @Override
-    public String getWarningInTheSameCave() {
-        return this.warningInTheSameCave;
+    public void attemptToWakeup() {
+        int maximumNumberForCalculatingWumpusWakeupProbability = GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY;
+        if (randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability) != 0) { // 75 %
+            int randomLinkedCaveIndex = randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES);
+            wakeup(randomLinkedCaveIndex);
+        }
     }
 
     public void wakeup(int randomLinkedCaveIndex) {
@@ -40,12 +44,6 @@ public class Wumpus extends Hazard implements Killable {
         caveToMoveTo.addHazard(this);
     }
 
-    @Override
-    public void executeActionOnPlayer(Player player) {
-        player.kill();
-        player.addAWarning(this.warningInTheSameCave);
-    }
-
     public boolean isDead() {
         return dead;
     }
@@ -55,16 +53,18 @@ public class Wumpus extends Hazard implements Killable {
         this.dead = true;
     }
 
-    public void attemptToWakeup() {
-            int maximumNumberForCalculatingWumpusWakeupProbability = GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY;
-            if (randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability) != 0) { // 75 %
-                int randomLinkedCaveIndex = randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES);
-                wakeup(randomLinkedCaveIndex);
-        }
-    }
-
     @Override
     public int getPrecedence() {
         return 2;
+    }
+
+    @Override
+    public String getWarningInTheLinkedCave() {
+        return this.warningInTheLinkedCave;
+    }
+
+    @Override
+    public String getWarningInTheSameCave() {
+        return this.warningInTheSameCave;
     }
 }

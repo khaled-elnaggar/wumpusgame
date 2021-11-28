@@ -1,17 +1,18 @@
 package model;
 
 public class Arrow {
-    private int numberOfArrow;
+    private int numberOfArrows;
 
-    public void initializeNumberOfArrows(int numberOfArrow) {
-        this.numberOfArrow = numberOfArrow;
+    public Arrow(int numberOfArrows) {
+        this.numberOfArrows = numberOfArrows;
+
     }
 
     public void decrementByOne() {
-        this.numberOfArrow--;
+        this.numberOfArrows--;
     }
 
     public int getNumber() {
-        return numberOfArrow;
+        return numberOfArrows;
     }
 }
