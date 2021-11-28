@@ -20,11 +20,6 @@ public abstract class GameObject implements Comparable<GameObject> {
         return id.equals(gameObject.id);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
     public void setCave(Cave cave) {
         this.cave = cave;
     }

@@ -28,11 +28,6 @@ public class Cave {
         return number == cave.number;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(number);
-    }
-
     public void addLink(Cave linkedCave) {
         this.linkedCaves.add(linkedCave);
     }
