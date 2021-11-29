@@ -11,4 +11,5 @@ public interface Game {
      List<String> getWarnings();
      int getWumpusCaveIndex();
      int getPlayerCaveIndex();
+     int getEnemyPlayerCaveIndex();
 }

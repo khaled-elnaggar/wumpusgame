@@ -41,7 +41,7 @@ public class WumpusPresenterImpl implements WumpusPresenter {
 
     @Override
     public int getEnemyPlayerCave() {
-        return 0;
+        return gameModel.getEnemyPlayerCaveIndex();
     }
 
 

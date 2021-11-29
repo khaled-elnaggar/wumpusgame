@@ -198,4 +198,11 @@ public class LegacyGame implements Game {
         return playerCave;
     }
 
+    @Override
+    public int getEnemyPlayerCaveIndex() {
+        //TODO: Make not implement GameModel
+        return 0;
+    }
+
+
 }

@@ -117,6 +117,11 @@ public class NewGame implements Game {
         return player.getCave().getNumber();
     }
 
+    @Override
+    public int getEnemyPlayerCaveIndex() {
+        return enemyPlayer.getCave().getNumber();
+    }
+
     public Player getPlayer() {
         return this.player;
     }
@@ -131,9 +136,5 @@ public class NewGame implements Game {
 
     public List<Pit> getPits() {
         return this.pits;
-    }
-
-    public int getEnemyPlayerCaveIndex() {
-        return enemyPlayer.getCave().getNumber();
     }
 }
