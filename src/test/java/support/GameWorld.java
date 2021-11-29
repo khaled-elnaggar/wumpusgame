@@ -1,5 +1,6 @@
 package support;
 
+import model.game.GameInitialConfigurations;
 import presenter.WumpusPresenter;
 import presenter.WumpusPresenterImpl;
 import utilities.RandomNumberGenerator;
@@ -22,5 +23,18 @@ public class GameWorld {
         }
         return this.wumpusPresenter;
     }
+
+    public int getCaveIndexOutOfCave(int cave, int linkedCave) throws Exception {
+        int[] caveLinks = GameInitialConfigurations.CAVE_LINKS[cave];
+
+        for(int i = 0; i < caveLinks.length; i++){
+            if(caveLinks[i] == linkedCave){
+                return i;
+            }
+        }
+
+        throw new Exception("Cave " + linkedCave + " is not actually linked to " + cave);
+    }
+
 }
 

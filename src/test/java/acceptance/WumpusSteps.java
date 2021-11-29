@@ -35,17 +35,9 @@ public class WumpusSteps {
     }
 
     @But("wumpus will wake up and move to cave {int}")
-    public void wumpusWillWakeUpAndMoveToCave(int cave) {
-        int currCave = gameWorld.getWumpusPresenter().getWumpusCaveIndex();
-        int[] caveLinks = GameInitialConfigurations.CAVE_LINKS[currCave];
-        int caveIndex = 0;
-
-        for(int i = 0; i < caveLinks.length; i++){
-            if(caveLinks[i] == cave){
-                caveIndex = i;
-            }
-        }
-
+    public void wumpusWillWakeUpAndMoveToCave(int cave) throws Exception {
+        final int currentWumpusCave = gameWorld.getWumpusPresenter().getWumpusCaveIndex();
+        int caveIndex = gameWorld.getCaveIndexOutOfCave(currentWumpusCave, cave);
         gameWorld.getRNGBuilder().makeWumpusMoveTo(caveIndex);
     }
 }
