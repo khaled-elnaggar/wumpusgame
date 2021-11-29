@@ -27,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class NewGameModelTests {
 
     public static final int PLAYER_STARTING_CAVE_INDEX = 9;
-    public static final int ENEMY_PLAYER_STARTING_CAVE_INDEX = 6;
+    public static final int ENEMY_PLAYER_STARTING_CAVE_INDEX = 11;
     public static final int WUMPUS_STARTING_CAVE_INDEX = 18;
     public static final int FIRST_BAT_STARTING_CAVE_INDEX = 19;
     public static final int SECOND_BAT_STARTING_CAVE_INDEX = 13;
@@ -174,6 +174,7 @@ public class NewGameModelTests {
 
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
+                ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 wumpusStartingWrongCaveIndex,
                 wumpusStartingCorrectCaveIndex,
                 FIRST_BAT_STARTING_CAVE_INDEX,
@@ -202,6 +203,7 @@ public class NewGameModelTests {
 
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
+                ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 secondBatWrongStartingCaveIndex,
@@ -233,6 +235,7 @@ public class NewGameModelTests {
 
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
+                ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 SECOND_BAT_STARTING_CAVE_INDEX,
@@ -270,6 +273,7 @@ public class NewGameModelTests {
 
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
+                ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 wumpusStartingWrongCaveIndex,
                 wumpusStartingCorrectCaveIndex,
                 firstBatStartingWrongCaveIndex,
@@ -553,6 +557,7 @@ public class NewGameModelTests {
         final int secondBatStartingCaveIndex = 14;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
+                ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 secondBatStartingCaveIndex,
@@ -608,6 +613,7 @@ public class NewGameModelTests {
 
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
+                ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 SECOND_BAT_STARTING_CAVE_INDEX,
@@ -664,6 +670,7 @@ public class NewGameModelTests {
 
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
+                ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 SECOND_BAT_STARTING_CAVE_INDEX,
@@ -701,7 +708,7 @@ public class NewGameModelTests {
                 .map(gameObject -> gameObject.getClass().getSimpleName())
                 .forEach(gameObjectClassName -> creaturesAndTheirCount.put(gameObjectClassName, creaturesAndTheirCount.get(gameObjectClassName) + 1));
 
-        final int playersCount = 1;
+        final int playersCount = 2;
         assertEquals(playersCount, creaturesAndTheirCount.get("Player"));
 
         final int wumpusCount = 1;
@@ -719,6 +726,7 @@ public class NewGameModelTests {
         final int playerStartingCave = 0;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 playerStartingCave,
+                ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 SECOND_BAT_STARTING_CAVE_INDEX,
