@@ -35,6 +35,7 @@ public class NewGameModelTests {
     public static final int SECOND_PIT_CAVE = 13;
     @Mock
     RandomNumberGenerator randomNumberGenerator;
+    private final int maxPossibilityEnemyPlayerTakeAction = 1;
 
     private void configureMockingBasedOnDefaultLocationOfGameObjectsOnMap() {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
@@ -46,6 +47,12 @@ public class NewGameModelTests {
                 FIRST_PIT_CAVE,
                 SECOND_PIT_CAVE
         );
+    }
+
+    private void makeEnemyPlayerSleep() {
+        final int numberAtWhichEnemyPlayerWillRemainAsleep = 3;
+        Mockito.when(randomNumberGenerator.generateNumber(maxPossibilityEnemyPlayerTakeAction))
+                .thenReturn(numberAtWhichEnemyPlayerWillRemainAsleep);
     }
 
     @Test
@@ -312,6 +319,7 @@ public class NewGameModelTests {
     @Test
     public void testThatThePlayerCanMoveToALinkedCave() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -333,6 +341,7 @@ public class NewGameModelTests {
     @Test
     public void testMoveToNonConnectedCave() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -355,6 +364,7 @@ public class NewGameModelTests {
     @Test
     public void testMovingPlayerToCaveThatHasAWumups() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -377,6 +387,7 @@ public class NewGameModelTests {
     @Test
     public void testMovingPlayerToACaveNearAWumpusAndSensingTheWumpus() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -399,6 +410,7 @@ public class NewGameModelTests {
     @Test
     public void testThatPlayerEnterRoomWithPit() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -419,6 +431,7 @@ public class NewGameModelTests {
     @Test
     public void testKillingTheWumpus() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -436,6 +449,7 @@ public class NewGameModelTests {
     @Test
     public void testThatPlayerShootsAnArrowThatMissesTheWumpusAndWumpusRemainsSleeping() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
         final int numberAtWhichWumpusWillRemainSleeping = 0;
@@ -514,6 +528,7 @@ public class NewGameModelTests {
     @Test
     public void testThatPlayerShootsAnArrowMissesWumpusAndWumpusWakesUpAndMoveToEatThePlayer() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
         final int numberAtWhichWumpusWillWakeUp = 1;
@@ -548,6 +563,7 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerEnterRoomWithBatTwice() {
+        makeEnemyPlayerSleep();
         final int playerFirstDropDownCaveIndex = 15;
         final int firstBatFinalCaveIndex = 2;
 
@@ -608,6 +624,7 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerEnterRoomWithBat() {
+        makeEnemyPlayerSleep();
         final int playerDropDownCaveIndex = 8;
         final int firstBatFinalCaveIndex = 2;
 
@@ -647,6 +664,7 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerEnterRoomWithPitAndBat() {
+        makeEnemyPlayerSleep();
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         NewGame game = new NewGame(randomNumberGenerator);
@@ -780,7 +798,7 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testThatEnemyPlayerIsInitialized(){
+    public void testThatEnemyPlayerIsInitialized() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         NewGame game = new NewGame(randomNumberGenerator);
@@ -791,10 +809,9 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testThatEnemyPlayerMovesAfterPlayerAction(){
+    public void testThatEnemyPlayerMovesAfterPlayerAction() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        final int maxPossibilityEnemyPlayerTakeAction = 1;
         final int numberAtWhichEnemyPlayerWillMove = 0;
         Mockito.when(randomNumberGenerator.generateNumber(maxPossibilityEnemyPlayerTakeAction)).thenReturn(numberAtWhichEnemyPlayerWillMove);
 
