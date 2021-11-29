@@ -47,6 +47,7 @@ public class NewGame implements Game {
     public void playerMovesToCave(int cave) {
         Cave caveToMoveTo = gameMap.getCaves().get(cave);
         player.move(caveToMoveTo);
+        enemyPlayerTakeAction();
     }
 
     @Override
@@ -78,7 +79,13 @@ public class NewGame implements Game {
         return validCavesToShootAt;
     }
 
-
+    public void enemyPlayerTakeAction(){
+        final int fiftyPercentChance = randomNumberGenerator.generateNumber(1);
+        if(fiftyPercentChance == 0){
+            Cave caveToMoveTo = enemyPlayer.getCave().getLinkedCaves().get(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES));
+            enemyPlayer.move(caveToMoveTo);
+        }
+    }
 
 
     public GameMap getGameMap() {
