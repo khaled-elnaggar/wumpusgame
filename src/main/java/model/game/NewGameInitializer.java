@@ -19,11 +19,13 @@ public class NewGameInitializer {
     private ArrayList<Bat> bats;
     private ArrayList<Pit> pits;
     private final GameMap gameMap;
+    private Player enemyPlayer;
 
     public NewGameInitializer(RandomNumberGenerator randomNumberGenerator, GameMap gameMap) {
         this.randomNumberGenerator = randomNumberGenerator;
         this.gameMap = gameMap;
         initializePlayer();
+        initializeEnemyPlayer();
         initializeWumpus();
         initializeBats();
         initializePits();
@@ -35,6 +37,14 @@ public class NewGameInitializer {
         Cave cave1 = gameMap.getACaveThatMeetsCondition(cave -> true);
         cave1.addPlayer(player);
         player.setCave(cave1);
+    }
+
+    private void initializeEnemyPlayer() {
+        enemyPlayer = new Player(GameInitialConfigurations.NUMBER_OF_ARROWS);
+        enemyPlayer.setId("Enemy " + GameInitialConfigurations.PLAYER_ID);
+        Cave cave = gameMap.getACaveThatMeetsCondition(Cave::containsNoPlayerNorLinkedCavePlayer);
+        cave.addPlayer(enemyPlayer);
+        enemyPlayer.setCave(cave);
     }
 
     private void initializeWumpus() {
@@ -75,6 +85,10 @@ public class NewGameInitializer {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public Player getEnemyPlayer() {
+        return this.enemyPlayer;
     }
 
     public Wumpus getWumpus() {

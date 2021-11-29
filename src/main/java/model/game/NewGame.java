@@ -17,6 +17,7 @@ public class NewGame implements Game {
     private GameMap gameMap;
     private final RandomNumberGenerator randomNumberGenerator;
     private Player player;
+    private Player enemyPlayer;
     private Wumpus wumpus;
     private List<Bat> bats;
     private List<Pit> pits;
@@ -36,6 +37,7 @@ public class NewGame implements Game {
         gameMap = new GameMap(randomNumberGenerator);
         NewGameInitializer newGameInitializer = new NewGameInitializer(randomNumberGenerator, gameMap);
         player = newGameInitializer.getPlayer();
+        enemyPlayer = newGameInitializer.getEnemyPlayer();
         wumpus = newGameInitializer.getWumpus();
         bats = newGameInitializer.getBats();
         pits = newGameInitializer.getPits();
@@ -125,6 +127,6 @@ public class NewGame implements Game {
     }
 
     public int getEnemyPlayerCaveIndex() {
-        return 0;
+        return enemyPlayer.getCave().getNumber();
     }
 }
