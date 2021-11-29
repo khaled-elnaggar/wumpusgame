@@ -1,5 +1,6 @@
 package support;
 
+import io.cucumber.java.PendingException;
 import model.game.GameInitialConfigurations;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -21,6 +22,7 @@ public class RandomNumberGeneratorBuilder {
     List<Integer> teleportCaves = new ArrayList<>();
 
     int playerStartingCave = 0;
+    int enemyPlayerStartingCave = 6;
     int wumpusStartingCave = 18;
     int firstBatStartingCave = 19;
     int secondBatStartingCave = 13;
@@ -34,7 +36,9 @@ public class RandomNumberGeneratorBuilder {
     }
 
     private void mockTheRandomNumberGenerator() {
-        randomReturnsWhenCalledWith20.addAll(Arrays.asList(playerStartingCave,
+        randomReturnsWhenCalledWith20.addAll(Arrays.asList(
+                playerStartingCave,
+                enemyPlayerStartingCave,
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
@@ -96,6 +100,18 @@ public class RandomNumberGeneratorBuilder {
     }
 
     public void setNextRandomCaveForArrow(int caveIndex) {
+        randomReturnsWhenCalledWith3.add(caveIndex);
+    }
+
+    public void setEnemyPlayerStartingCave(int enemyPlayerStartingCave) {
+        this.enemyPlayerStartingCave = enemyPlayerStartingCave;
+    }
+
+    public void makeEnemyPlayerMoveToCave(int caveIndex) {
+        final int numberAtWhichEnemyPlayerWillMove = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(1)).thenReturn(
+                numberAtWhichEnemyPlayerWillMove);
+
         randomReturnsWhenCalledWith3.add(caveIndex);
     }
 }

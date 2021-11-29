@@ -11,4 +11,5 @@ public interface WumpusPresenter {
     int getNumberOfArrows();
     List<String> getWarnings();
     int getWumpusCaveIndex();
+    int getEnemyPlayerCave();
 }
