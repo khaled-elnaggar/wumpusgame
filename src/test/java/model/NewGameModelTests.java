@@ -35,7 +35,6 @@ public class NewGameModelTests {
     public static final int SECOND_PIT_CAVE = 13;
     @Mock
     RandomNumberGenerator randomNumberGenerator;
-    private final int maxPossibilityEnemyPlayerTakeAction = 1;
 
     private void configureMockingBasedOnDefaultLocationOfGameObjectsOnMap() {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
@@ -51,7 +50,7 @@ public class NewGameModelTests {
 
     private void makeEnemyPlayerSleep() {
         final int numberAtWhichEnemyPlayerWillRemainAsleep = 3;
-        Mockito.when(randomNumberGenerator.generateNumber(maxPossibilityEnemyPlayerTakeAction))
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
                 .thenReturn(numberAtWhichEnemyPlayerWillRemainAsleep);
     }
 
@@ -809,11 +808,12 @@ public class NewGameModelTests {
     }
 
     @Test
-    public void testThatEnemyPlayerMovesAfterPlayerAction() {
+    public void testThatEnemyPlayerMovesAfterPlayerMoves() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         final int numberAtWhichEnemyPlayerWillMove = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(maxPossibilityEnemyPlayerTakeAction)).thenReturn(numberAtWhichEnemyPlayerWillMove);
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
+                .thenReturn(numberAtWhichEnemyPlayerWillMove);
 
         final int caveIndexToMoveTo = 1;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
@@ -831,4 +831,26 @@ public class NewGameModelTests {
         assertEquals(expectedEnemyPlayerCave, game.getEnemyPlayerCaveIndex());
     }
 
+    @Test
+    public void testThatEnemyPlayerMovesAfterPlayerShoots() {
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        final int numberAtWhichEnemyPlayerWillMove = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
+                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+
+        final int caveIndexToMoveTo = 1;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+                caveIndexToMoveTo);
+
+        NewGame game = new NewGame(randomNumberGenerator);
+        game.startGame();
+
+
+        final int caveToShootAt = 1;
+        game.playerMovesToCave(caveToShootAt);
+
+        final int expectedEnemyPlayerCave = GameInitialConfigurations.CAVE_LINKS[ENEMY_PLAYER_STARTING_CAVE_INDEX][caveIndexToMoveTo];
+
+        assertEquals(expectedEnemyPlayerCave, game.getEnemyPlayerCaveIndex());
+    }
 }
