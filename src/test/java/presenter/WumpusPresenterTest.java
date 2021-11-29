@@ -21,21 +21,34 @@ class WumpusPresenterTest {
     RandomNumberGenerator randomNumberGenerator;
 
     final int playerStartingCave = 0;
+    public static final int ENEMY_PLAYER_STARTING_CAVE_INDEX = 11;
     final int wumpusStartingCave = 18;
     final int firstBatStartingCave = 19;
     final int secondBatStartingCave = 13;
     final int firstPitCave = 3;
     final int secondPitCave = 13;
 
-    @Test
-    public void testMovingPlayerToCave() {
+    private void configureMockingBasedOnDefaultLocationOfGameObjectsOnMap() {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 playerStartingCave,
+                ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
                 firstPitCave,
                 secondPitCave);
+    }
+
+    private void makeEnemyPlayerSleep() {
+        final int numberAtWhichEnemyPlayerWillRemainAsleep = 3;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
+                .thenReturn(numberAtWhichEnemyPlayerWillRemainAsleep);
+    }
+
+    @Test
+    public void testMovingPlayerToCave() {
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         WumpusPresenter wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
         wumpusPresenter.startNewGame();
@@ -54,13 +67,8 @@ class WumpusPresenterTest {
 
     @Test
     public void testMoveToNonConnectedCave() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                playerStartingCave,
-                wumpusStartingCave,
-                firstBatStartingCave,
-                secondBatStartingCave,
-                firstPitCave,
-                secondPitCave);
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         WumpusPresenter wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
         wumpusPresenter.startNewGame();
@@ -78,13 +86,8 @@ class WumpusPresenterTest {
 
     @Test
     public void testMovingPlayerToCaveThatHasAWumups() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                playerStartingCave,
-                wumpusStartingCave,
-                firstBatStartingCave,
-                secondBatStartingCave,
-                firstPitCave,
-                secondPitCave);
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         WumpusPresenter wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
         wumpusPresenter.startNewGame();
@@ -101,13 +104,8 @@ class WumpusPresenterTest {
 
     @Test
     public void testMovingPlayerToACaveNearAWumpusAndSensingTheWumpus() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                playerStartingCave,
-                wumpusStartingCave,
-                firstBatStartingCave,
-                secondBatStartingCave,
-                firstPitCave,
-                secondPitCave);
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         WumpusPresenter wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
         wumpusPresenter.startNewGame();
@@ -127,12 +125,15 @@ class WumpusPresenterTest {
 
     @Test
     public void testThatPlayerEnterRoomWithBat() {
+        makeEnemyPlayerSleep();
         final int playerStartingCave = 11;
+        final int enemyPlayerStartingCave = 0;
         final int playerDropDownCave = 8;
         final int firstBatFinalCave = 2;
 
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 playerStartingCave,
+                enemyPlayerStartingCave,
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
@@ -159,13 +160,8 @@ class WumpusPresenterTest {
 
     @Test
     public void testThatPlayerEnterRoomWithPit() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                playerStartingCave,
-                wumpusStartingCave,
-                firstBatStartingCave,
-                secondBatStartingCave,
-                firstPitCave,
-                secondPitCave);
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         WumpusPresenter wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
         wumpusPresenter.startNewGame();
@@ -182,9 +178,12 @@ class WumpusPresenterTest {
 
     @Test
     public void testThatPlayerEnterRoomWithPitAndBat() {
+        makeEnemyPlayerSleep();
         final int playerStartingCave = 11;
+        final int enemyPlayerStartingCave = 0;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 playerStartingCave,
+                enemyPlayerStartingCave,
                 wumpusStartingCave,
                 firstBatStartingCave,
                 secondBatStartingCave,
@@ -207,13 +206,8 @@ class WumpusPresenterTest {
 
     @Test
     public void testKillingTheWumpus() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                playerStartingCave,
-                wumpusStartingCave,
-                firstBatStartingCave,
-                secondBatStartingCave,
-                firstPitCave,
-                secondPitCave);
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         WumpusPresenter wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
         wumpusPresenter.startNewGame();
@@ -233,13 +227,8 @@ class WumpusPresenterTest {
 
     @Test
     public void testThatPlayerShootsAnArrowThatMissesTheWumpusAndWumpusRemainsSleeping() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                playerStartingCave,
-                wumpusStartingCave,
-                firstBatStartingCave,
-                secondBatStartingCave,
-                firstPitCave,
-                secondPitCave);
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
         final int numberAtWhichWumpusWillRemainSleeping = 0;
@@ -267,13 +256,8 @@ class WumpusPresenterTest {
 
     @Test
     public void testThatPlayerShootsAnArrowThatMissesTheWumpusAndWumpusMoves() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                playerStartingCave,
-                wumpusStartingCave,
-                firstBatStartingCave,
-                secondBatStartingCave,
-                firstPitCave,
-                secondPitCave);
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        makeEnemyPlayerSleep();
 
         final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
         final int numberAtWhichWumpusWillRemainSleeping = 1;
@@ -307,13 +291,7 @@ class WumpusPresenterTest {
 
     @Test
     public void testThatPlayerRunsOutOfArrowsWithoutKillingWumpus() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                playerStartingCave,
-                wumpusStartingCave,
-                firstBatStartingCave,
-                secondBatStartingCave,
-                firstPitCave,
-                secondPitCave);
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
         final int numberAtWhichWumpusWillRemainSleeping = 0;
@@ -339,13 +317,8 @@ class WumpusPresenterTest {
 
     @Test
     public void testThatPlayerShootsAnArrowMissesWumpusAndWumpusWakesUpAndMoveToEatThePlayer() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                playerStartingCave,
-                wumpusStartingCave,
-                firstBatStartingCave,
-                secondBatStartingCave,
-                firstPitCave,
-                secondPitCave);
+        makeEnemyPlayerSleep();
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
         final int numberAtWhichWumpusWillRemainSleeping = 1;
