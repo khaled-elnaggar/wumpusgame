@@ -18,6 +18,7 @@ import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class WumpusViewImpl extends JPanel implements WumpusView {
 
+    private Mode currentMode;
     WumpusPresenter wumpusPresenter;
 
     final int[][] cavesCoordinates = {{334, 20}, {609, 220}, {499, 540}, {169, 540}, {62, 220},
@@ -28,16 +29,19 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
     final int caveSize = 45;
     final int playerSize = 16;
 
-    final int invalidCave=-1;
+    final int invalidCave = -1;
 
     Graphics2D g;
 
-    private boolean gameStarting=true;
+    private boolean gameStarting = true;
 
     public WumpusViewImpl() {
 
         wumpusPresenter = new WumpusPresenterImpl();
         wumpusPresenter.startNewGame();
+
+        Mode.setView(this);
+        this.currentMode = new MoveMode();
 
         setPreferredSize(new Dimension(721, 687));
         setBackground(Color.white);
@@ -118,8 +122,10 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
     }
 
     void drawMessage() {
-        if (!wumpusPresenter.isGameOver())
+        if (!gameStarting) {
             g.drawString("Arrows  " + wumpusPresenter.getNumberOfArrows(), 610, 30);
+            g.drawString("Mode: " + currentMode.toString(), 30, 30);
+        }
 
         if (wumpusPresenter.getWarnings() != null) {
             g.setColor(Color.black);
@@ -149,15 +155,15 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         drawCaves();
         drawMap();
-        drawMessage();
     }
 
     private void drawMap() {
-        if (gameStarting||wumpusPresenter.isGameOver()) {
+        if (gameStarting || wumpusPresenter.isGameOver()) {
             drawStartScreen();
-            gameStarting=false;
+            gameStarting = false;
         } else {
             drawPlayer();
+            drawMessage();
         }
     }
 
@@ -169,23 +175,25 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
     private void handleMouseClick(int mouseClickXAxis, int mouseClickYAxis, boolean leftClick, boolean rightClick) {
         if (wumpusPresenter.isGameOver()) {
             wumpusPresenter.startNewGame();
-        } else  {
-            continueGame(mouseClickXAxis, mouseClickYAxis, leftClick, rightClick) ;
+        } else {
+            continueGame(mouseClickXAxis, mouseClickYAxis, leftClick, rightClick);
         }
         render();
     }
 
     private void continueGame(int mouseClickXAxis, int mouseClickYAxis, boolean leftClick, boolean rightClick) {
         int selectedCave = getSelectedCaveBasedOnMouseClickLocation(mouseClickXAxis, mouseClickYAxis);
-        if(selectedCave != invalidCave){
-            executeActionBasedOnMouseButtonClick(leftClick, rightClick, selectedCave);
+        if (leftClick && selectedCave != invalidCave) {
+            currentMode.handleLeftClick(selectedCave);
+        } else if (rightClick) {
+            currentMode.handleRightClick();
         }
     }
 
     private int getSelectedCaveBasedOnMouseClickLocation(int mouseClickXAxis, int mouseClickYAxis) {
         int selectedCave = invalidCave;
-        for (int caveNumber = 0; caveNumber< cavesCoordinates.length; caveNumber++) {
-            int[] cave= cavesCoordinates[caveNumber];
+        for (int caveNumber = 0; caveNumber < cavesCoordinates.length; caveNumber++) {
+            int[] cave = cavesCoordinates[caveNumber];
             int xAxisOfCaveLinkedToCurrentCave = cave[0];
             int yAxisOfCaveLinkedToCurrentCave = cave[1];
             if (isMouseClickWithinCorrectCave(mouseClickXAxis, mouseClickYAxis, xAxisOfCaveLinkedToCurrentCave, yAxisOfCaveLinkedToCurrentCave)) {
@@ -202,19 +210,23 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
                 && (mouseClickYAxis > caveYAxis && mouseClickYAxis < caveYAxis + getCaveSize());
     }
 
-    private void executeActionBasedOnMouseButtonClick(boolean leftClick, boolean rightClick, int selectedCave) {
-        if (leftClick) {
-            wumpusPresenter.move(selectedCave);
-        } else if (rightClick) {
-            wumpusPresenter.shoot(selectedCave);
-        }
-    }
-
     public int getCaveSize() {
         return caveSize;
     }
-    
+
     public int getPlayerSize() {
         return playerSize;
+    }
+
+    public void move(int cave) {
+        wumpusPresenter.move(cave);
+    }
+
+    public void setMode(Mode newMode) {
+        this.currentMode = newMode;
+    }
+
+    public void shoot(int cave) {
+        wumpusPresenter.shoot(cave);
     }
 }
