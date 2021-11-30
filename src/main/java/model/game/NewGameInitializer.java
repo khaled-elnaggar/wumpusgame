@@ -42,9 +42,9 @@ public class NewGameInitializer {
     private void initializeEnemyPlayer() {
         enemyPlayer = new Player(GameInitialConfigurations.NUMBER_OF_ARROWS);
         enemyPlayer.setId("Enemy " + GameInitialConfigurations.PLAYER_ID);
-        Cave cave = gameMap.getACaveThatMeetsCondition(Cave::containsNoPlayerNorLinkedCavePlayer);
-        cave.addPlayer(enemyPlayer);
-        enemyPlayer.setCave(cave);
+        Cave startingCave = gameMap.getACaveThatMeetsCondition(cave -> true);
+        startingCave.addPlayer(enemyPlayer);
+        enemyPlayer.setCave(startingCave);
     }
 
     private void initializeWumpus() {
