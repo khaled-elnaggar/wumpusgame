@@ -20,13 +20,6 @@ Feature: Player movement options
     Then player is dead
     And game is lost
 
-  Scenario: Player senses the wumpus in a linked cave
-  The player should sense the wumpus when in a linked cave to his current
-    Given player is in cave 9
-    And wumpus is in cave 18
-    When player moves to cave 10
-    Then player senses that "there's an awful smell"
-
   Scenario: Player moves to cave with bat
   The player should change location when he enters a cave with bat, the bat will also change location
     Given player is in cave 11
