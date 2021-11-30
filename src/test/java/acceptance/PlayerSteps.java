@@ -6,8 +6,12 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.game.GameInitialConfigurations;
+import support.Action;
 import support.GameWorld;
+import support.MoveAction;
+import support.ShootAction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlayerSteps {
     private final GameWorld gameWorld;
+    private List<Action> actionsToTake = new ArrayList<>();
+
+    private void startGameAndExecuteActions() {
+        Action.setWumpusPresenter(gameWorld.getWumpusPresenter());
+        actionsToTake.forEach(Action::execute);
+    }
 
     public PlayerSteps(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
@@ -27,19 +37,17 @@ public class PlayerSteps {
 
     @When("player moves to cave {int}")
     public void player_moves_to_cave(Integer caveToMoveTo) {
-        gameWorld.getWumpusPresenter().move(caveToMoveTo);
+        gameWorld.queueAction(new MoveAction(caveToMoveTo));
     }
 
     @When("player moves to caves")
     public void playerMovesToCaves(@Transpose List<Integer> cavesToMoveTo) {
-        for (int caveToMoveTo : cavesToMoveTo) {
-            gameWorld.getWumpusPresenter().move(caveToMoveTo);
-        }
+        cavesToMoveTo.forEach(this::player_moves_to_cave);
     }
 
     @And("player shoots at cave {int}")
     public void playerShootsAtCave(int cave) {
-        gameWorld.getWumpusPresenter().shoot(cave);
+        gameWorld.queueAction(new ShootAction(cave));
     }
 
     @When("player shoots an arrow at caves")
@@ -48,7 +56,7 @@ public class PlayerSteps {
         for(int i = 0; i < cavesToShoot.size(); i++){
             cavesArray[i] = cavesToShoot.get(i);
         }
-        gameWorld.getWumpusPresenter().shoot(cavesArray);
+        gameWorld.queueAction(new ShootAction(cavesArray));
     }
 
     @Then("player senses that {string}")
