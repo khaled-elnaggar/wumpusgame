@@ -142,6 +142,16 @@ public class NewGame implements Game {
         return player.hasNoArrows() || player.isDead();
     }
 
+    @Override
+    public int[] getBatsCaves() {
+        return bats.stream().mapToInt(bat -> bat.getCave().getNumber()).toArray();
+    }
+
+    @Override
+    public int[] getPitsCaves() {
+        return pits.stream().mapToInt(pit -> pit.getCave().getNumber()).toArray();
+    }
+
     public Player getPlayer() {
         return this.player;
     }

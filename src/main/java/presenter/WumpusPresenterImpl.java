@@ -64,6 +64,16 @@ public class WumpusPresenterImpl implements WumpusPresenter {
         return gameModel.isGameLost();
     }
 
+    @Override
+    public int[] getBatsCaves() {
+        return gameModel.getBatsCaves();
+    }
+
+    @Override
+    public int[] getPitsCaves() {
+        return gameModel.getPitsCaves();
+    }
+
 
     @Override
     public int getPlayerCaveIndex() {

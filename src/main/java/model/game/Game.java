@@ -18,4 +18,8 @@ public interface Game {
      boolean isPlayerDead();
 
      boolean isGameLost();
+
+    int[] getBatsCaves();
+
+     int[] getPitsCaves();
 }

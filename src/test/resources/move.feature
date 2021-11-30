@@ -28,7 +28,7 @@ Feature: Player movement options
       | 12 | 19 |
     Then bat will teleport player to cave 8 and itself to cave 4
     Then player will be at cave 8
-    And a bat will be at cave 4
+    And bat 1 will be at cave 4
 
   Scenario: Player moves to cave with pit
   If the player enters a cave with pit, the player should die and the game should be over

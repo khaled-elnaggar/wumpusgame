@@ -5,6 +5,7 @@ Feature: Player senses danger warnings
 
   Background:
     Given player is in cave 0
+    And enemy player is in cave 16
     And wumpus is in cave 18
     And bat 1 is in cave 19
     And bat 2 is in cave 13

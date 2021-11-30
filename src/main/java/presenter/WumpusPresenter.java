@@ -20,4 +20,8 @@ public interface WumpusPresenter {
     boolean isPlayerDead();
 
     boolean isGameLost();
+
+    int[] getBatsCaves();
+
+    int[] getPitsCaves();
 }
