@@ -9,9 +9,10 @@ public class BatSteps {
     public BatSteps(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
     }
-    @And("a bat is in cave {int}")
-    public void aBatIsInCave(int cave) {
-        gameWorld.getRNGBuilder().setFirstBatStartingCave(cave);
+
+    @And("bat {int} is in cave {int}")
+    public void aBatIsInCave(int batNumber, int cave) {
+        gameWorld.getRNGBuilder().setBatStartingCave(batNumber, cave);
     }
 
     @And("a bat will be at cave {int}")

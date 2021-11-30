@@ -24,10 +24,8 @@ public class RandomNumberGeneratorBuilder {
     int playerStartingCave = 0;
     int enemyPlayerStartingCave = 6;
     int wumpusStartingCave = 18;
-    int firstBatStartingCave = 19;
-    int secondBatStartingCave = 13;
-    int firstPitCave = 3;
-    int secondPitCave = 13;
+    List<Integer> batsStartingCaves = new ArrayList<>(Arrays.asList(19, 13));
+    List<Integer> pitsStartingCaves = new ArrayList<>(Arrays.asList(3, 13));
     public static final int MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY = 4;
 
     public RandomNumberGenerator build() {
@@ -39,12 +37,9 @@ public class RandomNumberGeneratorBuilder {
         randomReturnsWhenCalledWith20.addAll(Arrays.asList(
                 playerStartingCave,
                 enemyPlayerStartingCave,
-                wumpusStartingCave,
-                firstBatStartingCave,
-                secondBatStartingCave,
-                firstPitCave,
-                secondPitCave));
-
+                wumpusStartingCave));
+        randomReturnsWhenCalledWith20.addAll(batsStartingCaves);
+        randomReturnsWhenCalledWith20.addAll(pitsStartingCaves);
         randomReturnsWhenCalledWith20.addAll(teleportCaves);
 
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenAnswer(new Answer<Integer>() {
@@ -89,12 +84,12 @@ public class RandomNumberGeneratorBuilder {
         this.wumpusStartingCave = wumpusStartingCave;
     }
 
-    public void setFirstBatStartingCave(int firstBatStartingCave) {
-        this.firstBatStartingCave = firstBatStartingCave;
+    public void setBatStartingCave(int batNumber, int cave) {
+        batsStartingCaves.set(batNumber - 1, cave);
     }
 
-    public void setFirstPitCave(int firstPitCave) {
-        this.firstPitCave = firstPitCave;
+    public void setPitStartingCave(int pitNumber, int cave) {
+        pitsStartingCaves.set(pitNumber - 1, cave);
     }
 
     public void addCaveToTeleportTo(int cave) {

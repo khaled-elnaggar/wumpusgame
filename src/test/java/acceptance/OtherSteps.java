@@ -18,9 +18,9 @@ public class OtherSteps {
     }
 
 
-    @And("pit is in cave {int}")
-    public void pitIsInCave(int cave) {
-        gameWorld.getRNGBuilder().setFirstPitCave(cave);
+    @And("pit {int} is in cave {int}")
+    public void pitIsInCave(int pitNumber, int cave) {
+        gameWorld.getRNGBuilder().setPitStartingCave(pitNumber, cave);
     }
 
 
