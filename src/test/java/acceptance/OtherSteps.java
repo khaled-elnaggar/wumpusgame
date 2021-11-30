@@ -8,6 +8,7 @@ import presenter.WumpusPresenter;
 import support.GameWorld;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OtherSteps {
     private final GameWorld gameWorld;
@@ -37,6 +38,16 @@ public class OtherSteps {
         final boolean expectedStatusOfGameIsOver = false;
         final boolean isGameOver = wumpusPresenter.isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
+    }
+
+    @And("game is won")
+    public void gameIsWon() {
+        assertTrue(gameWorld.getWumpusPresenter().hasPlayerWon());
+    }
+
+    @And("game is lost")
+    public void gameIsLost() {
+        assertTrue(gameWorld.getWumpusPresenter().isGameLost());
     }
 
     @But("cave {int} is not linked to {int}, so arrow will go to {int} instead")

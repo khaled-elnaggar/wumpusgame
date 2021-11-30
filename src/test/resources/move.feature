@@ -17,7 +17,8 @@ Feature: Player movement options
     And wumpus is in cave 18
     When player moves to caves
       | 10 | 18 |
-    Then game is over
+    Then player is dead
+    And game is lost
 
   Scenario: Player senses the wumpus in a linked cave
   The player should sense the wumpus when in a linked cave to his current
@@ -30,9 +31,9 @@ Feature: Player movement options
   The player should change location when he enters a cave with bat, the bat will also change location
     Given player is in cave 11
     And a bat is in cave 19
-    And bat will teleport player to cave 8 and itself to cave 4
     When player moves to caves
       | 12 | 19 |
+    Then bat will teleport player to cave 8 and itself to cave 4
     Then player will be at cave 8
     And a bat will be at cave 4
 
@@ -42,7 +43,8 @@ Feature: Player movement options
     And pit is in cave 3
     When player moves to caves
       | 2 | 3 |
-    Then game is over
+    Then player is dead
+    And game is lost
 
   Scenario: Player moves to cave with pit and bat
   If the player enters a cave with pit and bat, the player should die and the game should be over
@@ -51,4 +53,5 @@ Feature: Player movement options
     And pit is in cave 19
     When player moves to caves
       | 12 | 19 |
-    Then game is over
+    Then player is dead
+    And game is lost

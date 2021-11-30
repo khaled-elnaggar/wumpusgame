@@ -12,4 +12,10 @@ public interface Game {
      int getWumpusCaveIndex();
      int getPlayerCaveIndex();
      int getEnemyPlayerCaveIndex();
+     boolean isWumpusDead();
+     boolean hasPlayerWon();
+
+     boolean isPlayerDead();
+
+     boolean isGameLost();
 }

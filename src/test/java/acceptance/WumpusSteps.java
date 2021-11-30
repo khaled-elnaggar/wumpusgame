@@ -9,6 +9,7 @@ import support.GameWorld;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WumpusSteps {
 
@@ -29,15 +30,19 @@ public class WumpusSteps {
         assertEquals(expectedCaveIndex, actualWumpusCave);
     }
 
-    @And("wumpus will remain asleep")
-    public void wumpusWillRemainAsleep() {
+    @And("wumpus remains asleep")
+    public void wumpusRemainsAsleep() {
         gameWorld.getRNGBuilder().makeWumpusSleep();
     }
 
-    @But("wumpus will wake up and move to cave {int}")
-    public void wumpusWillWakeUpAndMoveToCave(int cave) throws Exception {
-        final int currentWumpusCave = gameWorld.getWumpusPresenter().getWumpusCaveIndex();
+    @But("wumpus will wake up from {int} and move to cave {int}")
+    public void wumpusWillWakeUpAndMoveToCave(int currentWumpusCave, int cave) throws Exception {
         int caveIndex = gameWorld.getCaveIndexOutOfCave(currentWumpusCave, cave);
         gameWorld.getRNGBuilder().makeWumpusMoveTo(caveIndex);
+    }
+
+    @Then("wumpus is dead")
+    public void wumpusIsDead() {
+        assertTrue(gameWorld.getWumpusPresenter().isWumpusDead());
     }
 }

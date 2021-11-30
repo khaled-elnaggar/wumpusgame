@@ -75,7 +75,7 @@ public class PlayerSteps {
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
     }
 
-    @And("player used all arrows but {int}")
+    @And("player has {int} arrow(s) remaining")
     public void playerHasArrowLeft(int remainingAroows) throws Exception {
         if (remainingAroows > GameInitialConfigurations.NUMBER_OF_ARROWS) {
             throw new Exception("Logical error, remaining arrows can not be greater than initial arrows");
@@ -84,7 +84,12 @@ public class PlayerSteps {
         final int playerCave = gameWorld.getWumpusPresenter().getPlayerCaveIndex();
         final int firstLinkedCave = GameInitialConfigurations.CAVE_LINKS[playerCave][0];
         for (int i = 0; i < GameInitialConfigurations.NUMBER_OF_ARROWS - remainingAroows; i++) {
-            gameWorld.getWumpusPresenter().shoot(firstLinkedCave);
+            gameWorld.queueAction(new ShootAction(firstLinkedCave));
         }
+    }
+
+    @Then("player is dead")
+    public void playerDies() {
+        assertTrue(gameWorld.getWumpusPresenter().isPlayerDead());
     }
 }

@@ -122,6 +122,26 @@ public class NewGame implements Game {
         return enemyPlayer.getCave().getNumber();
     }
 
+    @Override
+    public boolean isWumpusDead() {
+        return wumpus.isDead();
+    }
+
+    @Override
+    public boolean hasPlayerWon() {
+        return wumpus.isDead();
+    }
+
+    @Override
+    public boolean isPlayerDead() {
+        return player.isDead();
+    }
+
+    @Override
+    public boolean isGameLost() {
+        return player.hasNoArrows() || player.isDead();
+    }
+
     public Player getPlayer() {
         return this.player;
     }

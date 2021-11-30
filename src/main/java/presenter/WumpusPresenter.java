@@ -12,4 +12,12 @@ public interface WumpusPresenter {
     List<String> getWarnings();
     int getWumpusCaveIndex();
     int getEnemyPlayerCave();
+
+    boolean isWumpusDead();
+
+    boolean hasPlayerWon();
+
+    boolean isPlayerDead();
+
+    boolean isGameLost();
 }
