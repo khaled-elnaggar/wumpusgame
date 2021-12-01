@@ -13,8 +13,10 @@ import java.awt.geom.Path2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
@@ -24,10 +26,11 @@ import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class WumpusViewImpl extends JPanel implements WumpusView {
 
+    WumpusPresenter wumpusPresenter;
     public static final int PANEL_WIDTH = 721;
     public static final int PANEL_HEIGHT = 687;
     private Mode currentMode;
-    WumpusPresenter wumpusPresenter;
+    private long animationStartTime;
 
     final int[][] cavesCoordinates = {{334, 20}, {609, 220}, {499, 540}, {169, 540}, {62, 220},
             {169, 255}, {232, 168}, {334, 136}, {435, 168}, {499, 255}, {499, 361},
@@ -43,6 +46,9 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
 
     private boolean gameStarting = true;
     private int[] intendedCavesToShoot = new int[]{};
+    private double animationColorFraction;
+    private int[] actualCavesShot;
+    private final int animationDuration = 1000;
 
     public WumpusViewImpl() {
 
@@ -132,8 +138,16 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
             for (int cave : intendedCavesToShoot) {
                 int[] caveCoordinates = cavesCoordinates[cave];
                 g.fillOval(caveCoordinates[0], caveCoordinates[1], getCaveSize(), getCaveSize());
-
             }
+
+
+            g.setColor(new Color(0, 0, 0, 1 - (float) animationColorFraction));
+            for (int cave : actualCavesShot) {
+                int[] caveCoordinates = cavesCoordinates[cave];
+                g.fillOval(caveCoordinates[0], caveCoordinates[1], getCaveSize(), getCaveSize());
+            }
+
+
             drawModeIcon();
         }
 
@@ -171,6 +185,13 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
                 g.drawString("& " + messages.get(3), 20, getHeight() - 17);
             }
 
+            if (actualCavesShot.length > 0) {
+                String shotCavesMessage = Arrays.stream(actualCavesShot)
+                        .mapToObj(String::valueOf)
+                        .collect(joining(" -> ", "You actually shot at cave(s): ", ""));
+                g.drawString(shotCavesMessage, 20, getHeight() - 40);
+            }
+
             messages.clear();
         }
     }
@@ -190,6 +211,22 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        animateShooting();
+    }
+
+    private void animateShooting() {
+        long currentTime = System.nanoTime() / 1000000;
+        long runningTime = currentTime - animationStartTime;
+        final double animationDurationFraction = runningTime * 1.0 / animationDuration;
+
+        if (animationDurationFraction >= 1) {
+            actualCavesShot = new int[]{};
+            return;
+        }
+
+        render();
+        animationColorFraction = Math.min(1, animationDurationFraction);
     }
 
     private void drawMap() throws IOException {
@@ -265,9 +302,12 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
     }
 
     public void shoot(int... caves) {
-        if (caves.length > 0) {
-            wumpusPresenter.shoot(caves);
+        if (caves.length == 0) {
+            return;
         }
+        actualCavesShot = wumpusPresenter.shoot(caves);
+
+        animationStartTime = (System.nanoTime() / 1000000);
     }
 
     public void setCavesToShoot(int... caves) {

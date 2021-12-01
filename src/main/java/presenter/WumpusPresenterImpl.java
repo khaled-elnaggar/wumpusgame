@@ -29,8 +29,8 @@ public class WumpusPresenterImpl implements WumpusPresenter {
     }
 
     @Override
-    public void shoot(int... cave) {
-        gameModel.playerShootsToCave(cave);
+    public int[] shoot(int... cave) {
+        return gameModel.playerShootsToCave(cave);
     }
 
 

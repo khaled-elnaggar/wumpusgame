@@ -13,7 +13,7 @@ public class ShootMode extends Mode {
         if (intendedCavesToShoot.contains(cave)) {
             intendedCavesToShoot.remove(Integer.valueOf(cave));
         } else {
-            if(intendedCavesToShoot.size() < 5){
+            if (intendedCavesToShoot.size() < 5) {
                 intendedCavesToShoot.add(cave);
             }
         }
@@ -22,9 +22,13 @@ public class ShootMode extends Mode {
 
     @Override
     public void handleRightClick() {
-        view.shoot(intendedCavesToShoot.stream().mapToInt(i -> i).toArray());
-        view.setCavesToShoot(new int[]{});
-        Mode.view.setMode(new MoveMode());
+        if (intendedCavesToShoot.size() > 0) {
+            view.shoot(intendedCavesToShoot.stream().mapToInt(i -> i).toArray());
+            intendedCavesToShoot.clear();
+            view.setCavesToShoot(new int[]{});
+        } else {
+            Mode.view.setMode(new MoveMode());
+        }
     }
 
     @Override

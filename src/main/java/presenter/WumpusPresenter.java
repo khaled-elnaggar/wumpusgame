@@ -7,7 +7,7 @@ public interface WumpusPresenter {
     void move(int cave);
     int getPlayerCaveIndex();
     boolean isGameOver();
-    void shoot(int... cave);
+    int[] shoot(int... cave);
     int getNumberOfArrows();
     List<String> getWarnings();
     int getWumpusCaveIndex();

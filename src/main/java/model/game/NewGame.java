@@ -51,13 +51,14 @@ public class NewGame implements Game {
     }
 
     @Override
-    public void playerShootsToCave(int... caves) {
+    public int[] playerShootsToCave(int... caves) {
         List<Cave> cavesToShoot = validateCavesToShootAt(caves);
         player.shoot(cavesToShoot);
 
         if (!wumpus.isDead()) {
             wumpus.attemptToWakeup();
         }
+        return cavesToShoot.stream().mapToInt(Cave::getNumber).toArray();
     }
 
     private List<Cave> validateCavesToShootAt(int... caves) {
