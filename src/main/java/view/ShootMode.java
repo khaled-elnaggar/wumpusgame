@@ -1,16 +1,29 @@
 package view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShootMode extends Mode {
 
+    List<Integer> intendedCavesToShoot = new ArrayList<>();
+
     @Override
     public void handleLeftClick(int cave) {
-        view.shoot(cave);
+        if (intendedCavesToShoot.contains(cave)) {
+            intendedCavesToShoot.remove(Integer.valueOf(cave));
+        } else {
+            if(intendedCavesToShoot.size() < 5){
+                intendedCavesToShoot.add(cave);
+            }
+        }
+        view.setCavesToShoot(intendedCavesToShoot.stream().mapToInt(i -> i).toArray());
     }
 
     @Override
     public void handleRightClick() {
+        view.shoot(intendedCavesToShoot.stream().mapToInt(i -> i).toArray());
+        view.setCavesToShoot(new int[]{});
         Mode.view.setMode(new MoveMode());
     }
 
@@ -30,7 +43,7 @@ public class ShootMode extends Mode {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Shoot";
     }
 

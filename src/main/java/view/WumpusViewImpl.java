@@ -14,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -40,6 +42,7 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
     Graphics2D g;
 
     private boolean gameStarting = true;
+    private int[] intendedCavesToShoot = new int[]{};
 
     public WumpusViewImpl() {
 
@@ -124,6 +127,13 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
             int[] currentCaveCoordinates = cavesCoordinates[wumpusPresenter.getPlayerCaveIndex()];
             g.fillOval(currentCaveCoordinates[0], currentCaveCoordinates[1], getCaveSize(), getCaveSize());
 
+
+            g.setColor(Color.yellow);
+            for (int cave : intendedCavesToShoot) {
+                int[] caveCoordinates = cavesCoordinates[cave];
+                g.fillOval(caveCoordinates[0], caveCoordinates[1], getCaveSize(), getCaveSize());
+
+            }
             drawModeIcon();
         }
 
@@ -254,7 +264,13 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
         this.currentMode = newMode;
     }
 
-    public void shoot(int cave) {
-        wumpusPresenter.shoot(cave);
+    public void shoot(int... caves) {
+        if (caves.length > 0) {
+            wumpusPresenter.shoot(caves);
+        }
+    }
+
+    public void setCavesToShoot(int... caves) {
+        this.intendedCavesToShoot = caves;
     }
 }
