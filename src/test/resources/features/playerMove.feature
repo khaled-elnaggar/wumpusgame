@@ -1,4 +1,7 @@
 Feature: Player movement options
+  As the player
+  I want to be able to move across the map
+  So that I can hunt the wumpus and adventure
 
   Scenario Outline: Player moves to a linked cave
   The player should be allowed to move successfully to a cave that is connected to it

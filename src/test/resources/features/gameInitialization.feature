@@ -1,6 +1,6 @@
 Feature: Game is initialized correctly
   As the player
-  I want the game map to be initialized correctly with the right objects
+  I want the game map to be initialized with the right objects
   So that I can start playing and have fun
 
   Background:
