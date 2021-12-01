@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"classpath:shoot.feature", "classpath:move.feature", "classpath:enemy.feature"},
+        features = {"classpath:features"},
         plugin = {"pretty"},
         snippets = CucumberOptions.SnippetType.CAMELCASE)
 public class AcceptanceTestRunner {
