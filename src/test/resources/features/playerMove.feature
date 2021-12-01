@@ -1,4 +1,5 @@
 Feature: Player movement options
+
   As the player
   I want to be able to move across the map
   So that I can hunt the wumpus and adventure

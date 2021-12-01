@@ -1,4 +1,8 @@
-Feature: Hunt the Wumpus
+Feature: Player shoots arrows
+
+  As the player
+  I want to be able to shoot arrows
+  So that I can shoot the wumpus and win the game
 
   Scenario: Player shoots the wumpus
   If the player shoots a cave that contains the wumpus, the wumpus should die and game should be over

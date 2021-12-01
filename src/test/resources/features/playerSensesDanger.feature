@@ -1,4 +1,5 @@
 Feature: Player senses danger warnings
+  
   As the player
   I want to sense danger when nearby
   So that I can avoid them and play further
