@@ -134,10 +134,13 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
             g.fillOval(currentCaveCoordinates[0], currentCaveCoordinates[1], getCaveSize(), getCaveSize());
 
 
-            g.setColor(Color.yellow);
-            for (int cave : intendedCavesToShoot) {
+            for (int i = 0; i < intendedCavesToShoot.length; i++) {
+                int cave = intendedCavesToShoot[i];
+                g.setColor(Color.yellow);
                 int[] caveCoordinates = cavesCoordinates[cave];
                 g.fillOval(caveCoordinates[0], caveCoordinates[1], getCaveSize(), getCaveSize());
+                g.setColor(Color.black);
+                g.drawString(String.valueOf(i + 1), caveCoordinates[0], caveCoordinates[1]);
             }
 
 
@@ -278,7 +281,6 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
         }
         return selectedCave;
     }
-
 
     private boolean isMouseClickWithinCorrectCave(int mouseClickXAxis, int mouseClickYAxis, int caveXAxis, int caveYAxis) {
         return (mouseClickXAxis > caveXAxis && mouseClickXAxis < caveXAxis + getCaveSize())
