@@ -40,7 +40,7 @@ class WumpusPresenterTest {
     }
 
     private void makeEnemyPlayerSleep() {
-        final int numberAtWhichEnemyPlayerWillRemainAsleep = 3;
+        final int numberAtWhichEnemyPlayerWillRemainAsleep = -1;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
                 .thenReturn(numberAtWhichEnemyPlayerWillRemainAsleep);
     }

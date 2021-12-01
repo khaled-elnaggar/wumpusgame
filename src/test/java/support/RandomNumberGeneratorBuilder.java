@@ -60,7 +60,6 @@ public class RandomNumberGeneratorBuilder {
             }
         });
 
-        makeEnemyPlayerSleep();
     }
 
     public void setPlayerStartingCave(int playerStartingCave) {
@@ -104,7 +103,7 @@ public class RandomNumberGeneratorBuilder {
         this.enemyPlayerStartingCave = enemyPlayerStartingCave;
     }
 
-    private void makeEnemyPlayerSleep() {
+    public void makeEnemyPlayerSleep() {
         final int numberAtWhichEnemyPlayerWillRemainAsleep = 3;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
                 .thenReturn(numberAtWhichEnemyPlayerWillRemainAsleep);
@@ -112,7 +111,7 @@ public class RandomNumberGeneratorBuilder {
 
     public void makeEnemyPlayerMoveToCave(int caveIndex) {
         final int numberAtWhichEnemyPlayerWillMove = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(1)).thenReturn(
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION)).thenReturn(
                 numberAtWhichEnemyPlayerWillMove);
 
         randomReturnsWhenCalledWith3.add(caveIndex);

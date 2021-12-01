@@ -1,5 +1,5 @@
 Feature: Player senses danger warnings
-  
+
   As the player
   I want to sense danger when nearby
   So that I can avoid them and play further
@@ -12,6 +12,7 @@ Feature: Player senses danger warnings
     And bat 2 is in cave 13
     And pit 1 is in cave 3
     And pit 2 is in cave 13
+    And enemy player remains asleep
 
   Scenario Outline: Player senses the dangers in a linked cave
   The player should sense the dangers when in a linked cave to his

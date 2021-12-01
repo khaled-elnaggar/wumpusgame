@@ -80,7 +80,7 @@ public class NewGame implements Game {
     }
 
     public void enemyPlayerTakeAction(){
-        final int fiftyPercentChance = randomNumberGenerator.generateNumber(1);
+        final int fiftyPercentChance = randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION);
         if(fiftyPercentChance == 0){
             Cave caveToMoveTo = enemyPlayer.getCave().getLinkedCaves().get(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES));
             enemyPlayer.move(caveToMoveTo);

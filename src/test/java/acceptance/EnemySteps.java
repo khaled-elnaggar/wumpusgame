@@ -19,10 +19,9 @@ public class EnemySteps {
         gameWorld.getRNGBuilder().setEnemyPlayerStartingCave(cave);
     }
 
-    @But("enemy player will wake up and move to cave {int}")
-    public void enemyPlayerWillWakeUpAndMoveToCave(int cave) throws Exception {
-        final int enemyPlayerCurrentCave = gameWorld.getWumpusPresenter().getEnemyPlayerCave();
-        int caveIndex = gameWorld.getCaveIndexOutOfCave(enemyPlayerCurrentCave, cave);
+    @But("enemy player will wake up and move from cave {int} to cave {int}")
+    public void enemyPlayerWillWakeUpAndMoveToCave(int currentCave, int cave) throws Exception {
+        int caveIndex = gameWorld.getCaveIndexOutOfCave(currentCave, cave);
         gameWorld.getRNGBuilder().makeEnemyPlayerMoveToCave(caveIndex);
     }
 
@@ -30,5 +29,10 @@ public class EnemySteps {
     public void enemyWillBeAtCave(int expectedCave) {
         final int actualWumpusCave = gameWorld.getWumpusPresenter().getEnemyPlayerCave();
         assertEquals(expectedCave, actualWumpusCave);
+    }
+
+    @And("enemy player remains asleep")
+    public void enemyPlayerRemainsAsleep() {
+        gameWorld.getRNGBuilder().makeEnemyPlayerSleep();
     }
 }

@@ -4,6 +4,16 @@ Feature: Player movement options
   I want to be able to move across the map
   So that I can hunt the wumpus and adventure
 
+  Background:
+    Given player is in cave 0
+    And enemy player is in cave 16
+    And wumpus is in cave 18
+    And bat 1 is in cave 19
+    And bat 2 is in cave 13
+    And pit 1 is in cave 3
+    And pit 2 is in cave 13
+    And enemy player remains asleep
+
   Scenario Outline: Player moves to a linked cave
   The player should be allowed to move successfully to a cave that is connected to it
     Given player is in cave <PlayerStartingCave>
