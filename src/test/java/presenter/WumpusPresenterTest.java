@@ -297,6 +297,7 @@ class WumpusPresenterTest {
         final int numberAtWhichWumpusWillRemainSleeping = 0;
         Mockito.when(randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability)).thenReturn(
                 numberAtWhichWumpusWillRemainSleeping);
+        makeEnemyPlayerSleep();
 
         WumpusPresenter wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
         wumpusPresenter.startNewGame();

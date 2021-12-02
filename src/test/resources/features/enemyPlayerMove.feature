@@ -69,7 +69,7 @@ Feature: Enemy player move feature
 
 
 # TODO: Enemy player move test list
-#  player shoots and enemy moves
+#  DONE - Player shoots and enemy moves
 #  DONE - Enemy moves to a random linked cave
 #  DONE - Enemy moves to a random cave and gets eaten by the wumpus
 #  DONE - Enemy moves to a random cave and dies inside a pit

@@ -484,6 +484,7 @@ public class NewGameModelTests {
         Mockito.when(randomNumberGenerator.generateNumber(numberOfLinkedCaves)).thenReturn(
                 wumpusLinkedCaveIndex);
 
+        makeEnemyPlayerSleep();
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
@@ -510,6 +511,8 @@ public class NewGameModelTests {
         final int numberAtWhichWumpusWillWakeUp = 0;
         Mockito.when(randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability)).thenReturn(
                 numberAtWhichWumpusWillWakeUp);
+
+        makeEnemyPlayerSleep();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
