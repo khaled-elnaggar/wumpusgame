@@ -997,4 +997,36 @@ public class NewGameModelTests {
         final int expectedRemainingArrows = GameInitialConfigurations.NUMBER_OF_ARROWS - 1;
         assertEquals(expectedRemainingArrows, game.getEnemyRemainingArrows());
     }
+
+    @Test
+    public void testThatEnemyPlayerShootsWumpusAndPlayerLoses() {
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+
+        makeEnemyPlayerShoot();
+
+        final int numberOfCavesEnemyPlayerShoots = 2; // will actually shoot at 2 + 1 = 3 caves
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT))
+                .thenReturn(numberOfCavesEnemyPlayerShoots);
+
+        final int firstCaveIndexToShootByEnemyPlayer = 0; // cave 10
+        final int secondCaveIndexToShootByEnemyPlayer = 1; // cave 18
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES))
+                .thenReturn(firstCaveIndexToShootByEnemyPlayer,
+                        secondCaveIndexToShootByEnemyPlayer);
+
+        final int numberAtWhichWumpusRemainsAsleep = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY))
+                .thenReturn(numberAtWhichWumpusRemainsAsleep);
+
+        NewGame game = new NewGame(randomNumberGenerator);
+        game.startGame();
+
+        final int playerNextCave = 1;
+        game.playerMovesToCave(playerNextCave);
+
+        assertTrue(game.isWumpusDead());
+        assertTrue(game.isGameLost());
+    }
+
+
 }
