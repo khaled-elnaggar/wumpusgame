@@ -27,10 +27,19 @@ Feature: Enemy player shoot feature
     Then wumpus is dead
     And game is lost
 
+  Scenario: Enemy player shoots itself
+  Enemy player randomly shoots from 1 to 5 caves and the arrow kills it
+    Given player is in cave 9
+    And enemy player is in cave 11
+    When player moves to cave 1
+    And enemy player shoots caves
+      | 10 | 11 |
+  Then enemy player is dead
+
 # TODO: Enemy player shoot test list
 #  DONE - Enemy kills player so player loses
-#  Enemy kills the wumpus and player loses
-#  Enemy kills itself
+#  DONE - Enemy kills the wumpus and player loses
+#  DONE - Enemy kills itself
 #  Player kills enemy player
 #  Enemy runs out of arrows and can not move or shoot
 #  Dead enemy can not move or shoot
