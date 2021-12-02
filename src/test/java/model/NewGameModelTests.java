@@ -958,7 +958,7 @@ public class NewGameModelTests {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
                 .thenReturn(numberAtWhichEnemyPlayerWillShoot);
 
-        final int numberOfCavesEnemyPlayerShoots = 2; // will actually shoot at 3
+        final int numberOfCavesEnemyPlayerShoots = 2; // will actually shoot at 2 + 1 = 3 caves
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT))
                 .thenReturn(numberOfCavesEnemyPlayerShoots);
 

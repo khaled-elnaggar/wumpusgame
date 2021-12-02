@@ -23,7 +23,6 @@ public class NewGame implements Game {
     private List<Bat> bats;
     private List<Pit> pits;
 
-
     public NewGame() {
         this.randomNumberGenerator = new RandomNumberGenerator();
     }
@@ -31,7 +30,6 @@ public class NewGame implements Game {
     public NewGame(RandomNumberGenerator randomNumberGenerator) {
         this.randomNumberGenerator = randomNumberGenerator;
     }
-
 
     @Override
     public void startGame() {
@@ -53,8 +51,7 @@ public class NewGame implements Game {
 
     @Override
     public void playerShootsToCave(int... caves) {
-        List<Cave> cavesList = Arrays.stream(caves).mapToObj(cave -> gameMap.getCaves().get(cave)).collect(toList());
-        List<Cave> cavesToShoot = validateCavesToShootAt(player.getCave(), cavesList);
+        List<Cave> cavesToShoot = this.validateCavesToShootAt(player.getCave(), caves);
         player.shoot(cavesToShoot);
 
         doWumpusPostShootActions();
@@ -66,41 +63,46 @@ public class NewGame implements Game {
         }
     }
 
-    private List<Cave> validateCavesToShootAt(Cave arrowStartingCave, List<Cave> cavesToShootAt) {
+    public void enemyPlayerTakeAction() {
+        final int fiftyPercentChance = randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION);
+        if (fiftyPercentChance == 0) {
+
+            final int randomCaveIndex = randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES);
+            Cave caveToMoveTo = enemyPlayer.getCave().getLinkedCaves().get(randomCaveIndex);
+            enemyPlayer.move(caveToMoveTo);
+
+        } else if (fiftyPercentChance == 1) {
+
+            final int numberOfCavesToShoot = 1 + randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT);
+            enemyPlayerShoot(numberOfCavesToShoot);
+            doWumpusPostShootActions();
+        }
+    }
+
+    private void enemyPlayerShoot(int numberOfCavesToShoot) {
+        int[] x = new int[numberOfCavesToShoot];
+        Arrays.fill(x, -1);
+
+        List<Cave> cavesToShoot = validateCavesToShootAt(enemyPlayer.getCave(), x);
+        enemyPlayer.shoot(cavesToShoot);
+    }
+
+    private List<Cave> validateCavesToShootAt(Cave arrowStartingCave, int[] cavesArrayToShoot) {
         List<Cave> validCavesToShootAt = new ArrayList<>();
 
         Cave arrowCurrentCave = arrowStartingCave;
-        for (Cave arrowNextCave : cavesToShootAt) {
+        for (int arrowNextCave : cavesArrayToShoot) {
             if (arrowCurrentCave.isLinkedTo(arrowNextCave)) {
-                validCavesToShootAt.add(arrowNextCave);
+                final Cave validCave = gameMap.getCaves().get(arrowNextCave);
+                validCavesToShootAt.add(validCave);
             } else {
-                validCavesToShootAt.add(arrowCurrentCave.getLinkedCaves().get(randomNumberGenerator.generateNumber(3)));
+                final int randomCaveIndex = randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES);
+                validCavesToShootAt.add(arrowCurrentCave.getLinkedCaves().get(randomCaveIndex));
             }
             arrowCurrentCave = validCavesToShootAt.get(validCavesToShootAt.size() - 1);
         }
         return validCavesToShootAt;
     }
-
-    public void enemyPlayerTakeAction() {
-        final int fiftyPercentChance = randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION);
-        if (fiftyPercentChance == 0) {
-            Cave caveToMoveTo = enemyPlayer.getCave().getLinkedCaves().get(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES));
-            enemyPlayer.move(caveToMoveTo);
-        } else if (fiftyPercentChance == 1) {
-            final int numberOfCavesToShoot = 1 + randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT);
-
-            List<Cave> litOfInvalidCaves = Stream.iterate(1, i -> i + 1)
-                    .map(i -> new Cave(-1))
-                    .limit(numberOfCavesToShoot)
-                    .collect(toList());
-
-            List<Cave> cavesToShoot = validateCavesToShootAt(enemyPlayer.getCave(), litOfInvalidCaves);
-            enemyPlayer.shoot(cavesToShoot);
-
-            doWumpusPostShootActions();
-        }
-    }
-
 
     public GameMap getGameMap() {
         return gameMap;

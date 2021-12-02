@@ -75,6 +75,10 @@ public class Cave {
         return this.linkedCaves.contains(cave);
     }
 
+    public boolean isLinkedTo(int searchedCaveNumber) {
+        return this.linkedCaves.stream().anyMatch(cave -> cave.getNumber() == searchedCaveNumber);
+    }
+
     public boolean containsNoPlayer(){
         return this.players.isEmpty();
     }
