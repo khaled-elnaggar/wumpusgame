@@ -21,9 +21,9 @@ Feature: Enemy player features
     Then enemy player will wake up and move from cave 16 to cave 6
     And enemy player will be at cave 6
 
-  Scenario: Enemy player moves to a cave with wumpus and dies
+  Scenario: Enemy player moves to a cave with wumpus
   Every time the player takes an action either move or shoot, the enemy player has 50% to move
-  Enemy player enters a cave and dies
+  Enemy player enters a cave with wumpus and dies
     Given player is in cave 9
     And enemy player is in cave 16
     And wumpus is in cave 18
@@ -33,7 +33,7 @@ Feature: Enemy player features
     Then enemy player will wake up and move from cave 17 to cave 18
     And enemy player is dead
 
-  Scenario: Enemy player moves to a cave with bat and teleports
+  Scenario: Enemy player moves to a cave with bat
   Every time the player takes an action either move or shoot, the enemy player has 50% to move
   Enemy player enters a cave with bat and teleports to another cave
     Given player is in cave 9
@@ -46,3 +46,15 @@ Feature: Enemy player features
     Then bat will teleport player to cave 8 and itself to cave 4
     Then enemy player will be at cave 8
     And bat 1 will be at cave 4
+
+  Scenario: Enemy player moves to a cave with pit
+  Every time the player takes an action either move or shoot, the enemy player has 50% to move
+  Enemy player enters a cave with pit and dies
+    Given player is in cave 9
+    And enemy player is in cave 11
+    And pit 1 is in cave 3
+    When player moves to caves
+      | 1 | 2 |
+    And enemy player will wake up and move from cave 11 to cave 2
+    And enemy player will wake up and move from cave 2 to cave 3
+    Then enemy player is dead
