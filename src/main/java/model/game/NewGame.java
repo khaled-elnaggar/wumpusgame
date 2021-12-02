@@ -9,6 +9,7 @@ import model.gameobject.hazard.Wumpus;
 import utilities.RandomNumberGenerator;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -52,23 +53,24 @@ public class NewGame implements Game {
 
     @Override
     public void playerShootsToCave(int... caves) {
-        List<Cave> cavesToShoot = validateCavesToShootAt(caves);
+        List<Cave> cavesList = Arrays.stream(caves).mapToObj(cave -> gameMap.getCaves().get(cave)).collect(toList());
+        List<Cave> cavesToShoot = validateCavesToShootAt(player.getCave(), cavesList);
         player.shoot(cavesToShoot);
 
+        doWumpusPostShootActions();
+    }
+
+    private void doWumpusPostShootActions() {
         if (!wumpus.isDead()) {
             wumpus.attemptToWakeup();
         }
     }
 
-    private List<Cave> validateCavesToShootAt(int... caves) {
-        List<Cave> cavesToShootAt = Arrays.stream(caves).mapToObj(cave -> gameMap.getCaves().get(cave)).collect(toList());
+    private List<Cave> validateCavesToShootAt(Cave arrowStartingCave, List<Cave> cavesToShootAt) {
         List<Cave> validCavesToShootAt = new ArrayList<>();
 
-        Cave arrowCurrentCave = player.getCave();
-
-        for (int i = 0; i < caves.length; i++) {
-            Cave arrowNextCave = cavesToShootAt.get(i);
-
+        Cave arrowCurrentCave = arrowStartingCave;
+        for (Cave arrowNextCave : cavesToShootAt) {
             if (arrowCurrentCave.isLinkedTo(arrowNextCave)) {
                 validCavesToShootAt.add(arrowNextCave);
             } else {
@@ -79,11 +81,23 @@ public class NewGame implements Game {
         return validCavesToShootAt;
     }
 
-    public void enemyPlayerTakeAction(){
+    public void enemyPlayerTakeAction() {
         final int fiftyPercentChance = randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION);
-        if(fiftyPercentChance == 0){
+        if (fiftyPercentChance == 0) {
             Cave caveToMoveTo = enemyPlayer.getCave().getLinkedCaves().get(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES));
             enemyPlayer.move(caveToMoveTo);
+        } else if (fiftyPercentChance == 1) {
+            final int numberOfCavesToShoot = 1 + randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT);
+
+            List<Cave> litOfInvalidCaves = Stream.iterate(1, i -> i + 1)
+                    .map(i -> new Cave(-1))
+                    .limit(numberOfCavesToShoot)
+                    .collect(toList());
+
+            List<Cave> cavesToShoot = validateCavesToShootAt(enemyPlayer.getCave(), litOfInvalidCaves);
+            enemyPlayer.shoot(cavesToShoot);
+
+            doWumpusPostShootActions();
         }
     }
 
@@ -159,7 +173,7 @@ public class NewGame implements Game {
 
     @Override
     public int getEnemyRemainingArrows() {
-        return 0;
+        return enemyPlayer.getArrows().getNumber();
     }
 
     public Player getPlayer() {
