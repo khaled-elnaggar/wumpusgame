@@ -853,4 +853,35 @@ public class NewGameModelTests {
 
         assertEquals(expectedEnemyPlayerCave, game.getEnemyPlayerCaveIndex());
     }
+
+    @Test
+    public void testThatEnemyPlayerMoveToCaveWithWumpusAndDies() {
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+
+        final int numberAtWhichEnemyPlayerWillMove = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
+                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+
+        final int firstCaveIndexToMoveTo = 0;
+        final int secondCaveIndexToMoveTo = 1;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+                firstCaveIndexToMoveTo,
+                secondCaveIndexToMoveTo);
+
+        NewGame game = new NewGame(randomNumberGenerator);
+        game.startGame();
+
+
+        final int[] journeyPath = new int[]{1, 0};
+        for (int cave : journeyPath) {
+            game.playerMovesToCave(cave);
+        }
+
+        final int expectedEnemyPlayerCave = WUMPUS_STARTING_CAVE_INDEX;
+
+        assertEquals(expectedEnemyPlayerCave, game.getEnemyPlayerCaveIndex());
+
+        assertTrue(game.isEnemyPlayerDead());
+    }
+
 }
