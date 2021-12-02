@@ -32,8 +32,9 @@ public class WumpusSteps {
         gameWorld.getRNGBuilder().makeWumpusSleep();
     }
 
-    @But("wumpus will wake up from {int} and move to cave {int}")
-    public void wumpusWillWakeUpAndMoveToCave(int currentWumpusCave, int cave) throws Exception {
+    @But("wumpus will wake up and move to cave {int}")
+    public void wumpusWillWakeUpAndMoveToCave(int cave) throws Exception {
+        int currentWumpusCave = gameWorld.getWumpusPresenter().getWumpusCaveIndex();
         int caveIndex = gameWorld.getCaveIndexOutOfCave(currentWumpusCave, cave);
         gameWorld.getRNGBuilder().makeWumpusMoveTo(caveIndex);
     }

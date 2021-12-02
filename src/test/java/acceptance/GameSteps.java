@@ -12,19 +12,17 @@ import support.GameWorld;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class OtherSteps {
+public class GameSteps {
     private final GameWorld gameWorld;
 
-    public OtherSteps(GameWorld gameWorld) {
+    public GameSteps(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
     }
-
 
     @And("pit {int} is in cave {int}")
     public void pitIsInCave(int pitNumber, int cave) {
         gameWorld.getRNGBuilder().setPitStartingCave(pitNumber, cave);
     }
-
 
     @Then("game is over")
     public void gameIsOver() {
@@ -53,22 +51,14 @@ public class OtherSteps {
     }
 
     @But("cave {int} is not linked to {int}, so arrow will go to {int} instead")
-    public void caveIsNotLinkedToSoArrowWillGotToInstead(int wrongCave, int currentCave, int nextRandomCave) {
-        int[] caveLinks = GameInitialConfigurations.CAVE_LINKS[currentCave];
-        int caveIndex = 0;
-
-        for (int i = 0; i < caveLinks.length; i++) {
-            if (caveLinks[i] == nextRandomCave) {
-                caveIndex = i;
-            }
-        }
-
+    public void caveIsNotLinkedToSoArrowWillGotToInstead(int wrongCave, int currentCave, int nextRandomCave) throws Exception {
+        int caveIndex = gameWorld.getCaveIndexOutOfCave(currentCave, nextRandomCave);
         gameWorld.getRNGBuilder().setNextRandomCaveForArrow(caveIndex);
     }
 
     @Given("game starts")
     public void gameStarts() {
-
+        gameWorld.executeActions();
     }
 
     @And("pit {int} will be at cave {int}")
@@ -92,12 +82,12 @@ public class OtherSteps {
                 assertTrue(gameWorld.executeActionsAndGetWumpusPresenter().getEnemyPlayerCave() >= 0);
                 break;
             case "bat":
-                assertEquals("Please update the game configuration first!", GameInitialConfigurations.NUMBER_OF_BATS, expectedNumber);
+                assertEquals("Please update the game configuration NUMBER_OF_BATS first!", GameInitialConfigurations.NUMBER_OF_BATS, expectedNumber);
                 final int actualBatsCount = gameWorld.executeActionsAndGetWumpusPresenter().getBatsCaves().length;
                 assertEquals(expectedNumber, actualBatsCount);
                 break;
             case "pit":
-                assertEquals("Please update the game configuration first!", GameInitialConfigurations.NUMBER_OF_PITS, expectedNumber);
+                assertEquals("Please update the game configuration NUMBER_OF_PITS first!", GameInitialConfigurations.NUMBER_OF_PITS, expectedNumber);
                 final int actualPitsCount = gameWorld.executeActionsAndGetWumpusPresenter().getPitsCaves().length;
                 assertEquals(expectedNumber, actualPitsCount);
                 break;

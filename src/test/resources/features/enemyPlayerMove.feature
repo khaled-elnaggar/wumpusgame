@@ -1,7 +1,7 @@
-Feature: Enemy player features
+Feature: Enemy player move feature
 
   As the player
-  I want the game to have an enemy player
+  I want the enemy player to move similar to me
   So that the game gets more competitive
 
   Background:
@@ -59,12 +59,12 @@ Feature: Enemy player features
       | 2 | 3 |
     Then enemy player is dead
 
-  Scenario: Enemy player shoots random linked caves with player
-    Given player is in cave 9
-    And enemy player is in cave 11
-    When player moves to cave 1
-    And enemy player shoots caves
-      | 10 | 9 | 1 |
-    Then player is dead
-    And game is lost
+
+# TODO: Enemy player move test list
+#  player shoots and enemy moves
+#  DONE - Enemy moves to a random linked cave
+#  DONE - Enemy moves to a random cave and gets eaten by the wumpus
+#  DONE - Enemy moves to a random cave and dies inside a pit
+#  DONE - Enemy moves to a random cave and bat teleports it
+
 

@@ -39,7 +39,7 @@ Feature: Player shoots arrows
     And wumpus is in cave <WumpusStartingCave>
     When player moves to cave <PlayerNextCave>
     And player shoots at cave <CaveToShootAt>
-    But wumpus will wake up from <WumpusStartingCave> and move to cave <WumpusNextCave>
+    But wumpus will wake up and move to cave <WumpusNextCave>
     Then wumpus will be at cave <WumpusNextCave>
     And game is <GameStatus>
 
