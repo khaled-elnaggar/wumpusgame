@@ -53,7 +53,7 @@ public class NewGame implements Game {
     public void playerShootsToCave(int... caves) {
         List<Cave> cavesToShoot = this.validateCavesToShootAt(player.getCave(), caves);
         player.shoot(cavesToShoot);
-
+        enemyPlayerTakeAction();
         doWumpusPostShootActions();
     }
 
