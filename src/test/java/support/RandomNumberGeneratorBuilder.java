@@ -58,6 +58,7 @@ public class RandomNumberGeneratorBuilder {
             }
         });
 
+        makeEnemyPlayerSleep();
     }
 
     public void addCaveToTeleportTo(int cave) {

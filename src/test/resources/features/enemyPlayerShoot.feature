@@ -34,13 +34,21 @@ Feature: Enemy player shoot feature
     When player moves to cave 1
     And enemy player shoots caves
       | 10 | 11 |
-  Then enemy player is dead
+    Then enemy player is dead
+
+  Scenario: Enemy player is shot by player
+  The player shoots the enemy player
+    Given player is in cave 9
+    And enemy player is in cave 11
+    When player shoots an arrow at caves
+      | 10 | 11 |
+    Then enemy player is dead
 
 # TODO: Enemy player shoot test list
 #  DONE - Enemy kills player so player loses
 #  DONE - Enemy kills the wumpus and player loses
 #  DONE - Enemy kills itself
-#  Player kills enemy player
+#  DONE - Player kills enemy player
 #  Enemy runs out of arrows and can not move or shoot
 #  Dead enemy can not move or shoot
 #
