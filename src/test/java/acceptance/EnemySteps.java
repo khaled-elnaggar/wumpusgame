@@ -6,6 +6,7 @@ import io.cucumber.java.en.Then;
 import support.GameWorld;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class EnemySteps {
     private final GameWorld gameWorld;
@@ -34,5 +35,10 @@ public class EnemySteps {
     @And("enemy player remains asleep")
     public void enemyPlayerRemainsAsleep() {
         gameWorld.getRNGBuilder().makeEnemyPlayerSleep();
+    }
+
+    @And("enemy player is dead")
+    public void enemyPlayerIsDead() {
+        assertTrue(gameWorld.getWumpusPresenter().isEnemyPlayerDead());
     }
 }

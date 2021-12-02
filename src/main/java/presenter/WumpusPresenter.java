@@ -24,4 +24,6 @@ public interface WumpusPresenter {
     int[] getBatsCaves();
 
     int[] getPitsCaves();
+
+    boolean isEnemyPlayerDead();
 }

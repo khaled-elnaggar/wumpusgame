@@ -14,9 +14,22 @@ Feature: Enemy player features
     And pit 2 is in cave 13
 
   Scenario: Enemy player moves to a linked cave
-  Everytime when the player takes an action either move or shoot, the enemy player has 50% to move
+  Every time the player takes an action either move or shoot, the enemy player has 50% to move
     Given player is in cave 9
     And enemy player is in cave 16
     When player moves to cave 1
     Then enemy player will wake up and move from cave 16 to cave 6
     And enemy player will be at cave 6
+
+  Scenario: Enemy player moves to a cave with wumpus and dies
+  Every time the player takes an action either move or shoot, the enemy player has 50% to move
+  Enemy player enters a cave and dies
+    Given player is in cave 9
+    And enemy player is in cave 16
+    And wumpus is in cave 18
+    When player moves to cave 1
+    Then enemy player will wake up and move from cave 16 to cave 17
+    When player moves to cave 2
+    Then enemy player will wake up and move from cave 17 to cave 18
+    And enemy player is dead
+

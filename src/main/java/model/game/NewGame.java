@@ -152,6 +152,11 @@ public class NewGame implements Game {
         return pits.stream().mapToInt(pit -> pit.getCave().getNumber()).toArray();
     }
 
+    @Override
+    public boolean isEnemyPlayerDead() {
+        return enemyPlayer.isDead();
+    }
+
     public Player getPlayer() {
         return this.player;
     }
