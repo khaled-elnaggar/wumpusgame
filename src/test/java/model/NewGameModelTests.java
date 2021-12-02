@@ -48,10 +48,28 @@ public class NewGameModelTests {
         );
     }
 
+    private void makeWumpusSleep() {
+        final int numberAtWhichWumpusRemainsAsleep = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY))
+                .thenReturn(numberAtWhichWumpusRemainsAsleep);
+    }
+
+    private void makeWumpusWakeUp() {
+        final int numberAtWhichWumpusWillWakeUp = 1;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY)).thenReturn(
+                numberAtWhichWumpusWillWakeUp);
+    }
+
     private void makeEnemyPlayerSleep() {
         final int numberAtWhichEnemyPlayerWillRemainAsleep = 3;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
                 .thenReturn(numberAtWhichEnemyPlayerWillRemainAsleep);
+    }
+
+    private void makeEnemyPlayerShoot() {
+        final int numberAtWhichEnemyPlayerWillShoot = 1;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
+                .thenReturn(numberAtWhichEnemyPlayerWillShoot);
     }
 
     @Test
@@ -450,10 +468,7 @@ public class NewGameModelTests {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
         makeEnemyPlayerSleep();
 
-        final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
-        final int numberAtWhichWumpusWillRemainSleeping = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability)).thenReturn(
-                numberAtWhichWumpusWillRemainSleeping);
+        makeWumpusSleep();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -474,10 +489,7 @@ public class NewGameModelTests {
     public void testThatPlayerShootsAnArrowThatMissesTheWumpusAndWumpusMoves() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
-        final int numberAtWhichWumpusWillWakeUp = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability)).thenReturn(
-                numberAtWhichWumpusWillWakeUp);
+        makeWumpusWakeUp();
 
         final int numberOfLinkedCaves = 3;
         final int wumpusLinkedCaveIndex = 2;
@@ -503,14 +515,12 @@ public class NewGameModelTests {
         assertEquals(actualGameState, gameIsNotOver);
     }
 
+
     @Test
     public void testThatPlayerRunsOutOfArrowsWithoutKillingWumpus() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
-        final int numberAtWhichWumpusWillWakeUp = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability)).thenReturn(
-                numberAtWhichWumpusWillWakeUp);
+        makeWumpusSleep();
 
         makeEnemyPlayerSleep();
 
@@ -532,10 +542,7 @@ public class NewGameModelTests {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
         makeEnemyPlayerSleep();
 
-        final int maximumNumberForCalculatingWumpusWakeupProbability = 4;
-        final int numberAtWhichWumpusWillWakeUp = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability)).thenReturn(
-                numberAtWhichWumpusWillWakeUp);
+        makeWumpusWakeUp();
 
         final int numberOfLinkedCaves = 3;
         final int wumpusLinkedCaveIndex = 1;
@@ -845,9 +852,7 @@ public class NewGameModelTests {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
                 caveIndexToMoveTo);
 
-        final int numberAtWhichWumpusRemainsAsleep = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY))
-                .thenReturn(numberAtWhichWumpusRemainsAsleep);
+        makeWumpusSleep();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
