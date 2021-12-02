@@ -33,3 +33,16 @@ Feature: Enemy player features
     Then enemy player will wake up and move from cave 17 to cave 18
     And enemy player is dead
 
+  Scenario: Enemy player moves to a cave with bat and teleports
+  Every time the player takes an action either move or shoot, the enemy player has 50% to move
+  Enemy player enters a cave with bat and teleports to another cave
+    Given player is in cave 9
+    And enemy player is in cave 11
+    And bat 1 is in cave 19
+    When player moves to caves
+      | 1 | 2 |
+    And enemy player will wake up and move from cave 11 to cave 12
+    And enemy player will wake up and move from cave 12 to cave 19
+    Then bat will teleport player to cave 8 and itself to cave 4
+    Then enemy player will be at cave 8
+    And bat 1 will be at cave 4
