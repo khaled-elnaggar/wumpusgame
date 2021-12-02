@@ -1,9 +1,13 @@
 package acceptance;
 
+import io.cucumber.java.PendingException;
+import io.cucumber.java.Transpose;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.But;
 import io.cucumber.java.en.Then;
 import support.GameWorld;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -40,5 +44,10 @@ public class EnemySteps {
     @And("enemy player is dead")
     public void enemyPlayerIsDead() {
         assertTrue(gameWorld.getWumpusPresenter().isEnemyPlayerDead());
+    }
+
+    @And("enemy player shoots caves")
+    public void enemyPlayerShootsCaves(@Transpose List<Integer> caves) {
+        throw new PendingException();
     }
 }

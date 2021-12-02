@@ -58,3 +58,13 @@ Feature: Enemy player features
     And enemy player will wake up and move from cave 11 to cave 2
     And enemy player will wake up and move from cave 2 to cave 3
     Then enemy player is dead
+
+  Scenario: Enemy player shoots random linked caves with player
+    Given player is in cave 9
+    And enemy player is in cave 11
+    When player moves to cave 1
+    And enemy player shoots caves
+      | 10 | 9 | 1 |
+    Then player is dead
+    And game is lost
+
