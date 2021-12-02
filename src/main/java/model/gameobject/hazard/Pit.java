@@ -19,7 +19,7 @@ public class Pit extends Hazard {
 
     @Override
     public void executeActionOnPlayer(Player player) {
-        player.kill();
+        player.kill(this);
         player.addAWarning(this.warningInTheSameCave);
     }
 

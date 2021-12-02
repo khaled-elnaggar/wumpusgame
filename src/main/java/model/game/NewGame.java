@@ -155,7 +155,7 @@ public class NewGame implements Game {
 
     @Override
     public boolean isGameLost() {
-        return player.hasNoArrows() || player.isDead();
+        return player.hasNoArrows() || player.isDead() || wumpus.wasKilledBy(enemyPlayer);
     }
 
     @Override

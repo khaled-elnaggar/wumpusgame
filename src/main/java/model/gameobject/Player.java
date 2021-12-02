@@ -11,10 +11,17 @@ public class Player extends GameObject implements Killable {
     private boolean dead;
     private final Arrow arrow;
     private final List<String> warnings = new ArrayList<>();
+    private GameObject killer;
 
     @Override
-    public void kill() {
+    public void kill(GameObject killer) {
         this.dead = true;
+        this.killer = killer;
+    }
+
+    @Override
+    public boolean wasKilledBy(GameObject killer) {
+        return this.killer != null && this.killer.equals(killer);
     }
 
     public Player(int numberOfArrows) {
@@ -87,7 +94,7 @@ public class Player extends GameObject implements Killable {
 
     public void shootSingle(Cave caveToShoot) {
         caveToShoot.getKillables()
-                .forEach(Killable::kill);
+                .forEach(killable -> killable.kill(this));
     }
 
     public boolean hasNoArrows() {

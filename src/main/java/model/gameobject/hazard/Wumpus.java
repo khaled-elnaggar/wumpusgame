@@ -2,6 +2,7 @@ package model.gameobject.hazard;
 
 import model.gamemap.Cave;
 import model.game.GameInitialConfigurations;
+import model.gameobject.GameObject;
 import model.gameobject.Killable;
 import model.gameobject.Player;
 import utilities.RandomNumberGenerator;
@@ -12,6 +13,7 @@ public class Wumpus extends Hazard implements Killable {
     final String warningInTheLinkedCave = "there's an awful smell";
     private final RandomNumberGenerator randomNumberGenerator;
     boolean dead;
+    private GameObject killer;
 
     public Wumpus(RandomNumberGenerator randomNumberGenerator) {
         this.randomNumberGenerator = randomNumberGenerator;
@@ -19,7 +21,7 @@ public class Wumpus extends Hazard implements Killable {
 
     @Override
     public void executeActionOnPlayer(Player player) {
-        player.kill();
+        player.kill(this);
         player.addAWarning(this.warningInTheSameCave);
     }
 
@@ -49,8 +51,14 @@ public class Wumpus extends Hazard implements Killable {
     }
 
     @Override
-    public void kill() {
+    public void kill(GameObject killer) {
         this.dead = true;
+        this.killer = killer;
+    }
+
+    @Override
+    public boolean wasKilledBy(GameObject killer) {
+        return this.killer != null && this.killer.equals(killer);
     }
 
     @Override

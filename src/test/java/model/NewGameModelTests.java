@@ -1014,10 +1014,6 @@ public class NewGameModelTests {
                 .thenReturn(firstCaveIndexToShootByEnemyPlayer,
                         secondCaveIndexToShootByEnemyPlayer);
 
-        final int numberAtWhichWumpusRemainsAsleep = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY))
-                .thenReturn(numberAtWhichWumpusRemainsAsleep);
-
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
