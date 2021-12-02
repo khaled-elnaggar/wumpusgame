@@ -24,4 +24,6 @@ public interface Game {
      int[] getPitsCaves();
 
     boolean isEnemyPlayerDead();
+
+     int getEnemyRemainingArrows();
 }

@@ -157,6 +157,11 @@ public class NewGame implements Game {
         return enemyPlayer.isDead();
     }
 
+    @Override
+    public int getEnemyRemainingArrows() {
+        return 0;
+    }
+
     public Player getPlayer() {
         return this.player;
     }
