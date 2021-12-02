@@ -38,6 +38,7 @@ public class GameWorld {
     }
 
     public void executeActions() {
+        this.RNGBuilder.updateMockArrays();
         actionsToExecute.forEach(Action::execute);
         actionsToExecute.clear();
     }

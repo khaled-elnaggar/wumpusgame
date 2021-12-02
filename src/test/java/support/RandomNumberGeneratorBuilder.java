@@ -39,7 +39,6 @@ public class RandomNumberGeneratorBuilder {
                 wumpusStartingCave));
         randomReturnsWhenCalledWith20.addAll(batsStartingCaves);
         randomReturnsWhenCalledWith20.addAll(pitsStartingCaves);
-        randomReturnsWhenCalledWith20.addAll(teleportCaves);
 
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenAnswer(new Answer<Integer>() {
             int current = 0;
@@ -63,6 +62,11 @@ public class RandomNumberGeneratorBuilder {
 
     public void addCaveToTeleportTo(int cave) {
         teleportCaves.add(cave);
+    }
+
+    public void updateMockArrays(){
+        randomReturnsWhenCalledWith20.addAll(teleportCaves);
+        teleportCaves.clear();
     }
 
     public void makeWumpusSleep() {

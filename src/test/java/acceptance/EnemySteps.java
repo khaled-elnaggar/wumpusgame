@@ -6,6 +6,8 @@ import io.cucumber.java.en.But;
 import io.cucumber.java.en.Then;
 import support.GameWorld;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,10 +25,19 @@ public class EnemySteps {
         gameWorld.getRNGBuilder().setEnemyPlayerStartingCave(cave);
     }
 
-    @But("enemy player will wake up and move from cave {int} to cave {int}")
-    public void enemyPlayerWillWakeUpAndMoveToCave(int currentCave, int cave) throws Exception {
-        int caveIndex = gameWorld.getCaveIndexOutOfCave(currentCave, cave);
-        gameWorld.getRNGBuilder().makeEnemyPlayerMoveToCave(caveIndex);
+    @But("enemy player will wake up and move to caves")
+    public void enemyPlayerWillWakeUpAndMoveToCave(@Transpose List<Integer> caves) throws Exception {
+        int currentCave = gameWorld.getWumpusPresenter().getEnemyPlayerCave();
+        for (int cave : caves) {
+            int caveIndex = gameWorld.getCaveIndexOutOfCave(currentCave, cave);
+            gameWorld.getRNGBuilder().makeEnemyPlayerMoveToCave(caveIndex);
+            currentCave = cave;
+        }
+    }
+
+    @Then("enemy player will wake up and move to cave {int}")
+    public void enemyPlayerWillWakeUpAndMoveToCave(int cave) throws Exception {
+        this.enemyPlayerWillWakeUpAndMoveToCave(Collections.singletonList(cave));
     }
 
     @Then("enemy player will be at cave {int}")
@@ -51,5 +62,4 @@ public class EnemySteps {
         List<Integer> caveIndexes = gameWorld.getCaveIndexesOutOfCaveNumbers(startingCave, caves);
         gameWorld.getRNGBuilder().makeEnemyPlayerShootAtCaves(caveIndexes);
     }
-
 }
