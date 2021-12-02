@@ -21,6 +21,14 @@ Feature: Enemy player move feature
     Then enemy player will wake up and move to cave 6
     And enemy player will be at cave 6
 
+  Scenario: Enemy player moves to a linked cave
+  Every time the player takes an action either move or shoot, the enemy player has 50% to move
+    Given player is in cave 9
+    And enemy player is in cave 16
+    When player shoots at cave 1
+    Then enemy player will wake up and move to cave 6
+    And enemy player will be at cave 6
+
   Scenario: Enemy player moves to a cave with wumpus
   Every time the player takes an action either move or shoot, the enemy player has 50% to move
   Enemy player enters a cave with wumpus and dies
