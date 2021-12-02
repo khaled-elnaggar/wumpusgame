@@ -899,7 +899,6 @@ public class NewGameModelTests {
                 enemyPlayerDropDownCave,
                 batDropDownCave);
 
-
         final int numberAtWhichEnemyPlayerWillMove = 0;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
                 .thenReturn(numberAtWhichEnemyPlayerWillMove);
@@ -913,14 +912,42 @@ public class NewGameModelTests {
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
+        final int[] journeyPath = new int[]{1, 0};
+        for (int cave : journeyPath) {
+            game.playerMovesToCave(cave);
+        }
+
+        assertEquals(enemyPlayerDropDownCave, game.getEnemyPlayerCaveIndex());
+    }
+
+    @Test
+        public void testThatEnemyPlayerMoveToCaveWithPitAndDies() {
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+
+        final int numberAtWhichEnemyPlayerWillMove = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
+                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+
+        final int firstCaveIndexToMoveTo = 1;
+        final int secondCaveIndexToMoveTo = 2;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+                firstCaveIndexToMoveTo,
+                secondCaveIndexToMoveTo);
+
+        NewGame game = new NewGame(randomNumberGenerator);
+        game.startGame();
+
 
         final int[] journeyPath = new int[]{1, 0};
         for (int cave : journeyPath) {
             game.playerMovesToCave(cave);
         }
 
+        final int expectedEnemyPlayerCave = FIRST_PIT_CAVE;
 
-        assertEquals(enemyPlayerDropDownCave, game.getEnemyPlayerCaveIndex());
+        assertEquals(expectedEnemyPlayerCave, game.getEnemyPlayerCaveIndex());
+
+        assertTrue(game.isEnemyPlayerDead());
     }
 
 }
