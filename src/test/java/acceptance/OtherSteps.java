@@ -28,7 +28,7 @@ public class OtherSteps {
 
     @Then("game is over")
     public void gameIsOver() {
-        WumpusPresenter wumpusPresenter = gameWorld.getWumpusPresenter();
+        WumpusPresenter wumpusPresenter = gameWorld.executeActionsAndGetWumpusPresenter();
         final boolean expectedStatusOfGameIsOver = true;
         final boolean isGameOver = wumpusPresenter.isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
@@ -36,7 +36,7 @@ public class OtherSteps {
 
     @And("game is still on")
     public void gameIsStillOn() {
-        WumpusPresenter wumpusPresenter = gameWorld.getWumpusPresenter();
+        WumpusPresenter wumpusPresenter = gameWorld.executeActionsAndGetWumpusPresenter();
         final boolean expectedStatusOfGameIsOver = false;
         final boolean isGameOver = wumpusPresenter.isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
@@ -44,12 +44,12 @@ public class OtherSteps {
 
     @And("game is won")
     public void gameIsWon() {
-        assertTrue(gameWorld.getWumpusPresenter().hasPlayerWon());
+        assertTrue(gameWorld.executeActionsAndGetWumpusPresenter().hasPlayerWon());
     }
 
     @And("game is lost")
     public void gameIsLost() {
-        assertTrue(gameWorld.getWumpusPresenter().isGameLost());
+        assertTrue(gameWorld.executeActionsAndGetWumpusPresenter().isGameLost());
     }
 
     @But("cave {int} is not linked to {int}, so arrow will go to {int} instead")
@@ -74,7 +74,7 @@ public class OtherSteps {
     @And("pit {int} will be at cave {int}")
     public void pitWillBeAtCave(int pitNumber, int expectedCave) {
         assertTrue("Wrong pit index " + pitNumber + " .indexes start from 1", pitNumber > 0);
-        final int pitsCave = gameWorld.getWumpusPresenter().getPitsCaves()[pitNumber - 1];
+        final int pitsCave = gameWorld.executeActionsAndGetWumpusPresenter().getPitsCaves()[pitNumber - 1];
         Assertions.assertEquals(expectedCave, pitsCave);
     }
 
@@ -86,19 +86,19 @@ public class OtherSteps {
 
         switch (objectName) {
             case "player":
-                assertTrue(gameWorld.getWumpusPresenter().getPlayerCaveIndex() >= 0);
+                assertTrue(gameWorld.executeActionsAndGetWumpusPresenter().getPlayerCaveIndex() >= 0);
                 break;
             case "enemy player":
-                assertTrue(gameWorld.getWumpusPresenter().getEnemyPlayerCave() >= 0);
+                assertTrue(gameWorld.executeActionsAndGetWumpusPresenter().getEnemyPlayerCave() >= 0);
                 break;
             case "bat":
                 assertEquals("Please update the game configuration first!", GameInitialConfigurations.NUMBER_OF_BATS, expectedNumber);
-                final int actualBatsCount = gameWorld.getWumpusPresenter().getBatsCaves().length;
+                final int actualBatsCount = gameWorld.executeActionsAndGetWumpusPresenter().getBatsCaves().length;
                 assertEquals(expectedNumber, actualBatsCount);
                 break;
             case "pit":
                 assertEquals("Please update the game configuration first!", GameInitialConfigurations.NUMBER_OF_PITS, expectedNumber);
-                final int actualPitsCount = gameWorld.getWumpusPresenter().getPitsCaves().length;
+                final int actualPitsCount = gameWorld.executeActionsAndGetWumpusPresenter().getPitsCaves().length;
                 assertEquals(expectedNumber, actualPitsCount);
                 break;
             default:

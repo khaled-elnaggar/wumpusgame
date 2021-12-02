@@ -27,7 +27,7 @@ public class BatSteps {
     @And("bat {int} will be at cave {int}")
     public void batWillBeAtCave(int batNumber, int expectedCave) {
         assertTrue("Wrong bat index " + batNumber + " .indexes start from 1", batNumber > 0);
-        final int batCave = gameWorld.getWumpusPresenter().getBatsCaves()[batNumber - 1];
+        final int batCave = gameWorld.executeActionsAndGetWumpusPresenter().getBatsCaves()[batNumber - 1];
         assertEquals(expectedCave, batCave);
     }
 }

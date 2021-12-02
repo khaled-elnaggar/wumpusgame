@@ -1,6 +1,5 @@
 package support;
 
-import io.cucumber.java.PendingException;
 import model.game.GameInitialConfigurations;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -62,8 +61,8 @@ public class RandomNumberGeneratorBuilder {
 
     }
 
-    public void setPlayerStartingCave(int playerStartingCave) {
-        this.playerStartingCave = playerStartingCave;
+    public void addCaveToTeleportTo(int cave) {
+        teleportCaves.add(cave);
     }
 
     public void makeWumpusSleep() {
@@ -79,30 +78,6 @@ public class RandomNumberGeneratorBuilder {
         randomReturnsWhenCalledWith3.add(caveIndex);
     }
 
-    public void setWumpusStartingCave(int wumpusStartingCave) {
-        this.wumpusStartingCave = wumpusStartingCave;
-    }
-
-    public void setBatStartingCave(int batNumber, int cave) {
-        batsStartingCaves.set(batNumber - 1, cave);
-    }
-
-    public void setPitStartingCave(int pitNumber, int cave) {
-        pitsStartingCaves.set(pitNumber - 1, cave);
-    }
-
-    public void addCaveToTeleportTo(int cave) {
-        teleportCaves.add(cave);
-    }
-
-    public void setNextRandomCaveForArrow(int caveIndex) {
-        randomReturnsWhenCalledWith3.add(caveIndex);
-    }
-
-    public void setEnemyPlayerStartingCave(int enemyPlayerStartingCave) {
-        this.enemyPlayerStartingCave = enemyPlayerStartingCave;
-    }
-
     public void makeEnemyPlayerSleep() {
         final int numberAtWhichEnemyPlayerWillRemainAsleep = 3;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
@@ -116,4 +91,42 @@ public class RandomNumberGeneratorBuilder {
 
         randomReturnsWhenCalledWith3.add(caveIndex);
     }
+
+    public void makeEnemyPlayerShootAtCaves(List<Integer> caveIndexes) {
+
+        final int numberAtWhichEnemyPlayerWillShoot = 1;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION)).thenReturn(
+                numberAtWhichEnemyPlayerWillShoot);
+
+        final int numberOfCavesEnemyPlayerWillShoot = caveIndexes.size() - 1; // Since generate number is 0 based
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT)).thenReturn(
+                numberOfCavesEnemyPlayerWillShoot);
+
+        randomReturnsWhenCalledWith3.addAll(caveIndexes);
+    }
+
+    public void setPlayerStartingCave(int playerStartingCave) {
+        this.playerStartingCave = playerStartingCave;
+    }
+
+    public void setWumpusStartingCave(int wumpusStartingCave) {
+        this.wumpusStartingCave = wumpusStartingCave;
+    }
+
+    public void setBatStartingCave(int batNumber, int cave) {
+        batsStartingCaves.set(batNumber - 1, cave);
+    }
+
+    public void setPitStartingCave(int pitNumber, int cave) {
+        pitsStartingCaves.set(pitNumber - 1, cave);
+    }
+
+    public void setNextRandomCaveForArrow(int caveIndex) {
+        randomReturnsWhenCalledWith3.add(caveIndex);
+    }
+
+    public void setEnemyPlayerStartingCave(int enemyPlayerStartingCave) {
+        this.enemyPlayerStartingCave = enemyPlayerStartingCave;
+    }
+
 }

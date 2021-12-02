@@ -22,7 +22,7 @@ public class PlayerSteps {
     private List<Action> actionsToTake = new ArrayList<>();
 
     private void startGameAndExecuteActions() {
-        Action.setWumpusPresenter(gameWorld.getWumpusPresenter());
+        Action.setWumpusPresenter(gameWorld.executeActionsAndGetWumpusPresenter());
         actionsToTake.forEach(Action::execute);
     }
 
@@ -61,17 +61,17 @@ public class PlayerSteps {
 
     @Then("player senses that {string}")
     public void playerSensesThat(String warning) {
-        List<String> warnings = gameWorld.getWumpusPresenter().getWarnings();
+        List<String> warnings = gameWorld.executeActionsAndGetWumpusPresenter().getWarnings();
         assertTrue(warnings.contains(warning));
     }
 
     @Then("player will be at cave {int}")
     public void player_will_be_at_cave(Integer expectedPlayerCave) {
-        final int playerCurrentRoom = gameWorld.getWumpusPresenter().getPlayerCaveIndex();
+        final int playerCurrentRoom = gameWorld.executeActionsAndGetWumpusPresenter().getPlayerCaveIndex();
         assertEquals(expectedPlayerCave, playerCurrentRoom);
 
         final boolean expectedStatusOfGameIsOver = false;
-        final boolean isGameOver = gameWorld.getWumpusPresenter().isGameOver();
+        final boolean isGameOver = gameWorld.executeActionsAndGetWumpusPresenter().isGameOver();
         assertEquals(isGameOver, expectedStatusOfGameIsOver);
     }
 
@@ -81,7 +81,7 @@ public class PlayerSteps {
             throw new Exception("Logical error, remaining arrows can not be greater than initial arrows");
         }
 
-        final int playerCave = gameWorld.getWumpusPresenter().getPlayerCaveIndex();
+        final int playerCave = gameWorld.executeActionsAndGetWumpusPresenter().getPlayerCaveIndex();
         final int firstLinkedCave = GameInitialConfigurations.CAVE_LINKS[playerCave][0];
         for (int i = 0; i < GameInitialConfigurations.NUMBER_OF_ARROWS - remainingAroows; i++) {
             gameWorld.queueAction(new ShootAction(firstLinkedCave));
@@ -90,6 +90,6 @@ public class PlayerSteps {
 
     @Then("player is dead")
     public void playerDies() {
-        assertTrue(gameWorld.getWumpusPresenter().isPlayerDead());
+        assertTrue(gameWorld.executeActionsAndGetWumpusPresenter().isPlayerDead());
     }
 }

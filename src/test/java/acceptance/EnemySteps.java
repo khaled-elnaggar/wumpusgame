@@ -1,6 +1,5 @@
 package acceptance;
 
-import io.cucumber.java.PendingException;
 import io.cucumber.java.Transpose;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.But;
@@ -32,7 +31,7 @@ public class EnemySteps {
 
     @Then("enemy player will be at cave {int}")
     public void enemyWillBeAtCave(int expectedCave) {
-        final int actualWumpusCave = gameWorld.getWumpusPresenter().getEnemyPlayerCave();
+        final int actualWumpusCave = gameWorld.executeActionsAndGetWumpusPresenter().getEnemyPlayerCave();
         assertEquals(expectedCave, actualWumpusCave);
     }
 
@@ -43,11 +42,14 @@ public class EnemySteps {
 
     @And("enemy player is dead")
     public void enemyPlayerIsDead() {
-        assertTrue(gameWorld.getWumpusPresenter().isEnemyPlayerDead());
+        assertTrue(gameWorld.executeActionsAndGetWumpusPresenter().isEnemyPlayerDead());
     }
 
     @And("enemy player shoots caves")
-    public void enemyPlayerShootsCaves(@Transpose List<Integer> caves) {
-        throw new PendingException();
+    public void enemyPlayerShootsCaves(@Transpose List<Integer> caves) throws Exception {
+        final int startingCave = gameWorld.getWumpusPresenter().getEnemyPlayerCave();
+        List<Integer> caveIndexes = gameWorld.getCaveIndexesOutOfCaveNumbers(startingCave, caves);
+        gameWorld.getRNGBuilder().makeEnemyPlayerShootAtCaves(caveIndexes);
     }
+
 }

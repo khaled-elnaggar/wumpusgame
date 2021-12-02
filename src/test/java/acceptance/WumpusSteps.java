@@ -3,10 +3,7 @@ package acceptance;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.But;
 import io.cucumber.java.en.Then;
-import model.game.GameInitialConfigurations;
 import support.GameWorld;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,7 +23,7 @@ public class WumpusSteps {
 
     @Then("wumpus will be at cave {int}")
     public void wumpusWillBeAtCave(int expectedCaveIndex) {
-        final int actualWumpusCave = gameWorld.getWumpusPresenter().getWumpusCaveIndex();
+        final int actualWumpusCave = gameWorld.executeActionsAndGetWumpusPresenter().getWumpusCaveIndex();
         assertEquals(expectedCaveIndex, actualWumpusCave);
     }
 
@@ -43,6 +40,6 @@ public class WumpusSteps {
 
     @Then("wumpus is dead")
     public void wumpusIsDead() {
-        assertTrue(gameWorld.getWumpusPresenter().isWumpusDead());
+        assertTrue(gameWorld.executeActionsAndGetWumpusPresenter().isWumpusDead());
     }
 }
