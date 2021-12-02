@@ -842,16 +842,20 @@ public class NewGameModelTests {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
                 caveIndexToMoveTo);
 
+        final int numberAtWhichWumpusRemainsAsleep = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY))
+                .thenReturn(numberAtWhichWumpusRemainsAsleep);
+
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
-
         final int caveToShootAt = 1;
-        game.playerMovesToCave(caveToShootAt);
+        game.playerShootsToCave(caveToShootAt);
 
         final int expectedEnemyPlayerCave = GameInitialConfigurations.CAVE_LINKS[ENEMY_PLAYER_STARTING_CAVE_INDEX][caveIndexToMoveTo];
 
-        assertEquals(expectedEnemyPlayerCave, game.getEnemyPlayerCaveIndex());
+        final int actualEnemyPlayerCave = game.getEnemyPlayerCaveIndex();
+        assertEquals(expectedEnemyPlayerCave, actualEnemyPlayerCave);
     }
 
     @Test
