@@ -884,4 +884,43 @@ public class NewGameModelTests {
         assertTrue(game.isEnemyPlayerDead());
     }
 
+    @Test
+    public void testThatEnemyPlayerMoveToCaveWithBatAndTeleports() {
+        final int enemyPlayerDropDownCave = 8;
+        final int batDropDownCave = 4;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+                PLAYER_STARTING_CAVE_INDEX,
+                ENEMY_PLAYER_STARTING_CAVE_INDEX,
+                WUMPUS_STARTING_CAVE_INDEX,
+                FIRST_BAT_STARTING_CAVE_INDEX,
+                SECOND_BAT_STARTING_CAVE_INDEX,
+                FIRST_PIT_CAVE,
+                SECOND_PIT_CAVE,
+                enemyPlayerDropDownCave,
+                batDropDownCave);
+
+
+        final int numberAtWhichEnemyPlayerWillMove = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
+                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+
+        final int firstCaveIndexToMoveTo = 2;
+        final int secondCaveIndexToMoveTo = 1;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+                firstCaveIndexToMoveTo,
+                secondCaveIndexToMoveTo);
+
+        NewGame game = new NewGame(randomNumberGenerator);
+        game.startGame();
+
+
+        final int[] journeyPath = new int[]{1, 0};
+        for (int cave : journeyPath) {
+            game.playerMovesToCave(cave);
+        }
+
+
+        assertEquals(enemyPlayerDropDownCave, game.getEnemyPlayerCaveIndex());
+    }
+
 }
