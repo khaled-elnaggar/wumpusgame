@@ -1018,5 +1018,36 @@ public class NewGameModelTests {
         assertTrue(game.isGameLost());
     }
 
+    @Test
+    public void testThatEnemyPlayerRunsOutofArrowsAndCantMoveOrShoot() {
+        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
+        makeEnemyPlayerShoot();
+
+        final int numberOfCavesEnemyPlayerShoots = 0; // will actually shoot at 0 + 1 = 1 cave
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT))
+                .thenReturn(numberOfCavesEnemyPlayerShoots);
+
+        final int caveIndexToShootByEnemyPlayer = 0; // cave 10
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES))
+                .thenReturn(caveIndexToShootByEnemyPlayer);
+
+        makeWumpusSleep();
+
+        NewGame game = new NewGame(randomNumberGenerator);
+        game.startGame();
+
+        final int enemyRemainingArrows = game.getEnemyRemainingArrows();
+        for(int i = 0; i < enemyRemainingArrows; i++){
+            final int secondLinkedCave = GameInitialConfigurations.CAVE_LINKS[game.getPlayerCaveIndex()][1];
+            game.playerMovesToCave(secondLinkedCave);
+        }
+        assertEquals(0, game.getEnemyRemainingArrows());
+        assertEquals(ENEMY_PLAYER_STARTING_CAVE_INDEX, game.getEnemyPlayerCaveIndex());
+
+        game.playerMovesToCave(1);
+        assertEquals(0, game.getEnemyRemainingArrows());
+        assertEquals(ENEMY_PLAYER_STARTING_CAVE_INDEX, game.getEnemyPlayerCaveIndex());
+
+    }
 }
