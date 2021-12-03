@@ -44,6 +44,17 @@ Feature: Enemy player shoot feature
       | 10 | 11 |
     Then enemy player is dead
 
+  Scenario: Enemy player ran out of arrows
+  Enemy player can not shoot or move when out of arrows or dead
+    Given player is in cave 9
+    And enemy player is in cave 11
+    And enemy player used all arrows
+    When player moves to cave 1
+    Then enemy player will be at cave 11
+    And enemy player will have 0 arrows
+
+
+
 # TODO: Enemy player shoot test list
 #  DONE - Enemy kills player so player loses
 #  DONE - Enemy kills the wumpus and player loses

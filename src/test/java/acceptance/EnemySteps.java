@@ -4,7 +4,10 @@ import io.cucumber.java.Transpose;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.But;
 import io.cucumber.java.en.Then;
+import model.game.GameInitialConfigurations;
 import support.GameWorld;
+import support.MoveAction;
+import support.ShootAction;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -61,5 +64,31 @@ public class EnemySteps {
         final int startingCave = gameWorld.getWumpusPresenter().getEnemyPlayerCave();
         List<Integer> caveIndexes = gameWorld.getCaveIndexesOutOfCaveNumbers(startingCave, caves);
         gameWorld.getRNGBuilder().makeEnemyPlayerShootAtCaves(caveIndexes);
+    }
+
+    @And("enemy player shoots cave {int}, {int} times")
+    public void enemyPlayerShootsCaveTimes(int arg0, int arg1) throws Exception {
+        for (int i = 0; i < arg1; i++) {
+            enemyPlayerShootsCaves(Collections.singletonList(arg0));
+        }
+    }
+
+    @And("enemy player used all arrows")
+    public void enemyPlayerHasArrows() {
+        int enemyRemainingArrows = gameWorld.executeActionsAndGetWumpusPresenter().getEnemyRemainingArrows();
+
+        for (int i = 0; i < enemyRemainingArrows; i++) {
+            gameWorld.getRNGBuilder().makeEnemyPlayerShootAtCaves(Collections.singletonList(1));
+
+            final int playerCave = gameWorld.executeActionsAndGetWumpusPresenter().getPlayerCaveIndex();
+            final int secondLinkedCave = GameInitialConfigurations.CAVE_LINKS[playerCave][1];
+            gameWorld.queueAction(new MoveAction(secondLinkedCave));
+        }
+    }
+
+    @And("enemy player will have {int} arrows")
+    public void enemyPlayerHasArrows(int remainingArrows) {
+        int enemyRemainingArrows = gameWorld.executeActionsAndGetWumpusPresenter().getEnemyRemainingArrows();
+        assertEquals(remainingArrows, enemyRemainingArrows);
     }
 }

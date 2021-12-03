@@ -79,6 +79,11 @@ public class WumpusPresenterImpl implements WumpusPresenter {
         return gameModel.isEnemyPlayerDead();
     }
 
+    @Override
+    public int getEnemyRemainingArrows() {
+        return gameModel.getEnemyRemainingArrows();
+    }
+
 
     @Override
     public int getPlayerCaveIndex() {
