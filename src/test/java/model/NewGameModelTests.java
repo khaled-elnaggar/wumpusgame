@@ -72,6 +72,12 @@ public class NewGameModelTests {
                 .thenReturn(numberAtWhichEnemyPlayerWillShoot);
     }
 
+    private void makeEnemyPlayerMove() {
+        final int numberAtWhichEnemyPlayerWillMove = 0;
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
+                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+    }
+
     @Test
     public void testGameMapInitializationProducedTheCorrectNumberOfCaves() {
         NewGame game = new NewGame();
@@ -821,9 +827,7 @@ public class NewGameModelTests {
     public void testThatEnemyPlayerMovesAfterPlayerMoves() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        final int numberAtWhichEnemyPlayerWillMove = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+        makeEnemyPlayerMove();
 
         final int caveIndexToMoveTo = 1;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
@@ -844,9 +848,8 @@ public class NewGameModelTests {
     @Test
     public void testThatEnemyPlayerMovesAfterPlayerShoots() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        final int numberAtWhichEnemyPlayerWillMove = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+
+        makeEnemyPlayerMove();
 
         final int caveIndexToMoveTo = 1;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
@@ -870,9 +873,7 @@ public class NewGameModelTests {
     public void testThatEnemyPlayerMoveToCaveWithWumpusAndDies() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        final int numberAtWhichEnemyPlayerWillMove = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+        makeEnemyPlayerMove();
 
         final int firstCaveIndexToMoveTo = 0;
         final int secondCaveIndexToMoveTo = 1;
@@ -911,9 +912,7 @@ public class NewGameModelTests {
                 enemyPlayerDropDownCave,
                 batDropDownCave);
 
-        final int numberAtWhichEnemyPlayerWillMove = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+        makeEnemyPlayerMove();
 
         final int firstCaveIndexToMoveTo = 2;
         final int secondCaveIndexToMoveTo = 1;
@@ -932,13 +931,12 @@ public class NewGameModelTests {
         assertEquals(enemyPlayerDropDownCave, game.getEnemyPlayerCaveIndex());
     }
 
+
     @Test
     public void testThatEnemyPlayerMoveToCaveWithPitAndDies() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        final int numberAtWhichEnemyPlayerWillMove = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+        makeEnemyPlayerMove();
 
         final int firstCaveIndexToMoveTo = 1;
         final int secondCaveIndexToMoveTo = 2;
@@ -966,9 +964,7 @@ public class NewGameModelTests {
     public void testThatEnemyPlayerShootsPlayer() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        final int numberAtWhichEnemyPlayerWillShoot = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(numberAtWhichEnemyPlayerWillShoot);
+        makeEnemyPlayerShoot();
 
         final int numberOfCavesEnemyPlayerShoots = 2; // will actually shoot at 2 + 1 = 3 caves
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT))
@@ -982,9 +978,7 @@ public class NewGameModelTests {
                         secondCaveIndexToShootByEnemyPlayer,
                         thirdCaveIndexToShootByEnemyPlayer);
 
-        final int numberAtWhichWumpusRemainsAsleep = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY))
-                .thenReturn(numberAtWhichWumpusRemainsAsleep);
+        makeWumpusSleep();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
