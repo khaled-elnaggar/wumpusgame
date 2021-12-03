@@ -38,11 +38,15 @@ Feature: Enemy player shoot feature
 
   Scenario: Enemy player is shot by player
   The player shoots the enemy player
+  Enemy player can not shoot or move when out of arrows or dead
     Given player is in cave 9
     And enemy player is in cave 11
     When player shoots an arrow at caves
       | 10 | 11 |
     Then enemy player is dead
+    When player moves to cave 1
+    Then enemy player will be at cave 11
+    And enemy player will have 5 arrows
 
   Scenario: Enemy player ran out of arrows
   Enemy player can not shoot or move when out of arrows or dead
@@ -60,8 +64,8 @@ Feature: Enemy player shoot feature
 #  DONE - Enemy kills the wumpus and player loses
 #  DONE - Enemy kills itself
 #  DONE - Player kills enemy player
-#  Enemy runs out of arrows and can not move or shoot
-#  Dead enemy can not move or shoot
+#  DONE - Enemy runs out of arrows and can not move or shoot
+#  DONE - Dead enemy can not move or shoot
 #
 #  Player moves -> enemy shoots -> wumpus wakes up and moves
 #  Player shoots and wumpus moves to eat enemy player
