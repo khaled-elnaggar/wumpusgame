@@ -9,9 +9,6 @@ import model.gameobject.hazard.Wumpus;
 import utilities.RandomNumberGenerator;
 
 import java.util.*;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toList;
 
 public class NewGame implements Game {
 
@@ -46,14 +43,14 @@ public class NewGame implements Game {
     public void playerMovesToCave(int cave) {
         Cave caveToMoveTo = gameMap.getCaves().get(cave);
         player.move(caveToMoveTo);
-        enemyPlayerTakeAction();
+        doEnemyPlayerActions();
     }
 
     @Override
     public void playerShootsToCave(int... caves) {
         List<Cave> cavesToShoot = this.validateCavesToShootAt(player.getCave(), caves);
         player.shoot(cavesToShoot);
-        enemyPlayerTakeAction();
+        doEnemyPlayerActions();
         doWumpusPostShootActions();
     }
 
@@ -63,7 +60,11 @@ public class NewGame implements Game {
         }
     }
 
-    public void enemyPlayerTakeAction() {
+    public void doEnemyPlayerActions() {
+        if (enemyPlayer.isDead() || enemyPlayer.hasNoArrows() || wumpus.isDead()) {
+            return;
+        }
+
         final int fiftyPercentChance = randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION);
         if (fiftyPercentChance == 0) {
 
