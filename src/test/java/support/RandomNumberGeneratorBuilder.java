@@ -1,5 +1,6 @@
 package support;
 
+import io.cucumber.core.gherkin.messages.internal.gherkin.AstNode;
 import model.game.GameInitialConfigurations;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -17,6 +18,7 @@ public class RandomNumberGeneratorBuilder {
     RandomNumberGenerator randomNumberGenerator = mock(RandomNumberGenerator.class);
 
     List<Integer> randomReturnsWhenCalledWith20 = new ArrayList<>();
+    List<Integer> randomReturnsWhenCalledWith2 = new ArrayList<>();
     List<Integer> randomReturnsWhenCalledWith3 = new ArrayList<>();
     List<Integer> teleportCaves = new ArrayList<>();
 
@@ -49,6 +51,19 @@ public class RandomNumberGeneratorBuilder {
             }
         });
 
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION)).thenAnswer(new Answer<Integer>() {
+            int current = 0;
+
+            @Override
+            public Integer answer(InvocationOnMock invocationOnMock) throws Throwable {
+                if (current == randomReturnsWhenCalledWith2.size()) {
+                    return 3;
+                } else {
+                    return randomReturnsWhenCalledWith2.get(current++);
+                }
+            }
+        });
+
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenAnswer(new Answer<Integer>() {
             int current = 0;
 
@@ -57,15 +72,13 @@ public class RandomNumberGeneratorBuilder {
                 return randomReturnsWhenCalledWith3.get(current++);
             }
         });
-
-        makeEnemyPlayerSleep();
     }
 
     public void addCaveToTeleportTo(int cave) {
         teleportCaves.add(cave);
     }
 
-    public void updateMockArrays(){
+    public void updateMockArrays() {
         randomReturnsWhenCalledWith20.addAll(teleportCaves);
         teleportCaves.clear();
     }
@@ -85,23 +98,19 @@ public class RandomNumberGeneratorBuilder {
 
     public void makeEnemyPlayerSleep() {
         final int numberAtWhichEnemyPlayerWillRemainAsleep = 3;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(numberAtWhichEnemyPlayerWillRemainAsleep);
+        randomReturnsWhenCalledWith2.add(numberAtWhichEnemyPlayerWillRemainAsleep);
     }
 
     public void makeEnemyPlayerMoveToCave(int caveIndex) {
         final int numberAtWhichEnemyPlayerWillMove = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION)).thenReturn(
-                numberAtWhichEnemyPlayerWillMove);
-
+        randomReturnsWhenCalledWith2.add(numberAtWhichEnemyPlayerWillMove);
         randomReturnsWhenCalledWith3.add(caveIndex);
     }
 
     public void makeEnemyPlayerShootAtCaves(List<Integer> caveIndexes) {
 
         final int numberAtWhichEnemyPlayerWillShoot = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION)).thenReturn(
-                numberAtWhichEnemyPlayerWillShoot);
+        randomReturnsWhenCalledWith2.add(numberAtWhichEnemyPlayerWillShoot);
 
         final int numberOfCavesEnemyPlayerWillShoot = caveIndexes.size() - 1; // Since generate number is 0 based
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT)).thenReturn(

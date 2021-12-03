@@ -62,9 +62,9 @@ Feature: Enemy player shoot feature
     Given player is in cave 9
     And enemy player is in cave 11
     And wumpus is in cave 18
-    When player moves to caves
-      | 1 | 9 |
+    When player moves to cave 1
     And enemy player will wake up and move to cave 10
+    When player moves to cave 9
     And enemy player shoots caves
       | 11 |
     Then wumpus will wake up and move to cave 10
@@ -78,6 +78,5 @@ Feature: Enemy player shoot feature
 #  DONE - Enemy runs out of arrows and can not move or shoot
 #  DONE - Dead enemy can not move or shoot
 #
-#  Player moves -> enemy shoots -> wumpus wakes up and moves
-#  Player shoots and wumpus moves to eat enemy player
+#  DONE - Player moves -> enemy shoots -> wumpus wakes up and moves
 #

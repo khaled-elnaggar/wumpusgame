@@ -7,9 +7,7 @@ import io.cucumber.java.en.Then;
 import model.game.GameInitialConfigurations;
 import support.GameWorld;
 import support.MoveAction;
-import support.ShootAction;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,6 +39,7 @@ public class EnemySteps {
     @Then("enemy player will wake up and move to cave {int}")
     public void enemyPlayerWillWakeUpAndMoveToCave(int cave) throws Exception {
         this.enemyPlayerWillWakeUpAndMoveToCave(Collections.singletonList(cave));
+        gameWorld.executeActions();
     }
 
     @Then("enemy player will be at cave {int}")
