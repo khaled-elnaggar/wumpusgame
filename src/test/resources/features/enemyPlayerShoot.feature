@@ -57,7 +57,18 @@ Feature: Enemy player shoot feature
     Then enemy player will be at cave 11
     And enemy player will have 0 arrows
 
-
+  Scenario: Enemy player eaten by wumpus
+  Wumpus moves and eats the enemy player
+    Given player is in cave 9
+    And enemy player is in cave 11
+    And wumpus is in cave 18
+    When player moves to caves
+      | 1 | 9 |
+    And enemy player will wake up and move to cave 10
+    And enemy player shoots caves
+      | 11 |
+    Then wumpus will wake up and move to cave 10
+    And enemy player is dead
 
 # TODO: Enemy player shoot test list
 #  DONE - Enemy kills player so player loses
