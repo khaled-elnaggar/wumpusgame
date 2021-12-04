@@ -34,11 +34,13 @@ public class GameWorld {
     }
 
     public void queueAction(Action action) {
+        this.RNGBuilder.makeEnemyMoveIfEnemyHasNoAction(actionsToExecute.size());
         this.actionsToExecute.add(action);
     }
 
     public void executeActions() {
         this.RNGBuilder.updateMockArrays();
+        this.RNGBuilder.makeEnemyMoveIfEnemyHasNoAction(actionsToExecute.size());
         actionsToExecute.forEach(Action::execute);
         actionsToExecute.clear();
     }

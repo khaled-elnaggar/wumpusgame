@@ -6,7 +6,7 @@ Feature: Game is initialized correctly
 
   Background:
     Given player is in cave 0
-    And enemy player is in cave 16
+    And enemy player is in cave 5
     And wumpus is in cave 18
     And bat 1 is in cave 19
     And bat 2 is in cave 13
@@ -25,7 +25,7 @@ Feature: Game is initialized correctly
   Game object locations should be according to the background
     Given game starts
     Then player will be at cave 0
-    And enemy player will be at cave 16
+    And enemy player will be at cave 5
     And wumpus will be at cave 18
     And bat 1 will be at cave 19
     And bat 2 will be at cave 13

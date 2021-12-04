@@ -6,13 +6,12 @@ Feature: Player shoots arrows
 
   Background:
     Given player is in cave 0
-    And enemy player is in cave 16
+    And enemy player is in cave 5
     And wumpus is in cave 18
     And bat 1 is in cave 19
     And bat 2 is in cave 13
     And pit 1 is in cave 3
     And pit 2 is in cave 13
-    And enemy player remains asleep
 
   Scenario: Player shoots the wumpus
   If the player shoots a cave that contains the wumpus, the wumpus should die and game should be over

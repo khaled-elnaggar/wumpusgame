@@ -18,7 +18,7 @@ public class BatSteps {
         gameWorld.getRNGBuilder().setBatStartingCave(batNumber, cave);
     }
 
-    @And("bat will teleport player to cave {int} and itself to cave {int}")
+    @And("bat will teleport (enemy )player to cave {int} and itself to cave {int}")
     public void batWillTeleportPlayerToCaveAndItselfToCave(int playerCave, int batCave) {
         gameWorld.getRNGBuilder().addCaveToTeleportTo(playerCave);
         gameWorld.getRNGBuilder().addCaveToTeleportTo(batCave);

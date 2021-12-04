@@ -1,6 +1,5 @@
 package support;
 
-import io.cucumber.core.gherkin.messages.internal.gherkin.AstNode;
 import model.game.GameInitialConfigurations;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -56,11 +55,7 @@ public class RandomNumberGeneratorBuilder {
 
             @Override
             public Integer answer(InvocationOnMock invocationOnMock) throws Throwable {
-                if (current == randomReturnsWhenCalledWith2.size()) {
-                    return 3;
-                } else {
-                    return randomReturnsWhenCalledWith2.get(current++);
-                }
+                return randomReturnsWhenCalledWith2.get(current++);
             }
         });
 
@@ -94,11 +89,6 @@ public class RandomNumberGeneratorBuilder {
         Mockito.when(randomNumberGenerator.generateNumber(MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY)).thenReturn(
                 numberAtWhichWumpusWillWakeup);
         randomReturnsWhenCalledWith3.add(caveIndex);
-    }
-
-    public void makeEnemyPlayerSleep() {
-        final int numberAtWhichEnemyPlayerWillRemainAsleep = 3;
-        randomReturnsWhenCalledWith2.add(numberAtWhichEnemyPlayerWillRemainAsleep);
     }
 
     public void makeEnemyPlayerMoveToCave(int caveIndex) {
@@ -143,4 +133,10 @@ public class RandomNumberGeneratorBuilder {
         this.enemyPlayerStartingCave = enemyPlayerStartingCave;
     }
 
+    public void makeEnemyMoveIfEnemyHasNoAction(int size) {
+        for (int i = 0; i < size - randomReturnsWhenCalledWith2.size(); i++) {
+            randomReturnsWhenCalledWith2.add(0);
+            randomReturnsWhenCalledWith3.add(1);
+        }
+    }
 }

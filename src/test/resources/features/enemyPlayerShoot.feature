@@ -4,25 +4,33 @@ Feature: Enemy player shoot feature
   I want the enemy player to shoot similar to me
   So that the game gets even more competitive
 
+  Background:
+    Given player is in cave 0
+    And enemy player is in cave 16
+    And wumpus is in cave 18
+    And bat 1 is in cave 19
+    And bat 2 is in cave 13
+    And pit 1 is in cave 3
+    And pit 2 is in cave 13
 
   Scenario: Enemy player shoots random linked caves with player
   Enemy player randomly shoots from 1 to 5 caves and an arrow kills the player
     Given player is in cave 9
     And enemy player is in cave 11
     When player moves to cave 1
-    And enemy player shoots caves
+    And from cave 11, enemy player shoots caves
       | 10 | 9 | 1 |
     Then player is dead
     And game is lost
 
   Scenario: Enemy player shoots wumpus
-  Enemy player randomly shoots from 1 to 5 caves and an arrow kills the wumpus
+  Enemy player randomly shoots from 1 up to 5 caves and an arrow kills the wumpus
   Player loses game
     Given player is in cave 9
     And enemy player is in cave 11
     And wumpus is in cave 18
     When player moves to cave 1
-    And enemy player shoots caves
+    And from cave 11, enemy player shoots caves
       | 10 | 18 |
     Then wumpus is dead
     And game is lost
@@ -32,27 +40,27 @@ Feature: Enemy player shoot feature
     Given player is in cave 9
     And enemy player is in cave 11
     When player moves to cave 1
-    And enemy player shoots caves
+    And from cave 11, enemy player shoots caves
       | 10 | 11 |
-    Then enemy player is dead
+    Then enemy player will be dead
 
   Scenario: Enemy player is shot by player
   The player shoots the enemy player
-  Enemy player can not shoot or move when out of arrows or dead
+  Enemy player can not shoot or move when dead
     Given player is in cave 9
     And enemy player is in cave 11
     When player shoots an arrow at caves
       | 10 | 11 |
-    Then enemy player is dead
+    Then enemy player will be dead
     When player moves to cave 1
     Then enemy player will be at cave 11
     And enemy player will have 5 arrows
 
-  Scenario: Enemy player ran out of arrows
-  Enemy player can not shoot or move when out of arrows or dead
+  Scenario: Enemy player runs out of arrows
+  Enemy player can not shoot or move when out of arrows
     Given player is in cave 9
     And enemy player is in cave 11
-    And enemy player used all arrows
+    And enemy player uses all arrows
     When player moves to cave 1
     Then enemy player will be at cave 11
     And enemy player will have 0 arrows
@@ -63,12 +71,12 @@ Feature: Enemy player shoot feature
     And enemy player is in cave 11
     And wumpus is in cave 18
     When player moves to cave 1
-    And enemy player will wake up and move to cave 10
-    When player moves to cave 9
-    And enemy player shoots caves
-      | 11 |
+    And enemy player moves from cave 11 to cave 10
+    Then player moves to cave 9
+    And from cave 10, enemy player shoots caves
+      | 11 | 12 |
     Then wumpus will wake up and move to cave 10
-    And enemy player is dead
+    And enemy player will be dead
 
 # TODO: Enemy player shoot test list
 #  DONE - Enemy kills player so player loses
