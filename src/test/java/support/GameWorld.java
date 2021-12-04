@@ -14,6 +14,8 @@ public class GameWorld {
 
     public void queueAction(Action action) {
         this.RNGBuilder.makeEnemyMoveIfEnemyHasNoAction(actionsToExecute.size());
+        final int numberOfShootActions = (int) actionsToExecute.stream().filter(shootAction -> shootAction instanceof ShootAction).count();
+        this.RNGBuilder.makeWumpusSleepIfWumpusHasNoAction(numberOfShootActions);
         this.actionsToExecute.add(action);
     }
 
@@ -26,6 +28,8 @@ public class GameWorld {
     public void executeActions() {
         this.RNGBuilder.updateTeleportCavesList();
         this.RNGBuilder.makeEnemyMoveIfEnemyHasNoAction(actionsToExecute.size());
+        final int numberOfShootActions = (int) actionsToExecute.stream().filter(shootAction -> shootAction instanceof ShootAction).count();
+        this.RNGBuilder.makeWumpusSleepIfWumpusHasNoAction(numberOfShootActions);
         actionsToExecute.forEach(Action::execute);
         actionsToExecute.clear();
     }

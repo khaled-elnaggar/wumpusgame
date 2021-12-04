@@ -75,8 +75,29 @@ Feature: Enemy player shoot feature
     Then player moves to cave 9
     And from cave 10, enemy player shoots caves
       | 11 | 12 |
-    Then wumpus will wake up and move to cave 10
+    Then wumpus will wake up and move from cave 18 to cave 10
     And enemy player will be dead
+
+  Scenario: Random gameplay scenario
+  To test the coupling of my steps I write an arbitrary number of steps and check outcomes at the end
+    Given player is in cave 11
+    And enemy player is in cave 11
+    And wumpus is in cave 18
+
+    When player moves to cave 12
+    And enemy player moves from cave 11 to cave 10
+
+    Then player moves to cave 19
+    And bat will teleport player to cave 15 and itself to cave 8
+    And from cave 10, enemy player shoots caves
+      | 9 | 8 | 17 |
+    And wumpus will wake up and move from cave 18 to cave 19
+
+    When player shoots an arrow at caves
+      | 14 | 13 |
+    And wumpus will wake up and move from cave 19 to cave 18
+    And from cave 10, enemy player shoots caves
+      | 11 | 12 | 13 | 14 |
 
 # TODO: Enemy player shoot test list
 #  DONE - Enemy kills player so player loses

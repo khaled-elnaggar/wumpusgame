@@ -19,6 +19,8 @@ public class RandomNumberGeneratorBuilder {
     List<Integer> randomReturnsWhenCalledWith20 = new ArrayList<>();
     List<Integer> randomReturnsWhenCalledWith2 = new ArrayList<>();
     List<Integer> randomReturnsWhenCalledWith3 = new ArrayList<>();
+    List<Integer> randomReturnsWhenCalledWith4 = new ArrayList<>();
+    List<Integer> randomReturnsWhenCalledWith5 = new ArrayList<>();
     List<Integer> teleportCaves = new ArrayList<>();
 
     int playerStartingCave = 0;
@@ -26,7 +28,6 @@ public class RandomNumberGeneratorBuilder {
     int wumpusStartingCave = 18;
     List<Integer> batsStartingCaves = new ArrayList<>(Arrays.asList(19, 13));
     List<Integer> pitsStartingCaves = new ArrayList<>(Arrays.asList(3, 13));
-    public static final int MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY = 4;
 
     public RandomNumberGenerator build() {
         setUpAllTheMocks();
@@ -37,7 +38,9 @@ public class RandomNumberGeneratorBuilder {
         addStartingCavesToMockedList();
 
         mockRandomNumberGeneratorCalledWith(GameInitialConfigurations.NUMBER_OF_CAVES, randomReturnsWhenCalledWith20);
+        mockRandomNumberGeneratorCalledWith(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY, randomReturnsWhenCalledWith4);
         mockRandomNumberGeneratorCalledWith(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION, randomReturnsWhenCalledWith2);
+        mockRandomNumberGeneratorCalledWith(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT, randomReturnsWhenCalledWith5);
         mockRandomNumberGeneratorCalledWith(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES, randomReturnsWhenCalledWith3);
     }
 
@@ -75,15 +78,13 @@ public class RandomNumberGeneratorBuilder {
     }
 
     public void makeWumpusSleep() {
-        final int numberAtWhichWumpusWillRemainSleeping = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY)).thenReturn(
-                numberAtWhichWumpusWillRemainSleeping);
+        final int numberAtWhichWumpusWillRemainAsleep = 0;
+        randomReturnsWhenCalledWith4.add(numberAtWhichWumpusWillRemainAsleep);
     }
 
     public void makeWumpusMoveTo(int caveIndex) {
-        final int numberAtWhichWumpusWillWakeup = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY)).thenReturn(
-                numberAtWhichWumpusWillWakeup);
+        final int numberAtWhichWumpusWillWakeup = 4;
+        randomReturnsWhenCalledWith4.add(numberAtWhichWumpusWillWakeup);
         randomReturnsWhenCalledWith3.add(caveIndex);
     }
 
@@ -98,17 +99,25 @@ public class RandomNumberGeneratorBuilder {
         randomReturnsWhenCalledWith2.add(numberAtWhichEnemyPlayerWillShoot);
 
         final int numberOfCavesEnemyPlayerWillShoot = caveIndexes.size() - 1; // Since generate number is 0 based
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT)).thenReturn(
-                numberOfCavesEnemyPlayerWillShoot);
+        randomReturnsWhenCalledWith5.add(numberOfCavesEnemyPlayerWillShoot);
 
         randomReturnsWhenCalledWith3.addAll(caveIndexes);
     }
 
-    public void makeEnemyMoveIfEnemyHasNoAction(int playerActionsCount) {
-        final int enemyPlayerActionsCount = randomReturnsWhenCalledWith2.size();
-        for (int i = 0; i < playerActionsCount - enemyPlayerActionsCount; i++) {
+    public void makeEnemyMoveIfEnemyHasNoAction(int numberOfPlayerActions) {
+        final int numberOfActualEnemyPlayerActions = randomReturnsWhenCalledWith2.size();
+        for (int i = 0; i < numberOfPlayerActions - numberOfActualEnemyPlayerActions; i++) {
             randomReturnsWhenCalledWith2.add(0);
             randomReturnsWhenCalledWith3.add(1);
+        }
+    }
+
+    public void makeWumpusSleepIfWumpusHasNoAction(int numberOfShootActions) {
+        final int numberAtWhichWumpusRemainsAsleep = 0;
+        final int numberOfActualWumpusAction = randomReturnsWhenCalledWith4.size();
+        final long numberOfEnemyPlayerShootActions = randomReturnsWhenCalledWith2.stream().filter(n -> n == 1).count();
+        for (int i = 0; i < (numberOfShootActions + numberOfEnemyPlayerShootActions) - numberOfActualWumpusAction; i++) {
+            randomReturnsWhenCalledWith4.add(numberAtWhichWumpusRemainsAsleep);
         }
     }
 
