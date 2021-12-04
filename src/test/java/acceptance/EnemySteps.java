@@ -27,13 +27,13 @@ public class EnemySteps {
 
     @And("enemy player moves from cave {int} to cave {int}")
     public void enemyPlayerWillWakeUpAndMoveToCave(int currentCave, int caveToMoveTo) throws Exception {
-        int caveIndex = gameWorld.getCaveIndexOutOfCave(currentCave, caveToMoveTo);
+        int caveIndex = GameInitialConfigurations.getCaveIndexOutOfCave(currentCave, caveToMoveTo);
         gameWorld.getRNGBuilder().makeEnemyPlayerMoveToCave(caveIndex);
     }
 
     @And("from cave {int}, enemy player shoots caves")
     public void fromCaveEnemyPlayerShootsCaves(int startingCave, @Transpose List<Integer> caves) throws Exception {
-        List<Integer> caveIndexes = gameWorld.getCaveIndexesOutOfCaveNumbers(startingCave, caves);
+        List<Integer> caveIndexes = GameInitialConfigurations.getCaveIndexesOutOfCaveNumbers(startingCave, caves);
         gameWorld.getRNGBuilder().makeEnemyPlayerShootAtCaves(caveIndexes);
     }
 

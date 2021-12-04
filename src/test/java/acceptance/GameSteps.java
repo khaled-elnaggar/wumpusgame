@@ -52,7 +52,7 @@ public class GameSteps {
 
     @But("cave {int} is not linked to {int}, so arrow will go to {int} instead")
     public void caveIsNotLinkedToSoArrowWillGotToInstead(int wrongCave, int currentCave, int nextRandomCave) throws Exception {
-        int caveIndex = gameWorld.getCaveIndexOutOfCave(currentCave, nextRandomCave);
+        int caveIndex = GameInitialConfigurations.getCaveIndexOutOfCave(currentCave, nextRandomCave);
         gameWorld.getRNGBuilder().setNextRandomCaveForArrow(caveIndex);
     }
 

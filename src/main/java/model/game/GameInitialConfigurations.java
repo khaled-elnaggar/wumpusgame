@@ -1,5 +1,8 @@
 package model.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface GameInitialConfigurations {
 
     int[][] CAVE_LINKS = {{4, 7, 1}, {0, 9, 2}, {1, 11, 3}, {4, 13, 2}, {0, 5, 3},
@@ -20,4 +23,28 @@ public interface GameInitialConfigurations {
     int NUMBER_OF_LINKED_CAVES = 3;
     int MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION = 2;
     int MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT = 5;
+
+    static int getCaveIndexOutOfCave(int cave, int linkedCave) throws Exception {
+        int[] caveLinks = GameInitialConfigurations.CAVE_LINKS[cave];
+
+        for (int i = 0; i < caveLinks.length; i++) {
+            if (caveLinks[i] == linkedCave) {
+                return i;
+            }
+        }
+
+        throw new Exception("Cave " + linkedCave + " is not actually linked to " + cave);
+    }
+
+    static List<Integer> getCaveIndexesOutOfCaveNumbers(int startingCave, List<Integer> cavesToShoot) throws Exception {
+        List<Integer> cavesToShootIndexes = new ArrayList<>();
+        for (int cave : cavesToShoot) {
+            int caveIndex = getCaveIndexOutOfCave(startingCave, cave);
+            cavesToShootIndexes.add(caveIndex);
+            startingCave = cave;
+        }
+        return cavesToShootIndexes;
+    }
+
+
 }

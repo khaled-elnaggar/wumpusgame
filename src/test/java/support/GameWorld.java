@@ -45,26 +45,6 @@ public class GameWorld {
         actionsToExecute.clear();
     }
 
-    public int getCaveIndexOutOfCave(int cave, int linkedCave) throws Exception {
-        int[] caveLinks = GameInitialConfigurations.CAVE_LINKS[cave];
 
-        for (int i = 0; i < caveLinks.length; i++) {
-            if (caveLinks[i] == linkedCave) {
-                return i;
-            }
-        }
-
-        throw new Exception("Cave " + linkedCave + " is not actually linked to " + cave);
-    }
-
-    public List<Integer> getCaveIndexesOutOfCaveNumbers(int startingCave, List<Integer> cavesToShoot) throws Exception {
-        List<Integer> cavesToShootIndexes = new ArrayList<>();
-        for (int cave : cavesToShoot) {
-            int caveIndex = getCaveIndexOutOfCave(startingCave, cave);
-            cavesToShootIndexes.add(caveIndex);
-            startingCave = cave;
-        }
-        return cavesToShootIndexes;
-    }
 }
 

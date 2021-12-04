@@ -3,6 +3,7 @@ package acceptance;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.But;
 import io.cucumber.java.en.Then;
+import model.game.GameInitialConfigurations;
 import support.GameWorld;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,7 +36,7 @@ public class WumpusSteps {
     @But("wumpus will wake up and move to cave {int}")
     public void wumpusWillWakeUpAndMoveToCave(int cave) throws Exception {
         int currentWumpusCave = gameWorld.getWumpusPresenter().getWumpusCaveIndex();
-        int caveIndex = gameWorld.getCaveIndexOutOfCave(currentWumpusCave, cave);
+        int caveIndex = GameInitialConfigurations.getCaveIndexOutOfCave(currentWumpusCave, cave);
         gameWorld.getRNGBuilder().makeWumpusMoveTo(caveIndex);
     }
 
