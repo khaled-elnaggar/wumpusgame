@@ -82,4 +82,3 @@ Feature: Player shoots arrows
     But cave 19 is not linked to 7, so arrow will go to 0 instead
     Then player is dead
     And game is lost
-    

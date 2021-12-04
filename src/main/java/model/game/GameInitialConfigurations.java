@@ -11,7 +11,6 @@ public interface GameInitialConfigurations {
             {6, 17, 15}, {16, 8, 18}, {19, 10, 17}, {15, 12, 18}};
 
     int NUMBER_OF_ARROWS=5;
-    boolean GAME_OVER=false;
     int NUMBER_OF_CAVES=20;
     String PLAYER_ID = "The player";
     String WUMPUS_ID = "The Wumpus";

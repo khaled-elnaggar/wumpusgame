@@ -12,4 +12,9 @@ public class MoveAction extends Action {
     public void execute() {
         Action.wumpusPresenter.move(caveToMoveTo);
     }
+
+    @Override
+    public String toString(){
+        return "Player Move to caves " + caveToMoveTo;
+    }
 }

@@ -1,5 +1,7 @@
 package acceptance;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.But;
 import io.cucumber.java.en.Given;
@@ -7,7 +9,10 @@ import io.cucumber.java.en.Then;
 import model.game.GameInitialConfigurations;
 import org.junit.jupiter.api.Assertions;
 import presenter.WumpusPresenter;
+import support.Action;
 import support.GameWorld;
+
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -18,6 +23,35 @@ public class GameSteps {
     public GameSteps(GameWorld gameWorld) {
         this.gameWorld = gameWorld;
     }
+
+    @After
+    public void afterScenario(Scenario scenario) throws Exception {
+        boolean scenarioPassed = !scenario.isFailed();
+        if (scenarioPassed && gameWorld.hasPendingActions()) {
+            throwSanityError(scenario);
+        }
+    }
+
+    private void throwSanityError(Scenario scenario) throws Exception {
+        String causeOfFailure = "while you did not start any action! You setup but did not take any move";
+        String remainingActions = "";
+
+        if (!gameWorld.getActionsToExecute().isEmpty()) {
+            causeOfFailure = "while some actions remain queued and did not execute!";
+            remainingActions =
+                    "\n\tThe remaining actions are:"
+                            + gameWorld.getActionsToExecute().stream().map(Action::toString).collect(Collectors.joining("\n\t\t -", "\n\t\t -", ""));
+        }
+
+        String errorMessage =
+                "\n\nScenario \"" + scenario.getName() + "\"" + " passed " + causeOfFailure
+                        + "\n\tfind it at @" + scenario.getUri() + ":" + scenario.getLine()
+                        + remainingActions
+                        + "\n";
+
+        throw new Exception(errorMessage);
+    }
+
 
     @And("pit {int} is in cave {int}")
     public void pitIsInCave(int pitNumber, int cave) {
