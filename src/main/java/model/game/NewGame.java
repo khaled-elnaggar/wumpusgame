@@ -47,11 +47,13 @@ public class NewGame implements Game {
     }
 
     @Override
-    public void playerShootsToCave(int... caves) {
+
+    public int[] playerShootsToCave(int... caves) {
         List<Cave> cavesToShoot = this.validateCavesToShootAt(player.getCave(), caves);
         player.shoot(cavesToShoot);
         doEnemyPlayerActions();
         doWumpusPostShootActions();
+        return cavesToShoot.stream().mapToInt(Cave::getNumber).toArray();
     }
 
     private void doWumpusPostShootActions() {

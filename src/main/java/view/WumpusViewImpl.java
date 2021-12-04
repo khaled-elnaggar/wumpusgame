@@ -4,12 +4,20 @@ import model.game.GameInitialConfigurations;
 import presenter.WumpusPresenter;
 import presenter.WumpusPresenterImpl;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
@@ -19,6 +27,10 @@ import static javax.swing.SwingUtilities.isRightMouseButton;
 public class WumpusViewImpl extends JPanel implements WumpusView {
 
     WumpusPresenter wumpusPresenter;
+    public static final int PANEL_WIDTH = 721;
+    public static final int PANEL_HEIGHT = 687;
+    private Mode currentMode;
+    private long animationStartTime;
 
     final int[][] cavesCoordinates = {{334, 20}, {609, 220}, {499, 540}, {169, 540}, {62, 220},
             {169, 255}, {232, 168}, {334, 136}, {435, 168}, {499, 255}, {499, 361},
@@ -28,18 +40,25 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
     final int caveSize = 45;
     final int playerSize = 16;
 
-    final int invalidCave=-1;
+    final int invalidCave = -1;
 
     Graphics2D g;
 
-    private boolean gameStarting=true;
+    private boolean gameStarting = true;
+    private int[] intendedCavesToShoot = new int[]{};
+    private double animationColorFraction;
+    private int[] actualCavesShot;
+    private final int animationDuration = 1000;
 
     public WumpusViewImpl() {
 
         wumpusPresenter = new WumpusPresenterImpl();
         wumpusPresenter.startNewGame();
 
-        setPreferredSize(new Dimension(721, 687));
+        Mode.setView(this);
+        this.currentMode = new MoveMode();
+
+        setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setBackground(Color.white);
         setForeground(Color.lightGray);
         setFont(new Font("SansSerif", Font.PLAIN, 18));
@@ -87,8 +106,7 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
         g.drawString("click to start", 310, 380);
     }
 
-    void drawCaves() {
-
+    void drawCaves() throws IOException {
         g.setColor(Color.darkGray);
         g.setStroke(new BasicStroke(2));
 
@@ -102,24 +120,57 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
             }
         }
 
-        g.setColor(Color.orange);
+        g.setColor(currentMode.getAllCavesColor());
         for (int[] r : cavesCoordinates)
             g.fillOval(r[0], r[1], getCaveSize(), getCaveSize());
 
-        if (!wumpusPresenter.isGameOver()) {
-            g.setColor(Color.magenta);
+        if (!gameStarting) {
+            g.setColor(currentMode.getLinkedCavesColor());
             for (int link : GameInitialConfigurations.CAVE_LINKS[wumpusPresenter.getPlayerCaveIndex()])
                 g.fillOval(cavesCoordinates[link][0], cavesCoordinates[link][1], getCaveSize(), getCaveSize());
+
+            g.setColor(Color.gray);
+            int[] currentCaveCoordinates = cavesCoordinates[wumpusPresenter.getPlayerCaveIndex()];
+            g.fillOval(currentCaveCoordinates[0], currentCaveCoordinates[1], getCaveSize(), getCaveSize());
+
+
+            for (int i = 0; i < intendedCavesToShoot.length; i++) {
+                int cave = intendedCavesToShoot[i];
+                g.setColor(Color.yellow);
+                int[] caveCoordinates = cavesCoordinates[cave];
+                g.fillOval(caveCoordinates[0], caveCoordinates[1], getCaveSize(), getCaveSize());
+                g.setColor(Color.black);
+                g.drawString(String.valueOf(i + 1), caveCoordinates[0], caveCoordinates[1]);
+            }
+
+
+            g.setColor(new Color(0, 0, 0, 1 - (float) animationColorFraction));
+            for (int cave : actualCavesShot) {
+                int[] caveCoordinates = cavesCoordinates[cave];
+                g.fillOval(caveCoordinates[0], caveCoordinates[1], getCaveSize(), getCaveSize());
+            }
+
+
+            drawModeIcon();
         }
+
 
         g.setColor(Color.darkGray);
         for (int[] r : cavesCoordinates)
             g.drawOval(r[0], r[1], getCaveSize(), getCaveSize());
     }
 
+    private void drawModeIcon() throws IOException {
+        final BufferedImage image = ImageIO.read(new File(System.getProperty("user.dir") + "\\src\\main\\java\\view\\resources\\" + currentMode.getIconName()));
+        Image newImage = image.getScaledInstance(PANEL_WIDTH / 5 - 20, PANEL_HEIGHT / 5, Image.SCALE_DEFAULT);
+        g.drawImage(newImage, 20, 50, null);
+    }
+
     void drawMessage() {
-        if (!wumpusPresenter.isGameOver())
+        if (!gameStarting) {
             g.drawString("Arrows  " + wumpusPresenter.getNumberOfArrows(), 610, 30);
+            g.drawString("Mode: " + currentMode.toString(), 30, 30);
+        }
 
         if (wumpusPresenter.getWarnings() != null) {
             g.setColor(Color.black);
@@ -137,6 +188,13 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
                 g.drawString("& " + messages.get(3), 20, getHeight() - 17);
             }
 
+            if (actualCavesShot.length > 0) {
+                String shotCavesMessage = Arrays.stream(actualCavesShot)
+                        .mapToObj(String::valueOf)
+                        .collect(joining(" -> ", "You actually shot at cave(s): ", ""));
+                g.drawString(shotCavesMessage, 20, getHeight() - 40);
+            }
+
             messages.clear();
         }
     }
@@ -147,17 +205,43 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
         g = (Graphics2D) gg;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        drawCaves();
-        drawMap();
-        drawMessage();
+
+        if (!gameStarting) {
+            gameStarting = wumpusPresenter.isGameOver();
+        }
+        try {
+            drawMap();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        animateShooting();
     }
 
-    private void drawMap() {
-        if (gameStarting||wumpusPresenter.isGameOver()) {
+    private void animateShooting() {
+        long currentTime = System.nanoTime() / 1000000;
+        long runningTime = currentTime - animationStartTime;
+        final double animationDurationFraction = runningTime * 1.0 / animationDuration;
+
+        if (animationDurationFraction >= 1) {
+            actualCavesShot = new int[]{};
+            return;
+        }
+
+        render();
+        animationColorFraction = Math.min(1, animationDurationFraction);
+    }
+
+    private void drawMap() throws IOException {
+        if (gameStarting) {
+            this.currentMode = new MoveMode();
+            drawCaves();
             drawStartScreen();
-            gameStarting=false;
+            gameStarting = false;
         } else {
+            drawCaves();
             drawPlayer();
+            drawMessage();
         }
     }
 
@@ -169,23 +253,25 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
     private void handleMouseClick(int mouseClickXAxis, int mouseClickYAxis, boolean leftClick, boolean rightClick) {
         if (wumpusPresenter.isGameOver()) {
             wumpusPresenter.startNewGame();
-        } else  {
-            continueGame(mouseClickXAxis, mouseClickYAxis, leftClick, rightClick) ;
+        } else {
+            continueGame(mouseClickXAxis, mouseClickYAxis, leftClick, rightClick);
         }
         render();
     }
 
     private void continueGame(int mouseClickXAxis, int mouseClickYAxis, boolean leftClick, boolean rightClick) {
         int selectedCave = getSelectedCaveBasedOnMouseClickLocation(mouseClickXAxis, mouseClickYAxis);
-        if(selectedCave != invalidCave){
-            executeActionBasedOnMouseButtonClick(leftClick, rightClick, selectedCave);
+        if (leftClick && selectedCave != invalidCave) {
+            currentMode.handleLeftClick(selectedCave);
+        } else if (rightClick) {
+            currentMode.handleRightClick();
         }
     }
 
     private int getSelectedCaveBasedOnMouseClickLocation(int mouseClickXAxis, int mouseClickYAxis) {
         int selectedCave = invalidCave;
-        for (int caveNumber = 0; caveNumber< cavesCoordinates.length; caveNumber++) {
-            int[] cave= cavesCoordinates[caveNumber];
+        for (int caveNumber = 0; caveNumber < cavesCoordinates.length; caveNumber++) {
+            int[] cave = cavesCoordinates[caveNumber];
             int xAxisOfCaveLinkedToCurrentCave = cave[0];
             int yAxisOfCaveLinkedToCurrentCave = cave[1];
             if (isMouseClickWithinCorrectCave(mouseClickXAxis, mouseClickYAxis, xAxisOfCaveLinkedToCurrentCave, yAxisOfCaveLinkedToCurrentCave)) {
@@ -196,25 +282,37 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
         return selectedCave;
     }
 
-
     private boolean isMouseClickWithinCorrectCave(int mouseClickXAxis, int mouseClickYAxis, int caveXAxis, int caveYAxis) {
         return (mouseClickXAxis > caveXAxis && mouseClickXAxis < caveXAxis + getCaveSize())
                 && (mouseClickYAxis > caveYAxis && mouseClickYAxis < caveYAxis + getCaveSize());
     }
 
-    private void executeActionBasedOnMouseButtonClick(boolean leftClick, boolean rightClick, int selectedCave) {
-        if (leftClick) {
-            wumpusPresenter.move(selectedCave);
-        } else if (rightClick) {
-            wumpusPresenter.shoot(selectedCave);
-        }
-    }
-
     public int getCaveSize() {
         return caveSize;
     }
-    
+
     public int getPlayerSize() {
         return playerSize;
+    }
+
+    public void move(int cave) {
+        wumpusPresenter.move(cave);
+    }
+
+    public void setMode(Mode newMode) {
+        this.currentMode = newMode;
+    }
+
+    public void shoot(int... caves) {
+        if (caves.length == 0) {
+            return;
+        }
+        actualCavesShot = wumpusPresenter.shoot(caves);
+
+        animationStartTime = (System.nanoTime() / 1000000);
+    }
+
+    public void setCavesToShoot(int... caves) {
+        this.intendedCavesToShoot = caves;
     }
 }

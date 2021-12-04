@@ -31,7 +31,7 @@ public class GameMap {
         Cave caveThatMeetsCondition;
         do {
             caveThatMeetsCondition = getRandomCave();
-        } while (!condition.test(caveThatMeetsCondition));
+            } while (!condition.test(caveThatMeetsCondition));
 
         return caveThatMeetsCondition;
     }
