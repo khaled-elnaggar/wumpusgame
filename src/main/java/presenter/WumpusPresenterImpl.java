@@ -84,6 +84,11 @@ public class WumpusPresenterImpl implements WumpusPresenter {
         return gameModel.getEnemyRemainingArrows();
     }
 
+    @Override
+    public int[] getBatCaves() {
+        return gameModel.getBatsCaves();
+    }
+
 
     @Override
     public int getPlayerCaveIndex() {

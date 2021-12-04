@@ -28,4 +28,6 @@ public interface WumpusPresenter {
     boolean isEnemyPlayerDead();
 
     int getEnemyRemainingArrows();
+
+    int[] getBatCaves();
 }
