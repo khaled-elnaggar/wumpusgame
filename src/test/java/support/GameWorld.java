@@ -1,6 +1,5 @@
 package support;
 
-import model.game.GameInitialConfigurations;
 import presenter.WumpusPresenter;
 import presenter.WumpusPresenterImpl;
 import utilities.RandomNumberGenerator;
@@ -9,18 +8,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameWorld {
-    private RandomNumberGeneratorBuilder RNGBuilder = new RandomNumberGeneratorBuilder();
+    private final RandomNumberGeneratorBuilder RNGBuilder = new RandomNumberGeneratorBuilder();
     private WumpusPresenter wumpusPresenter;
-    private List<Action> actionsToExecute = new ArrayList<>();
+    private final List<Action> actionsToExecute = new ArrayList<>();
 
-    public RandomNumberGeneratorBuilder getRNGBuilder() {
-        return RNGBuilder;
+    public void queueAction(Action action) {
+        this.RNGBuilder.makeEnemyMoveIfEnemyHasNoAction(actionsToExecute.size());
+        this.actionsToExecute.add(action);
     }
 
     public WumpusPresenter executeActionsAndGetWumpusPresenter() {
         final WumpusPresenter wumpusPresenter = getWumpusPresenter();
         this.executeActions();
         return wumpusPresenter;
+    }
+
+    public void executeActions() {
+        this.RNGBuilder.updateTeleportCavesList();
+        this.RNGBuilder.makeEnemyMoveIfEnemyHasNoAction(actionsToExecute.size());
+        actionsToExecute.forEach(Action::execute);
+        actionsToExecute.clear();
     }
 
     public WumpusPresenter getWumpusPresenter() {
@@ -33,18 +40,8 @@ public class GameWorld {
         return this.wumpusPresenter;
     }
 
-    public void queueAction(Action action) {
-        this.RNGBuilder.makeEnemyMoveIfEnemyHasNoAction(actionsToExecute.size());
-        this.actionsToExecute.add(action);
+    public RandomNumberGeneratorBuilder getRNGBuilder() {
+        return RNGBuilder;
     }
-
-    public void executeActions() {
-        this.RNGBuilder.updateMockArrays();
-        this.RNGBuilder.makeEnemyMoveIfEnemyHasNoAction(actionsToExecute.size());
-        actionsToExecute.forEach(Action::execute);
-        actionsToExecute.clear();
-    }
-
-
 }
 

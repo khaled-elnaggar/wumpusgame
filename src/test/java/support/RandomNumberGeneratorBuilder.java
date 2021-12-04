@@ -29,51 +29,47 @@ public class RandomNumberGeneratorBuilder {
     public static final int MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY = 4;
 
     public RandomNumberGenerator build() {
-        mockTheRandomNumberGenerator();
+        setUpAllTheMocks();
         return randomNumberGenerator;
     }
 
-    private void mockTheRandomNumberGenerator() {
+    private void setUpAllTheMocks() {
+        addStartingCavesToMockedList();
+
+        mockRandomNumberGeneratorCalledWith(GameInitialConfigurations.NUMBER_OF_CAVES, randomReturnsWhenCalledWith20);
+        mockRandomNumberGeneratorCalledWith(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION, randomReturnsWhenCalledWith2);
+        mockRandomNumberGeneratorCalledWith(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES, randomReturnsWhenCalledWith3);
+    }
+
+    private void addStartingCavesToMockedList() {
         randomReturnsWhenCalledWith20.addAll(Arrays.asList(
                 playerStartingCave,
                 enemyPlayerStartingCave,
                 wumpusStartingCave));
         randomReturnsWhenCalledWith20.addAll(batsStartingCaves);
         randomReturnsWhenCalledWith20.addAll(pitsStartingCaves);
+    }
 
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenAnswer(new Answer<Integer>() {
+    private void mockRandomNumberGeneratorCalledWith(int randomNumberMax, final List<Integer> listWithMockedValues) {
+        Mockito.when(randomNumberGenerator.generateNumber(randomNumberMax)).thenAnswer(new Answer<Integer>() {
             int current = 0;
 
             @Override
             public Integer answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return randomReturnsWhenCalledWith20.get(current++);
+                return listWithMockedValues.get(current++);
             }
         });
+    }
 
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION)).thenAnswer(new Answer<Integer>() {
-            int current = 0;
-
-            @Override
-            public Integer answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return randomReturnsWhenCalledWith2.get(current++);
-            }
-        });
-
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenAnswer(new Answer<Integer>() {
-            int current = 0;
-
-            @Override
-            public Integer answer(InvocationOnMock invocationOnMock) throws Throwable {
-                return randomReturnsWhenCalledWith3.get(current++);
-            }
-        });
+    public void setNextRandomCaveForArrow(int caveIndex) {
+        randomReturnsWhenCalledWith3.add(caveIndex);
     }
 
     public void addCaveToTeleportTo(int cave) {
         teleportCaves.add(cave);
     }
 
-    public void updateMockArrays() {
+    public void updateTeleportCavesList() {
         randomReturnsWhenCalledWith20.addAll(teleportCaves);
         teleportCaves.clear();
     }
@@ -98,7 +94,6 @@ public class RandomNumberGeneratorBuilder {
     }
 
     public void makeEnemyPlayerShootAtCaves(List<Integer> caveIndexes) {
-
         final int numberAtWhichEnemyPlayerWillShoot = 1;
         randomReturnsWhenCalledWith2.add(numberAtWhichEnemyPlayerWillShoot);
 
@@ -109,8 +104,20 @@ public class RandomNumberGeneratorBuilder {
         randomReturnsWhenCalledWith3.addAll(caveIndexes);
     }
 
+    public void makeEnemyMoveIfEnemyHasNoAction(int playerActionsCount) {
+        final int enemyPlayerActionsCount = randomReturnsWhenCalledWith2.size();
+        for (int i = 0; i < playerActionsCount - enemyPlayerActionsCount; i++) {
+            randomReturnsWhenCalledWith2.add(0);
+            randomReturnsWhenCalledWith3.add(1);
+        }
+    }
+
     public void setPlayerStartingCave(int playerStartingCave) {
         this.playerStartingCave = playerStartingCave;
+    }
+
+    public void setEnemyPlayerStartingCave(int enemyPlayerStartingCave) {
+        this.enemyPlayerStartingCave = enemyPlayerStartingCave;
     }
 
     public void setWumpusStartingCave(int wumpusStartingCave) {
@@ -123,20 +130,5 @@ public class RandomNumberGeneratorBuilder {
 
     public void setPitStartingCave(int pitNumber, int cave) {
         pitsStartingCaves.set(pitNumber - 1, cave);
-    }
-
-    public void setNextRandomCaveForArrow(int caveIndex) {
-        randomReturnsWhenCalledWith3.add(caveIndex);
-    }
-
-    public void setEnemyPlayerStartingCave(int enemyPlayerStartingCave) {
-        this.enemyPlayerStartingCave = enemyPlayerStartingCave;
-    }
-
-    public void makeEnemyMoveIfEnemyHasNoAction(int size) {
-        for (int i = 0; i < size - randomReturnsWhenCalledWith2.size(); i++) {
-            randomReturnsWhenCalledWith2.add(0);
-            randomReturnsWhenCalledWith3.add(1);
-        }
     }
 }
