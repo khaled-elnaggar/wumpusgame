@@ -33,6 +33,7 @@ public class NewGameModelTests {
     public static final int SECOND_BAT_STARTING_CAVE_INDEX = 13;
     public static final int FIRST_PIT_CAVE = 3;
     public static final int SECOND_PIT_CAVE = 13;
+    private static final int ENEMY_PLAYER_MIDDLE_CAVE_INDEX = 1;
     @Mock
     RandomNumberGenerator randomNumberGenerator;
 
@@ -49,33 +50,31 @@ public class NewGameModelTests {
     }
 
     private void makeWumpusSleep() {
-        final int numberAtWhichWumpusRemainsAsleep = 0;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY))
-                .thenReturn(numberAtWhichWumpusRemainsAsleep);
+                .thenReturn(GameInitialConfigurations.WUMPUS_SLEEP_NUMBER);
     }
 
     private void makeWumpusWakeUp() {
-        final int numberAtWhichWumpusWillWakeUp = 1;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY)).thenReturn(
-                numberAtWhichWumpusWillWakeUp);
+                GameInitialConfigurations.WUMPUS_WAKEUP_NUMBER);
     }
 
-    private void makeEnemyPlayerSleep() {
-        final int numberAtWhichEnemyPlayerWillRemainAsleep = 3;
+    private void makeEnemyPlayerGoBackAndForth() {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(numberAtWhichEnemyPlayerWillRemainAsleep);
+                .thenReturn(GameInitialConfigurations.ENEMY_PLAYER_MOVE_NUMBER);
+
+        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES))
+                .thenReturn(1);
     }
 
     private void makeEnemyPlayerShoot() {
-        final int numberAtWhichEnemyPlayerWillShoot = 1;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(numberAtWhichEnemyPlayerWillShoot);
+                .thenReturn(GameInitialConfigurations.ENEMY_PLAYER_SHOOT_NUMBER);
     }
 
     private void makeEnemyPlayerMove() {
-        final int numberAtWhichEnemyPlayerWillMove = 0;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(numberAtWhichEnemyPlayerWillMove);
+                .thenReturn(GameInitialConfigurations.ENEMY_PLAYER_MOVE_NUMBER);
     }
 
     @Test
@@ -342,7 +341,7 @@ public class NewGameModelTests {
     @Test
     public void testThatThePlayerCanMoveToALinkedCave() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -364,7 +363,7 @@ public class NewGameModelTests {
     @Test
     public void testMoveToNonConnectedCave() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -387,7 +386,7 @@ public class NewGameModelTests {
     @Test
     public void testMovingPlayerToCaveThatHasAWumups() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -410,7 +409,7 @@ public class NewGameModelTests {
     @Test
     public void testMovingPlayerToACaveNearAWumpusAndSensingTheWumpus() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -433,7 +432,7 @@ public class NewGameModelTests {
     @Test
     public void testThatPlayerEnterRoomWithPit() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -454,7 +453,7 @@ public class NewGameModelTests {
     @Test
     public void testKillingTheWumpus() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -472,7 +471,7 @@ public class NewGameModelTests {
     @Test
     public void testThatPlayerShootsAnArrowThatMissesTheWumpusAndWumpusRemainsSleeping() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
 
         makeWumpusSleep();
 
@@ -494,15 +493,14 @@ public class NewGameModelTests {
     @Test
     public void testThatPlayerShootsAnArrowThatMissesTheWumpusAndWumpusMoves() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-
+        makeEnemyPlayerGoBackAndForth();
         makeWumpusWakeUp();
 
         final int numberOfLinkedCaves = 3;
         final int wumpusLinkedCaveIndex = 2;
         Mockito.when(randomNumberGenerator.generateNumber(numberOfLinkedCaves)).thenReturn(
-                wumpusLinkedCaveIndex);
+                wumpusLinkedCaveIndex,ENEMY_PLAYER_MIDDLE_CAVE_INDEX);
 
-        makeEnemyPlayerSleep();
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
 
@@ -528,7 +526,7 @@ public class NewGameModelTests {
 
         makeWumpusSleep();
 
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -546,14 +544,15 @@ public class NewGameModelTests {
     @Test
     public void testThatPlayerShootsAnArrowMissesWumpusAndWumpusWakesUpAndMoveToEatThePlayer() {
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerMove();
 
         makeWumpusWakeUp();
 
         final int numberOfLinkedCaves = 3;
         final int wumpusLinkedCaveIndex = 1;
         Mockito.when(randomNumberGenerator.generateNumber(numberOfLinkedCaves)).thenReturn(
-                wumpusLinkedCaveIndex);
+                wumpusLinkedCaveIndex,
+                ENEMY_PLAYER_MIDDLE_CAVE_INDEX);
 
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
@@ -578,7 +577,9 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerEnterRoomWithBatTwice() {
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
+        final int enemyPlayerStartingCave = 9;
+
         final int playerFirstDropDownCaveIndex = 15;
         final int firstBatFinalCaveIndex = 2;
 
@@ -588,7 +589,7 @@ public class NewGameModelTests {
         final int secondBatStartingCaveIndex = 14;
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
-                ENEMY_PLAYER_STARTING_CAVE_INDEX,
+                enemyPlayerStartingCave,
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
                 secondBatStartingCaveIndex,
@@ -639,9 +640,9 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerEnterRoomWithBat() {
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
         final int playerDropDownCaveIndex = 8;
-        final int firstBatFinalCaveIndex = 2;
+        final int firstBatFinalCaveIndex = 5;
 
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
@@ -679,7 +680,7 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerEnterRoomWithPitAndBat() {
-        makeEnemyPlayerSleep();
+        makeEnemyPlayerGoBackAndForth();
         configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
         NewGame game = new NewGame(randomNumberGenerator);
@@ -1038,7 +1039,7 @@ public class NewGameModelTests {
         game.startGame();
 
         final int enemyRemainingArrows = game.getEnemyRemainingArrows();
-        for(int i = 0; i < enemyRemainingArrows; i++){
+        for (int i = 0; i < enemyRemainingArrows; i++) {
             final int secondLinkedCave = GameInitialConfigurations.CAVE_LINKS[game.getPlayerCaveIndex()][1];
             game.playerMovesToCave(secondLinkedCave);
         }
