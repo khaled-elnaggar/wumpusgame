@@ -22,8 +22,8 @@ import static javax.swing.SwingUtilities.isLeftMouseButton;
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class WumpusViewImpl extends JPanel implements WumpusView {
-
     private static final boolean CHEAT_MODE = true;
+
     WumpusPresenter wumpusPresenter;
     public static final int PANEL_WIDTH = 721;
     public static final int PANEL_HEIGHT = 687;
@@ -45,7 +45,7 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
     private boolean gameStarting = true;
     private int[] intendedCavesToShoot = new int[]{};
     private double animationColorFraction;
-    private int[] actualCavesShot;
+    private int[] actualCavesShot = new int[] {};
     private final int animationDuration = 1000;
 
     public WumpusViewImpl() {
@@ -71,6 +71,67 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
             }
 
         });
+    }
+
+    @Override
+    public void paintComponent(Graphics gg) {
+        super.paintComponent(gg);
+        g = (Graphics2D) gg;
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+        if (!gameStarting) {
+            gameStarting = wumpusPresenter.isGameOver();
+        }
+        try {
+            drawMap();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        calculateAnimationIncrement();
+    }
+
+    @Override
+    public void render() {
+        repaint();
+    }
+
+    private void handleMouseClick(int mouseClickXAxis, int mouseClickYAxis, boolean leftClick, boolean rightClick) {
+        if (wumpusPresenter.isGameOver()) {
+            wumpusPresenter.startNewGame();
+        } else {
+            continueGame(mouseClickXAxis, mouseClickYAxis, leftClick, rightClick);
+        }
+        render();
+    }
+
+    private void continueGame(int mouseClickXAxis, int mouseClickYAxis, boolean leftClick, boolean rightClick) {
+        int selectedCave = getSelectedCaveBasedOnMouseClickLocation(mouseClickXAxis, mouseClickYAxis);
+        if (leftClick && selectedCave != invalidCave) {
+            currentMode.handleLeftClick(selectedCave);
+        } else if (rightClick) {
+            currentMode.handleRightClick();
+        }
+    }
+
+    private int getSelectedCaveBasedOnMouseClickLocation(int mouseClickXAxis, int mouseClickYAxis) {
+        int selectedCave = invalidCave;
+        for (int caveNumber = 0; caveNumber < cavesCoordinates.length; caveNumber++) {
+            int[] cave = cavesCoordinates[caveNumber];
+            int xAxisOfCaveLinkedToCurrentCave = cave[0];
+            int yAxisOfCaveLinkedToCurrentCave = cave[1];
+            if (isMouseClickWithinCorrectCave(mouseClickXAxis, mouseClickYAxis, xAxisOfCaveLinkedToCurrentCave, yAxisOfCaveLinkedToCurrentCave)) {
+                selectedCave = caveNumber;
+                break;
+            }
+        }
+        return selectedCave;
+    }
+
+    private boolean isMouseClickWithinCorrectCave(int mouseClickXAxis, int mouseClickYAxis, int caveXAxis, int caveYAxis) {
+        return (mouseClickXAxis > caveXAxis && mouseClickXAxis < caveXAxis + getCaveSize())
+                && (mouseClickYAxis > caveYAxis && mouseClickYAxis < caveYAxis + getCaveSize());
     }
 
     void drawPlayer() throws IOException {
@@ -216,10 +277,10 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
     }
 
     void drawMessage() {
-//        if (!gameStarting) {
+        if (!gameStarting) {
             g.drawString("Arrows  " + wumpusPresenter.getNumberOfArrows(), 610, 30);
             g.drawString("Mode: " + currentMode.toString(), 30, 30);
-//        }
+        }
 
         if (wumpusPresenter.getWarnings() != null) {
             g.setColor(Color.black);
@@ -248,25 +309,6 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
         }
     }
 
-    @Override
-    public void paintComponent(Graphics gg) {
-        super.paintComponent(gg);
-        g = (Graphics2D) gg;
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
-        if (!gameStarting) {
-            gameStarting = wumpusPresenter.isGameOver();
-        }
-        try {
-            drawMap();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        calculateAnimationIncrement();
-    }
-
     private void calculateAnimationIncrement() {
         long currentTime = System.nanoTime() / 1000000;
         long runningTime = currentTime - animationStartTime;
@@ -289,50 +331,8 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
         } else {
             drawCaves();
             drawPlayer();
-            drawMessage();
         }
-    }
-
-    @Override
-    public void render() {
-        repaint();
-    }
-
-    private void handleMouseClick(int mouseClickXAxis, int mouseClickYAxis, boolean leftClick, boolean rightClick) {
-        if (wumpusPresenter.isGameOver()) {
-            wumpusPresenter.startNewGame();
-        } else {
-            continueGame(mouseClickXAxis, mouseClickYAxis, leftClick, rightClick);
-        }
-        render();
-    }
-
-    private void continueGame(int mouseClickXAxis, int mouseClickYAxis, boolean leftClick, boolean rightClick) {
-        int selectedCave = getSelectedCaveBasedOnMouseClickLocation(mouseClickXAxis, mouseClickYAxis);
-        if (leftClick && selectedCave != invalidCave) {
-            currentMode.handleLeftClick(selectedCave);
-        } else if (rightClick) {
-            currentMode.handleRightClick();
-        }
-    }
-
-    private int getSelectedCaveBasedOnMouseClickLocation(int mouseClickXAxis, int mouseClickYAxis) {
-        int selectedCave = invalidCave;
-        for (int caveNumber = 0; caveNumber < cavesCoordinates.length; caveNumber++) {
-            int[] cave = cavesCoordinates[caveNumber];
-            int xAxisOfCaveLinkedToCurrentCave = cave[0];
-            int yAxisOfCaveLinkedToCurrentCave = cave[1];
-            if (isMouseClickWithinCorrectCave(mouseClickXAxis, mouseClickYAxis, xAxisOfCaveLinkedToCurrentCave, yAxisOfCaveLinkedToCurrentCave)) {
-                selectedCave = caveNumber;
-                break;
-            }
-        }
-        return selectedCave;
-    }
-
-    private boolean isMouseClickWithinCorrectCave(int mouseClickXAxis, int mouseClickYAxis, int caveXAxis, int caveYAxis) {
-        return (mouseClickXAxis > caveXAxis && mouseClickXAxis < caveXAxis + getCaveSize())
-                && (mouseClickYAxis > caveYAxis && mouseClickYAxis < caveYAxis + getCaveSize());
+        drawMessage();
     }
 
     public int getCaveSize() {
