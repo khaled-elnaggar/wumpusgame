@@ -7,21 +7,19 @@ import model.gameobject.hazard.Hazard;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends GameObject implements Killable {
+public class Player extends GameObject implements Killable, Killer {
     private boolean dead;
     private final Arrow arrow;
     private final List<String> warnings = new ArrayList<>();
-    private GameObject killer;
+    private Killer killer;
+    private String playerKillMessage;
+    private String wumpusKillMessage;
 
     @Override
-    public void kill(GameObject killer) {
+    public void kill(Killer killer) {
         this.dead = true;
         this.killer = killer;
-    }
-
-    @Override
-    public boolean wasKilledBy(GameObject killer) {
-        return this.killer != null && this.killer.equals(killer);
+        warnings.add(killer.getPlayerKillMessage());
     }
 
     public Player(int numberOfArrows) {
@@ -82,11 +80,14 @@ public class Player extends GameObject implements Killable {
         return dead;
     }
 
+    @Override
+    public boolean wasKilledBy(GameObject killer) {
+        return this.killer != null && this.killer.equals(killer);
+    }
+
     public void shoot(List<Cave> caves) {
         this.warnings.clear();
-        for (Cave cave : caves) {
-            shootSingle(cave);
-        }
+        caves.forEach(this::shootSingle);
         arrow.decrementByOne();
         if (hasNoArrows()) {
             warnings.add("You ran out of arrows");
@@ -103,7 +104,7 @@ public class Player extends GameObject implements Killable {
     }
 
     public List<String> getWarnings() {
-        return warnings;
+        return new ArrayList<>(warnings);
     }
 
     public Arrow getArrows() {
@@ -115,4 +116,19 @@ public class Player extends GameObject implements Killable {
         return 4;
     }
 
+    public void setPlayerKillMessage(String killMessage) {
+        this.playerKillMessage = killMessage;
+    }
+
+    @Override
+    public String getPlayerKillMessage() {
+        return this.playerKillMessage;
+    }
+    public String getWumpusKilledMessage(){
+        return this.wumpusKillMessage;
+    }
+
+    public void setWumpusKillMessage(String wumpusKillMessage) {
+        this.wumpusKillMessage = wumpusKillMessage;
+    }
 }

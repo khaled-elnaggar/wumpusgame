@@ -26,7 +26,7 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
 
     WumpusPresenter wumpusPresenter;
     public static final int PANEL_WIDTH = 721;
-    public static final int PANEL_HEIGHT = 687;
+    public static final int PANEL_HEIGHT = 717;
     private Mode currentMode;
     private long animationStartTime;
 
@@ -302,7 +302,7 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
                 String shotCavesMessage = Arrays.stream(actualCavesShot)
                         .mapToObj(String::valueOf)
                         .collect(joining(" -> ", "You actually shot at cave(s): ", ""));
-                g.drawString(shotCavesMessage, 20, getHeight() - 40);
+                g.drawString(shotCavesMessage, 20, getHeight() - 20);
             }
 
             messages.clear();
