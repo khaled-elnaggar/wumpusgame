@@ -27,7 +27,7 @@ public class Wumpus extends Hazard implements Killable {
 
     public void attemptToWakeup() {
         int maximumNumberForCalculatingWumpusWakeupProbability = GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY;
-        if (randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability) != 0) { // 75 %
+        if (randomNumberGenerator.generateNumber(maximumNumberForCalculatingWumpusWakeupProbability) != GameInitialConfigurations.WUMPUS_SLEEP_NUMBER) { // 75 %
             int randomLinkedCaveIndex = randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES);
             wakeup(randomLinkedCaveIndex);
         }

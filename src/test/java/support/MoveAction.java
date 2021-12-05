@@ -10,7 +10,7 @@ public class MoveAction extends Action {
 
     @Override
     public void execute() {
-        Action.wumpusPresenter.move(caveToMoveTo);
+        wumpusPresenter.move(caveToMoveTo);
     }
 
     @Override

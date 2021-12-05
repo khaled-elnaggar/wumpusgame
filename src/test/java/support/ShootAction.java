@@ -11,7 +11,7 @@ public class ShootAction extends Action {
 
     @Override
     public void execute() {
-        Action.wumpusPresenter.shoot(cavesToShoot);
+        wumpusPresenter.shoot(cavesToShoot);
     }
     @Override
     public String toString(){

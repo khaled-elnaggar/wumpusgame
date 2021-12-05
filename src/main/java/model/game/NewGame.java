@@ -67,13 +67,13 @@ public class NewGame implements Game {
         }
 
         final int fiftyPercentChance = randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION);
-        if (fiftyPercentChance == 0) {
+        if (fiftyPercentChance == GameInitialConfigurations.ENEMY_PLAYER_MOVE_NUMBER) {
 
             final int randomCaveIndex = randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES);
             Cave caveToMoveTo = enemyPlayer.getCave().getLinkedCaves().get(randomCaveIndex);
             enemyPlayer.move(caveToMoveTo);
 
-        } else if (fiftyPercentChance == 1) {
+        } else if (fiftyPercentChance == GameInitialConfigurations.ENEMY_PLAYER_SHOOT_NUMBER) {
 
             final int numberOfCavesToShoot = 1 + randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT);
             enemyPlayerShoot(numberOfCavesToShoot);

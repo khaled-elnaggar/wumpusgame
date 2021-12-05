@@ -23,6 +23,11 @@ public interface GameInitialConfigurations {
     int MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION = 2;
     int MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT = 5;
 
+    int WUMPUS_WAKEUP_NUMBER = 3;
+    int WUMPUS_SLEEP_NUMBER = 0;
+
+    int ENEMY_PLAYER_SHOOT_NUMBER = 1;
+    int ENEMY_PLAYER_MOVE_NUMBER = 0;
     static int getCaveIndexOutOfCave(int cave, int linkedCave) throws Exception {
         int[] caveLinks = GameInitialConfigurations.CAVE_LINKS[cave];
 
