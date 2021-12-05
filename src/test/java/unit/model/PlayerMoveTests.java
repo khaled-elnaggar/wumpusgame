@@ -63,6 +63,9 @@ public class PlayerMoveTests {
 
         Cave pastPlayerCave = game.getGameMap().getCaves().get(MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX);
         assertTrue(pastPlayerCave.containsAny(player));
+
+        assertEquals(mockedRNGWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX, game.getEnemyPlayerCaveIndex());
+        assertEquals(GameInitialConfigurations.NUMBER_OF_ARROWS, game.getEnemyRemainingArrows());
     }
 
     @Test
@@ -246,4 +249,6 @@ public class PlayerMoveTests {
         final boolean gameIsOver = true;
         assertEquals(actualGameState, gameIsOver);
     }
+
+
 }
