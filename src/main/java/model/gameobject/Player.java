@@ -28,13 +28,14 @@ public class Player extends GameObject implements Killable {
         arrow = new Arrow(numberOfArrows);
     }
 
-    public void move(Cave caveToMoveTo) {
-        if (this.isMyCurrentCaveLinkedTo(caveToMoveTo)) {
-            changeMyCaveLocationTo(caveToMoveTo);
+    public boolean move(Cave caveToMoveTo) {
+        if (!this.isMyCurrentCaveLinkedTo(caveToMoveTo)) {
+            return false;
         }
-
+        changeMyCaveLocationTo(caveToMoveTo);
         executePostMoveActions();
         senseWarnings();
+        return true;
     }
 
     private boolean isMyCurrentCaveLinkedTo(Cave caveToMoveTo) {

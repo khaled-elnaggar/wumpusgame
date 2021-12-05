@@ -42,8 +42,10 @@ public class NewGame implements Game {
     @Override
     public void playerMovesToCave(int cave) {
         Cave caveToMoveTo = gameMap.getCaves().get(cave);
-        player.move(caveToMoveTo);
-        doEnemyPlayerActions();
+        boolean successfulMove = player.move(caveToMoveTo);
+        if (successfulMove) {
+            doEnemyPlayerActions();
+        }
     }
 
     @Override
