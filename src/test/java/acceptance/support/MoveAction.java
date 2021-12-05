@@ -1,4 +1,4 @@
-package support;
+package acceptance.support;
 
 public class MoveAction extends Action {
 

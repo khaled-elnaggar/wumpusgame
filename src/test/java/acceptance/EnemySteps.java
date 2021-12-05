@@ -4,8 +4,8 @@ import io.cucumber.java.Transpose;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import model.game.GameInitialConfigurations;
-import support.GameWorld;
-import support.MoveAction;
+import acceptance.support.GameWorld;
+import acceptance.support.MoveAction;
 
 import java.util.Collections;
 import java.util.List;

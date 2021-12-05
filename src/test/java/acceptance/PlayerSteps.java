@@ -6,10 +6,10 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.game.GameInitialConfigurations;
-import support.Action;
-import support.GameWorld;
-import support.MoveAction;
-import support.ShootAction;
+import acceptance.support.Action;
+import acceptance.support.GameWorld;
+import acceptance.support.MoveAction;
+import acceptance.support.ShootAction;
 
 import java.util.ArrayList;
 import java.util.List;

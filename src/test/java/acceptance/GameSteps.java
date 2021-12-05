@@ -9,8 +9,8 @@ import io.cucumber.java.en.Then;
 import model.game.GameInitialConfigurations;
 import org.junit.jupiter.api.Assertions;
 import presenter.WumpusPresenter;
-import support.Action;
-import support.GameWorld;
+import acceptance.support.Action;
+import acceptance.support.GameWorld;
 
 import java.util.stream.Collectors;
 

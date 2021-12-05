@@ -1,10 +1,9 @@
 package acceptance;
 
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.But;
 import io.cucumber.java.en.Then;
 import model.game.GameInitialConfigurations;
-import support.GameWorld;
+import acceptance.support.GameWorld;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

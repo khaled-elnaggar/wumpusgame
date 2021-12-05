@@ -1,8 +1,10 @@
-package model;
+package unit.support;
 
 import model.game.GameInitialConfigurations;
 import model.game.NewGame;
 import org.mockito.Mockito;
+import presenter.WumpusPresenter;
+import presenter.WumpusPresenterImpl;
 import utilities.RandomNumberGenerator;
 
 import static org.mockito.Mockito.mock;
@@ -19,9 +21,9 @@ public class MockedRandomNumberGeneratorWorld {
     public static final int SECOND_BAT_STARTING_CAVE_INDEX = 13;
     public static final int FIRST_PIT_CAVE = 3;
     public static final int SECOND_PIT_CAVE = 13;
-    static final int ENEMY_PLAYER_MIDDLE_CAVE_INDEX = 1;
+    public static final int ENEMY_PLAYER_MIDDLE_CAVE_INDEX = 1;
 
-    void configureMockingBasedOnDefaultLocationOfGameObjectsOnMap() {
+    public void configureMockingBasedOnDefaultLocationOfGameObjectsOnMap() {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 PLAYER_STARTING_CAVE_INDEX,
                 ENEMY_PLAYER_STARTING_CAVE_INDEX,
@@ -33,17 +35,17 @@ public class MockedRandomNumberGeneratorWorld {
         );
     }
 
-    void makeWumpusSleep() {
+    public void makeWumpusSleep() {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY))
                 .thenReturn(GameInitialConfigurations.WUMPUS_SLEEP_NUMBER);
     }
 
-    void makeWumpusWakeUp() {
+    public void makeWumpusWakeUp() {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY)).thenReturn(
                 GameInitialConfigurations.WUMPUS_WAKEUP_NUMBER);
     }
 
-    void makeEnemyPlayerGoBackAndForth() {
+    public void makeEnemyPlayerGoBackAndForth() {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
                 .thenReturn(GameInitialConfigurations.ENEMY_PLAYER_MOVE_NUMBER);
 
@@ -51,12 +53,12 @@ public class MockedRandomNumberGeneratorWorld {
                 .thenReturn(1);
     }
 
-    void makeEnemyPlayerShoot() {
+    public void makeEnemyPlayerShoot() {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
                 .thenReturn(GameInitialConfigurations.ENEMY_PLAYER_SHOOT_NUMBER);
     }
 
-    void makeEnemyPlayerMove() {
+    public void makeEnemyPlayerMove() {
         Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
                 .thenReturn(GameInitialConfigurations.ENEMY_PLAYER_MOVE_NUMBER);
     }
@@ -69,5 +71,11 @@ public class MockedRandomNumberGeneratorWorld {
         NewGame game = new NewGame(randomNumberGenerator);
         game.startGame();
         return game;
+    }
+
+    public WumpusPresenter getWumpusPresenter() {
+        WumpusPresenter wumpusPresenter = new WumpusPresenterImpl(randomNumberGenerator);
+        wumpusPresenter.startNewGame();
+        return wumpusPresenter;
     }
 }

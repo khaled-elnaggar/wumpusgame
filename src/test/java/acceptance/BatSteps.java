@@ -1,7 +1,7 @@
 package acceptance;
 
 import io.cucumber.java.en.And;
-import support.GameWorld;
+import acceptance.support.GameWorld;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;

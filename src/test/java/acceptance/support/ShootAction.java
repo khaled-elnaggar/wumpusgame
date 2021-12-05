@@ -1,4 +1,4 @@
-package support;
+package acceptance.support;
 
 import java.util.Arrays;
 
