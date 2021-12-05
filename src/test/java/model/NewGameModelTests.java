@@ -8,12 +8,11 @@ import model.gameobject.hazard.Bat;
 import model.gameobject.hazard.Pit;
 import model.gameobject.Player;
 import model.gameobject.hazard.Wumpus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import utilities.RandomNumberGenerator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,60 +20,16 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 
 @ExtendWith(MockitoExtension.class)
 public class NewGameModelTests {
+    MockedRandomNumberGeneratorWorld mockedRNGWorld;
 
-    public static final int PLAYER_STARTING_CAVE_INDEX = 9;
-    public static final int ENEMY_PLAYER_STARTING_CAVE_INDEX = 11;
-    public static final int WUMPUS_STARTING_CAVE_INDEX = 18;
-    public static final int FIRST_BAT_STARTING_CAVE_INDEX = 19;
-    public static final int SECOND_BAT_STARTING_CAVE_INDEX = 13;
-    public static final int FIRST_PIT_CAVE = 3;
-    public static final int SECOND_PIT_CAVE = 13;
-    private static final int ENEMY_PLAYER_MIDDLE_CAVE_INDEX = 1;
-    @Mock
-    RandomNumberGenerator randomNumberGenerator;
-
-    private void configureMockingBasedOnDefaultLocationOfGameObjectsOnMap() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                PLAYER_STARTING_CAVE_INDEX,
-                ENEMY_PLAYER_STARTING_CAVE_INDEX,
-                WUMPUS_STARTING_CAVE_INDEX,
-                FIRST_BAT_STARTING_CAVE_INDEX,
-                SECOND_BAT_STARTING_CAVE_INDEX,
-                FIRST_PIT_CAVE,
-                SECOND_PIT_CAVE
-        );
-    }
-
-    private void makeWumpusSleep() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY))
-                .thenReturn(GameInitialConfigurations.WUMPUS_SLEEP_NUMBER);
-    }
-
-    private void makeWumpusWakeUp() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAXIMUM_NUMBER_FOR_CALCULATING_WUMPUS_WAKEUP_PROBABILITY)).thenReturn(
-                GameInitialConfigurations.WUMPUS_WAKEUP_NUMBER);
-    }
-
-    private void makeEnemyPlayerGoBackAndForth() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(GameInitialConfigurations.ENEMY_PLAYER_MOVE_NUMBER);
-
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES))
-                .thenReturn(1);
-    }
-
-    private void makeEnemyPlayerShoot() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(GameInitialConfigurations.ENEMY_PLAYER_SHOOT_NUMBER);
-    }
-
-    private void makeEnemyPlayerMove() {
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_POSSIBILITY_ENEMY_PLAYER_TAKE_ACTION))
-                .thenReturn(GameInitialConfigurations.ENEMY_PLAYER_MOVE_NUMBER);
+    @BeforeEach
+    public void setUp(){
+        mockedRNGWorld = new MockedRandomNumberGeneratorWorld();
     }
 
     @Test
@@ -113,41 +68,38 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerIsAddedToInitialCave() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int actualPlayerCaveIndex = game.getPlayerCaveIndex();
-        assertEquals(PLAYER_STARTING_CAVE_INDEX, actualPlayerCaveIndex);
+        assertEquals(MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX, actualPlayerCaveIndex);
     }
 
     @Test
     public void testThatPlayerCaveIsAddedToGameMap() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int actualPlayerCaveIndex = game.getPlayerCaveIndex();
-        assertEquals(PLAYER_STARTING_CAVE_INDEX, actualPlayerCaveIndex);
+        assertEquals(MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX, actualPlayerCaveIndex);
 
-        Cave playerCave = game.getGameMap().getCaves().get(PLAYER_STARTING_CAVE_INDEX);
+        Cave playerCave = game.getGameMap().getCaves().get(MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX);
         Player player = game.getPlayer();
         assertTrue(playerCave.containsAny(player));
     }
 
     @Test
     public void testThatWumpusIsAddedToCaveGameMap() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int actualWumpusCaveIndex = game.getWumpusCaveIndex();
-        assertEquals(WUMPUS_STARTING_CAVE_INDEX, actualWumpusCaveIndex);
+        assertEquals(MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX, actualWumpusCaveIndex);
 
-        Cave wumpusCave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
+        Cave wumpusCave = game.getGameMap().getCaves().get(MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX);
         Wumpus wumpus = game.getWumpus();
         assertTrue(wumpusCave.containsAny(wumpus));
 
@@ -155,12 +107,11 @@ public class NewGameModelTests {
 
     @Test
     public void testThatThreeBatsAreAddedToCaveGameMap() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        int[] batsStartingCavesIndexes = {FIRST_BAT_STARTING_CAVE_INDEX, SECOND_BAT_STARTING_CAVE_INDEX};
+        int[] batsStartingCavesIndexes = {MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX, MockedRandomNumberGeneratorWorld.SECOND_BAT_STARTING_CAVE_INDEX};
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         List<Bat> listOfBats = game.getBats();
 
@@ -176,12 +127,11 @@ public class NewGameModelTests {
 
     @Test
     public void testThatTwoPitsAreAddedToCaveGameMap() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        int[] pitsInCavesIndexes = {FIRST_PIT_CAVE, SECOND_PIT_CAVE};
+        int[] pitsInCavesIndexes = {MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE, MockedRandomNumberGeneratorWorld.SECOND_PIT_CAVE};
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         List<Pit> listOfPits = game.getPits();
 
@@ -201,19 +151,18 @@ public class NewGameModelTests {
         final int wumpusStartingWrongCaveIndex = 9;
         final int wumpusStartingCorrectCaveIndex = 17;
 
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                PLAYER_STARTING_CAVE_INDEX,
-                ENEMY_PLAYER_STARTING_CAVE_INDEX,
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+                MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 wumpusStartingWrongCaveIndex,
                 wumpusStartingCorrectCaveIndex,
-                FIRST_BAT_STARTING_CAVE_INDEX,
-                SECOND_BAT_STARTING_CAVE_INDEX,
-                FIRST_PIT_CAVE,
-                SECOND_PIT_CAVE
+                MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.SECOND_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE,
+                MockedRandomNumberGeneratorWorld.SECOND_PIT_CAVE
         );
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int actualWumpusCaveIndex = game.getWumpusCaveIndex();
         assertEquals(wumpusStartingCorrectCaveIndex, actualWumpusCaveIndex);
@@ -228,21 +177,20 @@ public class NewGameModelTests {
         final int secondBatWrongStartingCaveIndex = 19;
 
         final int secondBatCorrectStartingCaveIndex = 13;
-        int[] batsStartingCavesIndexes = {FIRST_BAT_STARTING_CAVE_INDEX, secondBatCorrectStartingCaveIndex};
+        int[] batsStartingCavesIndexes = {MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX, secondBatCorrectStartingCaveIndex};
 
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                PLAYER_STARTING_CAVE_INDEX,
-                ENEMY_PLAYER_STARTING_CAVE_INDEX,
-                WUMPUS_STARTING_CAVE_INDEX,
-                FIRST_BAT_STARTING_CAVE_INDEX,
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+                MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX,
                 secondBatWrongStartingCaveIndex,
                 secondBatCorrectStartingCaveIndex,
-                FIRST_PIT_CAVE,
-                SECOND_PIT_CAVE
+                MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE,
+                MockedRandomNumberGeneratorWorld.SECOND_PIT_CAVE
         );
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         List<Bat> listOfBats = game.getBats();
 
@@ -260,21 +208,20 @@ public class NewGameModelTests {
     public void testThatPitsAreNotInitializedAtSameLocation() {
         final int secondWrongPitCave = 3;
         final int secondCorrectPitCave = 13;
-        int[] correctPitsInCavesIndexes = {FIRST_PIT_CAVE, secondCorrectPitCave};
+        int[] correctPitsInCavesIndexes = {MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE, secondCorrectPitCave};
 
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                PLAYER_STARTING_CAVE_INDEX,
-                ENEMY_PLAYER_STARTING_CAVE_INDEX,
-                WUMPUS_STARTING_CAVE_INDEX,
-                FIRST_BAT_STARTING_CAVE_INDEX,
-                SECOND_BAT_STARTING_CAVE_INDEX,
-                FIRST_PIT_CAVE,
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+                MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.SECOND_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE,
                 secondWrongPitCave,
                 secondCorrectPitCave
         );
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         List<Pit> listOfPits = game.getPits();
 
@@ -295,26 +242,25 @@ public class NewGameModelTests {
         final int wumpusStartingCorrectCaveIndex = 17;
 
         final int firstBatStartingWrongCaveIndex = 10;
-        final int firstBatStartingCorrectCaveIndex = FIRST_BAT_STARTING_CAVE_INDEX;
+        final int firstBatStartingCorrectCaveIndex = MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX;
 
         final int firstPitStartingWrongCaveIndex = 8;
-        final int firstPitStartingCorrectCaveIndex = FIRST_PIT_CAVE;
+        final int firstPitStartingCorrectCaveIndex = MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE;
 
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                PLAYER_STARTING_CAVE_INDEX,
-                ENEMY_PLAYER_STARTING_CAVE_INDEX,
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+                MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 wumpusStartingWrongCaveIndex,
                 wumpusStartingCorrectCaveIndex,
                 firstBatStartingWrongCaveIndex,
                 firstBatStartingCorrectCaveIndex,
-                SECOND_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.SECOND_BAT_STARTING_CAVE_INDEX,
                 firstPitStartingWrongCaveIndex,
                 firstPitStartingCorrectCaveIndex,
-                SECOND_PIT_CAVE
+                MockedRandomNumberGeneratorWorld.SECOND_PIT_CAVE
         );
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int actualWumpusCaveIndex = game.getWumpusCaveIndex();
         assertEquals(wumpusStartingCorrectCaveIndex, actualWumpusCaveIndex);
@@ -340,11 +286,10 @@ public class NewGameModelTests {
 
     @Test
     public void testThatThePlayerCanMoveToALinkedCave() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int caveIndexToMoveTo = 1;
         game.playerMovesToCave(caveIndexToMoveTo);
@@ -356,40 +301,38 @@ public class NewGameModelTests {
         Player player = game.getPlayer();
         assertTrue(currentPlayerCave.containsAny(player));
 
-        Cave pastPlayerCave = game.getGameMap().getCaves().get(PLAYER_STARTING_CAVE_INDEX);
+        Cave pastPlayerCave = game.getGameMap().getCaves().get(MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX);
         assertFalse(pastPlayerCave.containsAny(player));
     }
 
     @Test
     public void testMoveToNonConnectedCave() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int caveIndexToMoveTo = 17;
         game.playerMovesToCave(caveIndexToMoveTo);
 
         final int actualPlayerCaveIndex = game.getPlayerCaveIndex();
         assertNotEquals(caveIndexToMoveTo, actualPlayerCaveIndex);
-        assertEquals(PLAYER_STARTING_CAVE_INDEX, actualPlayerCaveIndex);
+        assertEquals(MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX, actualPlayerCaveIndex);
 
         Cave currentPlayerCave = game.getGameMap().getCaves().get(caveIndexToMoveTo);
         Player player = game.getPlayer();
         assertFalse(currentPlayerCave.containsAny(player));
 
-        Cave pastPlayerCave = game.getGameMap().getCaves().get(PLAYER_STARTING_CAVE_INDEX);
+        Cave pastPlayerCave = game.getGameMap().getCaves().get(MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX);
         assertTrue(pastPlayerCave.containsAny(player));
     }
 
     @Test
     public void testMovingPlayerToCaveThatHasAWumups() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         int[] journeyPath = new int[]{10, 18};
 
@@ -408,11 +351,10 @@ public class NewGameModelTests {
 
     @Test
     public void testMovingPlayerToACaveNearAWumpusAndSensingTheWumpus() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         int[] journeyPath = new int[]{10};
 
@@ -431,11 +373,10 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerEnterRoomWithPit() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int[] journeyPath = {10, 11, 2, 3};
         for (int caveNumber : journeyPath) {
@@ -452,15 +393,14 @@ public class NewGameModelTests {
 
     @Test
     public void testKillingTheWumpus() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         game.playerMovesToCave(10);
 
-        final int caveToShootTo = WUMPUS_STARTING_CAVE_INDEX;
+        final int caveToShootTo = MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX;
         game.playerShootsToCave(caveToShootTo);
 
         final boolean actualGameState = game.isGameOver();
@@ -470,20 +410,19 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerShootsAnArrowThatMissesTheWumpusAndWumpusRemainsSleeping() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
 
-        makeWumpusSleep();
+        mockedRNGWorld.makeWumpusSleep();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
         game.playerMovesToCave(10);
 
         final int caveToShootTo = 11;
         game.playerShootsToCave(caveToShootTo);
 
         final int wumpusCaveLocation = game.getWumpusCaveIndex();
-        assertEquals(wumpusCaveLocation, WUMPUS_STARTING_CAVE_INDEX);
+        assertEquals(wumpusCaveLocation, MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX);
 
         final boolean actualGameState = game.isGameOver();
         final boolean gameIsNotOver = false;
@@ -492,17 +431,16 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerShootsAnArrowThatMissesTheWumpusAndWumpusMoves() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerGoBackAndForth();
-        makeWumpusWakeUp();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.makeWumpusWakeUp();
 
         final int numberOfLinkedCaves = 3;
         final int wumpusLinkedCaveIndex = 2;
-        Mockito.when(randomNumberGenerator.generateNumber(numberOfLinkedCaves)).thenReturn(
-                wumpusLinkedCaveIndex,ENEMY_PLAYER_MIDDLE_CAVE_INDEX);
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(numberOfLinkedCaves)).thenReturn(
+                wumpusLinkedCaveIndex, MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_MIDDLE_CAVE_INDEX);
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int caveToShootTo = 1;
         game.playerShootsToCave(caveToShootTo);
@@ -511,7 +449,7 @@ public class NewGameModelTests {
         final int expectedWumpusCaveIndex = 17;
         assertEquals(expectedWumpusCaveIndex, actualWumpusCaveIndex);
 
-        final Cave initialWumpusCave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
+        final Cave initialWumpusCave = game.getGameMap().getCaves().get(MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX);
         assertFalse(initialWumpusCave.containsAny(game.getWumpus()));
 
         final boolean actualGameState = game.isGameOver();
@@ -519,17 +457,15 @@ public class NewGameModelTests {
         assertEquals(actualGameState, gameIsNotOver);
     }
 
-
     @Test
     public void testThatPlayerRunsOutOfArrowsWithoutKillingWumpus() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        makeWumpusSleep();
+        mockedRNGWorld.makeWumpusSleep();
 
-        makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int caveToShoot = 1;
         for (int i = 0; i < GameInitialConfigurations.NUMBER_OF_ARROWS; i++) {
@@ -543,19 +479,18 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerShootsAnArrowMissesWumpusAndWumpusWakesUpAndMoveToEatThePlayer() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        makeEnemyPlayerMove();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.makeEnemyPlayerMove();
 
-        makeWumpusWakeUp();
+        mockedRNGWorld.makeWumpusWakeUp();
 
         final int numberOfLinkedCaves = 3;
         final int wumpusLinkedCaveIndex = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(numberOfLinkedCaves)).thenReturn(
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(numberOfLinkedCaves)).thenReturn(
                 wumpusLinkedCaveIndex,
-                ENEMY_PLAYER_MIDDLE_CAVE_INDEX);
+                MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_MIDDLE_CAVE_INDEX);
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         game.playerMovesToCave(10);
 
@@ -567,7 +502,7 @@ public class NewGameModelTests {
         final int expectedWumpusCaveIndex = 10;
         assertEquals(expectedWumpusCaveIndex, actualWumpusCaveIndex);
 
-        final Cave initialWumpusCave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
+        final Cave initialWumpusCave = game.getGameMap().getCaves().get(MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX);
         assertFalse(initialWumpusCave.containsAny(game.getWumpus()));
 
         final boolean actualGameState = game.isGameOver();
@@ -577,7 +512,7 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerEnterRoomWithBatTwice() {
-        makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
         final int enemyPlayerStartingCave = 9;
 
         final int playerFirstDropDownCaveIndex = 15;
@@ -587,14 +522,14 @@ public class NewGameModelTests {
         final int secondBatFinalCaveIndex = 0;
 
         final int secondBatStartingCaveIndex = 14;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                PLAYER_STARTING_CAVE_INDEX,
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+                MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX,
                 enemyPlayerStartingCave,
-                WUMPUS_STARTING_CAVE_INDEX,
-                FIRST_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX,
                 secondBatStartingCaveIndex,
-                FIRST_PIT_CAVE,
-                SECOND_PIT_CAVE,
+                MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE,
+                MockedRandomNumberGeneratorWorld.SECOND_PIT_CAVE,
                 playerFirstDropDownCaveIndex,
                 firstBatFinalCaveIndex,
                 playerSecondDropDownCaveIndex,
@@ -602,10 +537,9 @@ public class NewGameModelTests {
         );
 
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
-        final int[] journeyPath = {10, 11, 12, FIRST_BAT_STARTING_CAVE_INDEX};
+        final int[] journeyPath = {10, 11, 12, MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX};
         for (int cave : journeyPath) {
             game.playerMovesToCave(cave);
         }
@@ -618,7 +552,7 @@ public class NewGameModelTests {
         final Cave firstBatActualCave = firstBat.getCave();
         assertEquals(firstBatFinalCaveIndex, firstBatActualCave.getNumber());
 
-        final Cave previousCave = game.getGameMap().getCaves().get(FIRST_BAT_STARTING_CAVE_INDEX);
+        final Cave previousCave = game.getGameMap().getCaves().get(MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX);
         assertFalse(previousCave.containsAny(game.getPlayer()));
         assertFalse(previousCave.containsAny(firstBat));
 
@@ -640,27 +574,26 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerEnterRoomWithBat() {
-        makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
         final int playerDropDownCaveIndex = 8;
         final int firstBatFinalCaveIndex = 5;
 
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                PLAYER_STARTING_CAVE_INDEX,
-                ENEMY_PLAYER_STARTING_CAVE_INDEX,
-                WUMPUS_STARTING_CAVE_INDEX,
-                FIRST_BAT_STARTING_CAVE_INDEX,
-                SECOND_BAT_STARTING_CAVE_INDEX,
-                FIRST_PIT_CAVE,
-                SECOND_PIT_CAVE,
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+                MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.SECOND_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE,
+                MockedRandomNumberGeneratorWorld.SECOND_PIT_CAVE,
                 playerDropDownCaveIndex,
                 firstBatFinalCaveIndex
         );
 
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
-        final int[] journeyPath = {10, 11, 12, FIRST_BAT_STARTING_CAVE_INDEX};
+        final int[] journeyPath = {10, 11, 12, MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX};
         for (int cave : journeyPath) {
             game.playerMovesToCave(cave);
         }
@@ -673,18 +606,17 @@ public class NewGameModelTests {
         final Cave firstBatActualCave = firstBat.getCave();
         assertEquals(firstBatFinalCaveIndex, firstBatActualCave.getNumber());
 
-        final Cave previousCave = game.getGameMap().getCaves().get(FIRST_BAT_STARTING_CAVE_INDEX);
+        final Cave previousCave = game.getGameMap().getCaves().get(MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX);
         assertFalse(previousCave.containsAny(game.getPlayer()));
         assertFalse(previousCave.containsAny(firstBat));
     }
 
     @Test
     public void testThatPlayerEnterRoomWithPitAndBat() {
-        makeEnemyPlayerGoBackAndForth();
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.makeEnemyPlayerGoBackAndForth();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int[] journeyPath = {10, 11, 12, 13};
         for (int caveNumber : journeyPath) {
@@ -702,18 +634,17 @@ public class NewGameModelTests {
         final int FIRST_BAT_STARTING_CAVE_INDEX = 18;
         final int FIRST_PIT_CAVE = 18;
 
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                PLAYER_STARTING_CAVE_INDEX,
-                ENEMY_PLAYER_STARTING_CAVE_INDEX,
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+                MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX,
                 WUMPUS_STARTING_CAVE_INDEX,
                 FIRST_BAT_STARTING_CAVE_INDEX,
-                SECOND_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.SECOND_BAT_STARTING_CAVE_INDEX,
                 FIRST_PIT_CAVE,
-                SECOND_PIT_CAVE
+                MockedRandomNumberGeneratorWorld.SECOND_PIT_CAVE
         );
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         Cave cave = game.getGameMap().getCaves().get(WUMPUS_STARTING_CAVE_INDEX);
 
@@ -725,9 +656,8 @@ public class NewGameModelTests {
 
     @Test
     public void testTheInitialNumberOfAllCreatures() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        NewGame game = mockedRNGWorld.getGame();
 
         Map<String, Integer> creaturesAndTheirCount = new HashMap<>();
         String[] creatureNames = {Player.class.getSimpleName(), Wumpus.class.getSimpleName(), Pit.class.getSimpleName(), Bat.class.getSimpleName()};
@@ -758,17 +688,16 @@ public class NewGameModelTests {
     @Test
     public void testThatPlayerShootsMultipleLinkedCavesWithOneArrow() {
         final int playerStartingCave = 0;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
                 playerStartingCave,
-                ENEMY_PLAYER_STARTING_CAVE_INDEX,
-                WUMPUS_STARTING_CAVE_INDEX,
-                FIRST_BAT_STARTING_CAVE_INDEX,
-                SECOND_BAT_STARTING_CAVE_INDEX,
-                FIRST_PIT_CAVE,
-                SECOND_PIT_CAVE
+                MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.SECOND_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE,
+                MockedRandomNumberGeneratorWorld.SECOND_PIT_CAVE
         );
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         int[] cavesToShootAt = new int[]{7, 8, 9, 10, 18};
         game.playerShootsToCave(cavesToShootAt);
@@ -781,14 +710,13 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerShootsMultipleNonLinkedCavesWithOneArrow() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        NewGame game = mockedRNGWorld.getGame();
 
         int[] cavesToShootAt = new int[]{15, 2, 11, 10, 3};
         final int cave1IndexFrom0 = 1;
         final int cave18IndexFrom10 = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
                 cave1IndexFrom0,
                 cave18IndexFrom10);
 
@@ -799,13 +727,12 @@ public class NewGameModelTests {
 
     @Test
     public void testThatPlayerShootsMultipleNonLinkedCavesWithOneArrowAndDies() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        NewGame game = mockedRNGWorld.getGame();
 
         int[] cavesToShootAt = new int[]{1, 15};
         final int cave9IndexFrom1 = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
                 cave9IndexFrom1);
 
         game.playerShootsToCave(cavesToShootAt);
@@ -815,56 +742,53 @@ public class NewGameModelTests {
 
     @Test
     public void testThatEnemyPlayerIsInitialized() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int actualEnemyPlayerLocation = game.getEnemyPlayerCaveIndex();
-        assertEquals(ENEMY_PLAYER_STARTING_CAVE_INDEX, actualEnemyPlayerLocation);
+        assertEquals(MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX, actualEnemyPlayerLocation);
     }
 
     @Test
     public void testThatEnemyPlayerMovesAfterPlayerMoves() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        makeEnemyPlayerMove();
+        mockedRNGWorld.makeEnemyPlayerMove();
 
         final int caveIndexToMoveTo = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
                 caveIndexToMoveTo);
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
 
         final int caveToMoveTo = 1;
         game.playerMovesToCave(caveToMoveTo);
 
-        final int expectedEnemyPlayerCave = GameInitialConfigurations.CAVE_LINKS[ENEMY_PLAYER_STARTING_CAVE_INDEX][caveIndexToMoveTo];
+        final int expectedEnemyPlayerCave = GameInitialConfigurations.CAVE_LINKS[MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX][caveIndexToMoveTo];
 
         assertEquals(expectedEnemyPlayerCave, game.getEnemyPlayerCaveIndex());
     }
 
     @Test
     public void testThatEnemyPlayerMovesAfterPlayerShoots() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        makeEnemyPlayerMove();
+        mockedRNGWorld.makeEnemyPlayerMove();
 
         final int caveIndexToMoveTo = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
                 caveIndexToMoveTo);
 
-        makeWumpusSleep();
+        mockedRNGWorld.makeWumpusSleep();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int caveToShootAt = 1;
         game.playerShootsToCave(caveToShootAt);
 
-        final int expectedEnemyPlayerCave = GameInitialConfigurations.CAVE_LINKS[ENEMY_PLAYER_STARTING_CAVE_INDEX][caveIndexToMoveTo];
+        final int expectedEnemyPlayerCave = GameInitialConfigurations.CAVE_LINKS[MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX][caveIndexToMoveTo];
 
         final int actualEnemyPlayerCave = game.getEnemyPlayerCaveIndex();
         assertEquals(expectedEnemyPlayerCave, actualEnemyPlayerCave);
@@ -872,18 +796,17 @@ public class NewGameModelTests {
 
     @Test
     public void testThatEnemyPlayerMoveToCaveWithWumpusAndDies() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        makeEnemyPlayerMove();
+        mockedRNGWorld.makeEnemyPlayerMove();
 
         final int firstCaveIndexToMoveTo = 0;
         final int secondCaveIndexToMoveTo = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
                 firstCaveIndexToMoveTo,
                 secondCaveIndexToMoveTo);
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
 
         final int[] journeyPath = new int[]{1, 0};
@@ -891,7 +814,7 @@ public class NewGameModelTests {
             game.playerMovesToCave(cave);
         }
 
-        final int expectedEnemyPlayerCave = WUMPUS_STARTING_CAVE_INDEX;
+        final int expectedEnemyPlayerCave = MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX;
 
         assertEquals(expectedEnemyPlayerCave, game.getEnemyPlayerCaveIndex());
 
@@ -902,27 +825,26 @@ public class NewGameModelTests {
     public void testThatEnemyPlayerMoveToCaveWithBatAndTeleports() {
         final int enemyPlayerDropDownCave = 8;
         final int batDropDownCave = 4;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
-                PLAYER_STARTING_CAVE_INDEX,
-                ENEMY_PLAYER_STARTING_CAVE_INDEX,
-                WUMPUS_STARTING_CAVE_INDEX,
-                FIRST_BAT_STARTING_CAVE_INDEX,
-                SECOND_BAT_STARTING_CAVE_INDEX,
-                FIRST_PIT_CAVE,
-                SECOND_PIT_CAVE,
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_CAVES)).thenReturn(
+                MockedRandomNumberGeneratorWorld.PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.WUMPUS_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.SECOND_BAT_STARTING_CAVE_INDEX,
+                MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE,
+                MockedRandomNumberGeneratorWorld.SECOND_PIT_CAVE,
                 enemyPlayerDropDownCave,
                 batDropDownCave);
 
-        makeEnemyPlayerMove();
+        mockedRNGWorld.makeEnemyPlayerMove();
 
         final int firstCaveIndexToMoveTo = 2;
         final int secondCaveIndexToMoveTo = 1;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
                 firstCaveIndexToMoveTo,
                 secondCaveIndexToMoveTo);
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int[] journeyPath = new int[]{1, 0};
         for (int cave : journeyPath) {
@@ -935,18 +857,17 @@ public class NewGameModelTests {
 
     @Test
     public void testThatEnemyPlayerMoveToCaveWithPitAndDies() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        makeEnemyPlayerMove();
+        mockedRNGWorld.makeEnemyPlayerMove();
 
         final int firstCaveIndexToMoveTo = 1;
         final int secondCaveIndexToMoveTo = 2;
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES)).thenReturn(
                 firstCaveIndexToMoveTo,
                 secondCaveIndexToMoveTo);
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
 
         final int[] journeyPath = new int[]{1, 0};
@@ -954,7 +875,7 @@ public class NewGameModelTests {
             game.playerMovesToCave(cave);
         }
 
-        final int expectedEnemyPlayerCave = FIRST_PIT_CAVE;
+        final int expectedEnemyPlayerCave = MockedRandomNumberGeneratorWorld.FIRST_PIT_CAVE;
 
         assertEquals(expectedEnemyPlayerCave, game.getEnemyPlayerCaveIndex());
 
@@ -963,26 +884,25 @@ public class NewGameModelTests {
 
     @Test
     public void testThatEnemyPlayerShootsPlayer() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        makeEnemyPlayerShoot();
+        mockedRNGWorld.makeEnemyPlayerShoot();
 
         final int numberOfCavesEnemyPlayerShoots = 2; // will actually shoot at 2 + 1 = 3 caves
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT))
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT))
                 .thenReturn(numberOfCavesEnemyPlayerShoots);
 
         final int firstCaveIndexToShootByEnemyPlayer = 0; // cave 10
         final int secondCaveIndexToShootByEnemyPlayer = 0; // cave 9
         final int thirdCaveIndexToShootByEnemyPlayer = 1; // cave 1
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES))
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES))
                 .thenReturn(firstCaveIndexToShootByEnemyPlayer,
                         secondCaveIndexToShootByEnemyPlayer,
                         thirdCaveIndexToShootByEnemyPlayer);
 
-        makeWumpusSleep();
+        mockedRNGWorld.makeWumpusSleep();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int playerNextCave = 1;
         game.playerMovesToCave(playerNextCave);
@@ -995,22 +915,21 @@ public class NewGameModelTests {
 
     @Test
     public void testThatEnemyPlayerShootsWumpusAndPlayerLoses() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        makeEnemyPlayerShoot();
+        mockedRNGWorld.makeEnemyPlayerShoot();
 
         final int numberOfCavesEnemyPlayerShoots = 2; // will actually shoot at 2 + 1 = 3 caves
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT))
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT))
                 .thenReturn(numberOfCavesEnemyPlayerShoots);
 
         final int firstCaveIndexToShootByEnemyPlayer = 0; // cave 10
         final int secondCaveIndexToShootByEnemyPlayer = 1; // cave 18
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES))
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES))
                 .thenReturn(firstCaveIndexToShootByEnemyPlayer,
                         secondCaveIndexToShootByEnemyPlayer);
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int playerNextCave = 1;
         game.playerMovesToCave(playerNextCave);
@@ -1021,22 +940,21 @@ public class NewGameModelTests {
 
     @Test
     public void testThatEnemyPlayerRunsOutofArrowsAndCantMoveOrShoot() {
-        configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
+        mockedRNGWorld.configureMockingBasedOnDefaultLocationOfGameObjectsOnMap();
 
-        makeEnemyPlayerShoot();
+        mockedRNGWorld.makeEnemyPlayerShoot();
 
         final int numberOfCavesEnemyPlayerShoots = 0; // will actually shoot at 0 + 1 = 1 cave
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT))
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.MAX_CAVES_ENEMY_PLAYER_CAN_SHOOT))
                 .thenReturn(numberOfCavesEnemyPlayerShoots);
 
         final int caveIndexToShootByEnemyPlayer = 0; // cave 10
-        Mockito.when(randomNumberGenerator.generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES))
+        Mockito.when(mockedRNGWorld.getRandomNumberGenerator().generateNumber(GameInitialConfigurations.NUMBER_OF_LINKED_CAVES))
                 .thenReturn(caveIndexToShootByEnemyPlayer);
 
-        makeWumpusSleep();
+        mockedRNGWorld.makeWumpusSleep();
 
-        NewGame game = new NewGame(randomNumberGenerator);
-        game.startGame();
+        NewGame game = mockedRNGWorld.getGame();
 
         final int enemyRemainingArrows = game.getEnemyRemainingArrows();
         for (int i = 0; i < enemyRemainingArrows; i++) {
@@ -1044,11 +962,11 @@ public class NewGameModelTests {
             game.playerMovesToCave(secondLinkedCave);
         }
         assertEquals(0, game.getEnemyRemainingArrows());
-        assertEquals(ENEMY_PLAYER_STARTING_CAVE_INDEX, game.getEnemyPlayerCaveIndex());
+        assertEquals(MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX, game.getEnemyPlayerCaveIndex());
 
         game.playerMovesToCave(1);
         assertEquals(0, game.getEnemyRemainingArrows());
-        assertEquals(ENEMY_PLAYER_STARTING_CAVE_INDEX, game.getEnemyPlayerCaveIndex());
+        assertEquals(MockedRandomNumberGeneratorWorld.ENEMY_PLAYER_STARTING_CAVE_INDEX, game.getEnemyPlayerCaveIndex());
 
     }
 }
