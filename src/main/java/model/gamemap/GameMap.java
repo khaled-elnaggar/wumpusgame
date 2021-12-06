@@ -62,7 +62,7 @@ public class GameMap {
         return this.caves;
     }
 
-    public List<Cave> validateCavesToShootAtAreLinked(Cave arrowStartingCave, int[] cavesArrayToShoot) {
+    public List<Cave> constructArrowCavesPath(Cave arrowStartingCave, int[] cavesArrayToShoot) {
         List<Cave> validCavesToShootAt = new ArrayList<>();
 
         Cave arrowCurrentCave = arrowStartingCave;

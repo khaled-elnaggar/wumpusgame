@@ -107,7 +107,7 @@ Feature: Enemy player shoot feature
     And bat 1 will be at cave 8
 
 
-# TODO: Enemy player shoot test list
+# Enemy player shoot test list
 #  DONE - Enemy kills player so player loses
 #  DONE - Enemy kills the wumpus and player loses
 #  DONE - Enemy kills itself

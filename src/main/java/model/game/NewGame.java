@@ -51,7 +51,7 @@ public class NewGame implements Game {
 
     @Override
     public int[] playerShootsToCave(int... caves) {
-        List<Cave> cavesToShoot = this.gameMap.validateCavesToShootAtAreLinked(player.getCave(), caves);
+        List<Cave> cavesToShoot = this.gameMap.constructArrowCavesPath(player.getCave(), caves);
         player.shoot(cavesToShoot);
 
         doWumpusPostShootActions();
@@ -90,7 +90,7 @@ public class NewGame implements Game {
         int[] invalidCaves = new int[numberOfCavesToShoot];
         Arrays.fill(invalidCaves, -1);
 
-        List<Cave> cavesToShoot = gameMap.validateCavesToShootAtAreLinked(enemyPlayer.getCave(), invalidCaves);
+        List<Cave> cavesToShoot = gameMap.constructArrowCavesPath(enemyPlayer.getCave(), invalidCaves);
         enemyPlayer.shoot(cavesToShoot);
     }
 
