@@ -50,7 +50,7 @@ public class WumpusPresenterImpl implements WumpusPresenter {
     }
 
     @Override
-    public boolean hasPlayerWon() {
+    public boolean isGameWon() {
         return gameModel.hasPlayerWon();
     }
 

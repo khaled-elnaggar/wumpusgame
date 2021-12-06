@@ -192,7 +192,7 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
         g.drawString("be aware that hazards may be in the same cave", 175, 345);
         g.drawString("click to start", 310, 380);
 
-        if (wumpusPresenter.hasPlayerWon()) {
+        if (wumpusPresenter.isGameWon()) {
             drawEndGameImage("won.png");
         }
 
