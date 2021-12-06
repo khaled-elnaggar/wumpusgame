@@ -53,20 +53,20 @@ public class NewGame implements Game {
     public int[] playerShootsToCave(int... caves) {
         List<Cave> cavesToShoot = this.gameMap.validateCavesToShootAtAreLinked(player.getCave(), caves);
         player.shoot(cavesToShoot);
+
         doWumpusPostShootActions();
         doEnemyPlayerActions();
         return cavesToShoot.stream().mapToInt(Cave::getNumber).toArray();
     }
 
     private void doWumpusPostShootActions() {
-        if (isGameOver()) {
-            return;
+        if (!isGameOver()) {
+            wumpus.attemptToWakeup();
         }
-        wumpus.attemptToWakeup();
     }
 
     public void doEnemyPlayerActions() {
-        if (isGameOver() || enemyPlayer.isDead() || enemyPlayer.hasNoArrows()) {
+        if (enemyPlayerShouldTakeNoAction()) {
             return;
         }
 
@@ -80,6 +80,10 @@ public class NewGame implements Game {
             enemyPlayerShoot(numberOfCavesToShoot);
             doWumpusPostShootActions();
         }
+    }
+
+    private boolean enemyPlayerShouldTakeNoAction() {
+        return isGameOver() || enemyPlayer.isDead() || enemyPlayer.hasNoArrows();
     }
 
     private void enemyPlayerShoot(int numberOfCavesToShoot) {

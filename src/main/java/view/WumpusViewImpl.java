@@ -22,7 +22,7 @@ import static javax.swing.SwingUtilities.isLeftMouseButton;
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class WumpusViewImpl extends JPanel implements WumpusView {
-    private static final boolean CHEAT_MODE = true;
+    private static final boolean CHEAT_MODE = false;
 
     WumpusPresenter wumpusPresenter;
     public static final int PANEL_WIDTH = 721;
@@ -305,11 +305,11 @@ public class WumpusViewImpl extends JPanel implements WumpusView {
 
             // concat at most three
             String msg = messages.stream().limit(3).collect(joining(" & "));
-            g.drawString(msg, 20, getHeight() - 40);
+            g.drawString(msg, 20, getHeight() - 60);
 
             // if there's more, print underneath
             if (messages.size() > 3) {
-                g.drawString("& " + messages.get(3), 20, getHeight() - 17);
+                g.drawString("& " + messages.get(3), 20, getHeight() - 37);
             }
 
             if (actualCavesShot.length > 0) {
