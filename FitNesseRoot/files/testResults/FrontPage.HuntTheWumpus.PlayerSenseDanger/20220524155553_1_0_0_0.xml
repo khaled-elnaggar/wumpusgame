@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<testResults>
+  <FitNesseVersion>v20211030</FitNesseVersion>
+  <rootPath>FrontPage.HuntTheWumpus.PlayerSenseDanger</rootPath>
+  <result>
+    <counts>
+      <right>3</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <date>2022-05-24T15:55:53+02:00</date>
+    <runTimeInMillis>36</runTimeInMillis>
+    <content>&lt;h3 &gt;&lt;/h3&gt;&lt;h2 &gt;Feature: Player senses danger warnings&lt;/h2&gt;&lt;br/&gt;&lt;h4 &gt;Scenario Outline: Player senses the dangers in a linked cave&lt;/h4&gt;&lt;span class=pass&gt;player starts in cave 0&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 5&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;wumpus starts in cave 18&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 1 starts in cave 19&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 1 starts in cave 3&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player starts in cave 9&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player moves to cave 10&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player will sense that "there's an awful smell"&lt;/span&gt;&lt;br&gt;&lt;h4 &gt;Scenario Outline: Player senses the dangers in a linked cave&lt;/h4&gt;&lt;span class=pass&gt;player starts in cave 0&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 5&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;wumpus starts in cave 18&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 1 starts in cave 19&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 1 starts in cave 3&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player starts in cave 16&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player moves to cave 15&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player will sense that "you hear a rustling"&lt;/span&gt;&lt;br&gt;&lt;h4 &gt;Scenario Outline: Player senses the dangers in a linked cave&lt;/h4&gt;&lt;span class=pass&gt;player starts in cave 0&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 5&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;wumpus starts in cave 18&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 1 starts in cave 19&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 1 starts in cave 3&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player starts in cave 1&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player moves to cave 2&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player will sense that "you feel a draft"&lt;/span&gt;&lt;br&gt;</content>
+    <relativePageName>PlayerSenseDanger</relativePageName>
+  </result>
+  <executionLog>
+    <testSystem></testSystem>
+    <command></command>
+    <exitCode>0</exitCode>
+    <stdOut>Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+</stdOut>
+    <stdErr></stdErr>
+  </executionLog>
+  <finalCounts>
+    <right>1</right>
+    <wrong>0</wrong>
+    <ignores>0</ignores>
+    <exceptions>0</exceptions>
+  </finalCounts>
+  <totalRunTimeInMillis>36</totalRunTimeInMillis>
+</testResults>
+

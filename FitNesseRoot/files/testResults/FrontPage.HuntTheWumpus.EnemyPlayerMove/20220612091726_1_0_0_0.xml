@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<testResults>
+  <FitNesseVersion>v20211030</FitNesseVersion>
+  <rootPath>FrontPage.HuntTheWumpus.EnemyPlayerMove</rootPath>
+  <result>
+    <counts>
+      <right>5</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <date>2022-06-12T09:17:26+02:00</date>
+    <runTimeInMillis>1411</runTimeInMillis>
+    <content>&lt;h3 &gt;&lt;/h3&gt;&lt;h2 &gt;Feature: Enemy player move feature&lt;/h2&gt;&lt;br/&gt;&lt;h4 &gt;Scenario: Enemy player moves to a linked cave after player moves&lt;/h4&gt;&lt;span class=pass&gt;player starts in cave 0&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 16&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;wumpus starts in cave 18&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 1 starts in cave 19&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 1 starts in cave 3&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player starts in cave 9&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 16&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player moves to cave 1&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player moves from cave 16 to cave 6&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player will be at cave 6&lt;/span&gt;&lt;br&gt;&lt;h4 &gt;Scenario: Enemy player moves to a linked cave after player shoots&lt;/h4&gt;&lt;span class=pass&gt;player starts in cave 0&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 16&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;wumpus starts in cave 18&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 1 starts in cave 19&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 1 starts in cave 3&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player starts in cave 9&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 16&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player shoots at cave 1&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player moves from cave 16 to cave 6&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player will be at cave 6&lt;/span&gt;&lt;br&gt;&lt;h4 &gt;Scenario: Enemy player moves to a cave with wumpus&lt;/h4&gt;&lt;span class=pass&gt;player starts in cave 0&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 16&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;wumpus starts in cave 18&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 1 starts in cave 19&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 1 starts in cave 3&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player starts in cave 9&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 16&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;wumpus starts in cave 18&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player moves to cave 1&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player moves from cave 16 to cave 17&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player moves to cave 2&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player moves from cave 17 to cave 18&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player will be dead&lt;/span&gt;&lt;br&gt;&lt;h4 &gt;Scenario: Enemy player moves to a cave with bat&lt;/h4&gt;&lt;span class=pass&gt;player starts in cave 0&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 16&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;wumpus starts in cave 18&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 1 starts in cave 19&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 1 starts in cave 3&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player starts in cave 9&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 11&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 1 starts in cave 19&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player moves to cave 1&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player moves from cave 11 to cave 12&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player moves to cave 2&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player moves from cave 12 to cave 19&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat teleports enemy player to cave 8 and itself to cave 4&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player will be at cave 8&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 1 will be at cave 4&lt;/span&gt;&lt;br&gt;&lt;h4 &gt;Scenario: Enemy player moves to a cave with pit&lt;/h4&gt;&lt;span class=pass&gt;player starts in cave 0&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 16&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;wumpus starts in cave 18&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 1 starts in cave 19&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;bat 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 1 starts in cave 3&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 2 starts in cave 13&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player starts in cave 9&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player starts in cave 11&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;pit 1 starts in cave 3&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player moves to cave 1&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player moves from cave 11 to cave 2&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;player moves to cave 2&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player moves from cave 2 to cave 3&lt;/span&gt;&lt;br&gt;&lt;span class=pass&gt;enemy player will be dead&lt;/span&gt;&lt;br&gt;</content>
+    <relativePageName>EnemyPlayerMove</relativePageName>
+  </result>
+  <executionLog>
+    <testSystem></testSystem>
+    <command></command>
+    <exitCode>0</exitCode>
+    <stdOut>Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+</stdOut>
+    <stdErr></stdErr>
+  </executionLog>
+  <finalCounts>
+    <right>1</right>
+    <wrong>0</wrong>
+    <ignores>0</ignores>
+    <exceptions>0</exceptions>
+  </finalCounts>
+  <totalRunTimeInMillis>1411</totalRunTimeInMillis>
+</testResults>
+

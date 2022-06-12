@@ -1,0 +1,9 @@
+---
+Suite
+---
+!1 Test suite X
+!contents -R2 -g -p -f -h
+
+!define TEST_SYSTEM {cucumber}
+
+!define cucumber.glue {acceptance}

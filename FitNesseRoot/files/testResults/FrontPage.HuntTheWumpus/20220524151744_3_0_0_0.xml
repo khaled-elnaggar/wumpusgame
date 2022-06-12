@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<suiteResults>
+  <FitNesseVersion>v20211030</FitNesseVersion>
+  <rootPath>FrontPage.HuntTheWumpus</rootPath>
+  <pageHistoryReference>
+    <name>FrontPage.HuntTheWumpus.EnemyPlayerMove</name>
+    <date>2022-05-24T15:17:44+02:00</date>
+    <pageHistoryLink>FrontPage.HuntTheWumpus.EnemyPlayerMove?pageHistory&amp;resultDate=20220524151744</pageHistoryLink>
+    <counts>
+      <right>5</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>101</runTimeInMillis>
+  </pageHistoryReference>
+  <pageHistoryReference>
+    <name>FrontPage.HuntTheWumpus.EnemyShootsPlayer</name>
+    <date>2022-05-24T15:17:44+02:00</date>
+    <pageHistoryLink>FrontPage.HuntTheWumpus.EnemyShootsPlayer?pageHistory&amp;resultDate=20220524151744</pageHistoryLink>
+    <counts>
+      <right>7</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>131</runTimeInMillis>
+  </pageHistoryReference>
+  <pageHistoryReference>
+    <name>FrontPage.HuntTheWumpus.GameInitialization</name>
+    <date>2022-05-24T15:17:45+02:00</date>
+    <pageHistoryLink>FrontPage.HuntTheWumpus.GameInitialization?pageHistory&amp;resultDate=20220524151745</pageHistoryLink>
+    <counts>
+      <right>2</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>39</runTimeInMillis>
+  </pageHistoryReference>
+  <executionLog>
+    <testSystem></testSystem>
+    <command></command>
+    <exitCode>0</exitCode>
+    <stdOut>Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+</stdOut>
+    <stdErr></stdErr>
+  </executionLog>
+  <finalCounts>
+    <right>3</right>
+    <wrong>0</wrong>
+    <ignores>0</ignores>
+    <exceptions>0</exceptions>
+  </finalCounts>
+  <totalRunTimeInMillis>294</totalRunTimeInMillis>
+</suiteResults>
+

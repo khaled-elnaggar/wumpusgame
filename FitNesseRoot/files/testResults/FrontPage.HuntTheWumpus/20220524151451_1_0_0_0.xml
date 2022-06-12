@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<suiteResults>
+  <FitNesseVersion>v20211030</FitNesseVersion>
+  <rootPath>FrontPage.HuntTheWumpus</rootPath>
+  <pageHistoryReference>
+    <name>FrontPage.HuntTheWumpus.EnemyPlayerMove</name>
+    <date>2022-05-24T15:14:51+02:00</date>
+    <pageHistoryLink>FrontPage.HuntTheWumpus.EnemyPlayerMove?pageHistory&amp;resultDate=20220524151451</pageHistoryLink>
+    <counts>
+      <right>5</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>1124</runTimeInMillis>
+  </pageHistoryReference>
+  <executionLog>
+    <testSystem></testSystem>
+    <command></command>
+    <exitCode>0</exitCode>
+    <stdOut>Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+</stdOut>
+    <stdErr></stdErr>
+  </executionLog>
+  <finalCounts>
+    <right>1</right>
+    <wrong>0</wrong>
+    <ignores>0</ignores>
+    <exceptions>0</exceptions>
+  </finalCounts>
+  <totalRunTimeInMillis>1164</totalRunTimeInMillis>
+</suiteResults>
+

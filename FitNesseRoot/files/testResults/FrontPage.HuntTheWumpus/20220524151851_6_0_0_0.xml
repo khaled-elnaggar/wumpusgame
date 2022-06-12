@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<suiteResults>
+  <FitNesseVersion>v20211030</FitNesseVersion>
+  <rootPath>FrontPage.HuntTheWumpus</rootPath>
+  <pageHistoryReference>
+    <name>FrontPage.HuntTheWumpus.EnemyPlayerMove</name>
+    <date>2022-05-24T15:18:51+02:00</date>
+    <pageHistoryLink>FrontPage.HuntTheWumpus.EnemyPlayerMove?pageHistory&amp;resultDate=20220524151851</pageHistoryLink>
+    <counts>
+      <right>5</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>99</runTimeInMillis>
+  </pageHistoryReference>
+  <pageHistoryReference>
+    <name>FrontPage.HuntTheWumpus.EnemyShootsPlayer</name>
+    <date>2022-05-24T15:18:51+02:00</date>
+    <pageHistoryLink>FrontPage.HuntTheWumpus.EnemyShootsPlayer?pageHistory&amp;resultDate=20220524151851</pageHistoryLink>
+    <counts>
+      <right>7</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>110</runTimeInMillis>
+  </pageHistoryReference>
+  <pageHistoryReference>
+    <name>FrontPage.HuntTheWumpus.GameInitialization</name>
+    <date>2022-05-24T15:18:51+02:00</date>
+    <pageHistoryLink>FrontPage.HuntTheWumpus.GameInitialization?pageHistory&amp;resultDate=20220524151851</pageHistoryLink>
+    <counts>
+      <right>2</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>30</runTimeInMillis>
+  </pageHistoryReference>
+  <pageHistoryReference>
+    <name>FrontPage.HuntTheWumpus.PlayerMove</name>
+    <date>2022-05-24T15:18:51+02:00</date>
+    <pageHistoryLink>FrontPage.HuntTheWumpus.PlayerMove?pageHistory&amp;resultDate=20220524151851</pageHistoryLink>
+    <counts>
+      <right>6</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>74</runTimeInMillis>
+  </pageHistoryReference>
+  <pageHistoryReference>
+    <name>FrontPage.HuntTheWumpus.PlayerSenseDanger</name>
+    <date>2022-05-24T15:18:51+02:00</date>
+    <pageHistoryLink>FrontPage.HuntTheWumpus.PlayerSenseDanger?pageHistory&amp;resultDate=20220524151851</pageHistoryLink>
+    <counts>
+      <right>3</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>39</runTimeInMillis>
+  </pageHistoryReference>
+  <pageHistoryReference>
+    <name>FrontPage.HuntTheWumpus.PlayerShoot</name>
+    <date>2022-05-24T15:18:51+02:00</date>
+    <pageHistoryLink>FrontPage.HuntTheWumpus.PlayerShoot?pageHistory&amp;resultDate=20220524151851</pageHistoryLink>
+    <counts>
+      <right>8</right>
+      <wrong>0</wrong>
+      <ignores>0</ignores>
+      <exceptions>0</exceptions>
+    </counts>
+    <runTimeInMillis>78</runTimeInMillis>
+  </pageHistoryReference>
+  <executionLog>
+    <testSystem></testSystem>
+    <command></command>
+    <exitCode>0</exitCode>
+    <stdOut>Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+Running hook AFTER
+</stdOut>
+    <stdErr></stdErr>
+  </executionLog>
+  <finalCounts>
+    <right>6</right>
+    <wrong>0</wrong>
+    <ignores>0</ignores>
+    <exceptions>0</exceptions>
+  </finalCounts>
+  <totalRunTimeInMillis>469</totalRunTimeInMillis>
+</suiteResults>
+
