@@ -77,3 +77,8 @@ target/
 
 # Any iml file
 *.iml
+
+# unwanted stuff in fitnesse
+.FitNesseRoot/files/testResults/
+.FitNesseRoot/FitNesse/
+.FitNesseRoot/**/workspace.xml
