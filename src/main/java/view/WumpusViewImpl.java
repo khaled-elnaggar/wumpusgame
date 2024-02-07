@@ -22,7 +22,7 @@ import static javax.swing.SwingUtilities.isLeftMouseButton;
 import static javax.swing.SwingUtilities.isRightMouseButton;
 
 public class WumpusViewImpl extends JPanel implements WumpusView {
-    private static final boolean CHEAT_MODE = false;
+    private static final boolean CHEAT_MODE = true;
 
     WumpusPresenter wumpusPresenter;
     public static final int PANEL_WIDTH = 721;

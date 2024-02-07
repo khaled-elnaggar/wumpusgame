@@ -18,13 +18,13 @@ Feature: Player movement options
 
   Scenario Outline: Player moves to a linked cave
   The player should be allowed to move successfully to a cave that is connected to it
-    Given player starts in cave <PlayerStartingCave>
+Given player starts in cave <PlayerStartingCave>
     When player moves to cave <PlayerNextCave>
     Then player will be at cave <PlayerCurrentCave>
-    Examples:
-      | PlayerStartingCave | PlayerNextCave | PlayerCurrentCave |
-      | 0                  | 7              | 7                 |
-      | 0                  | 12             | 0                 |
+Examples:
+|PlayerStartingCave|PlayerNextCave|PlayerCurrentCave|
+|0                 |7             |7                |
+|0                 |12            |0                |
 
 
   Scenario: Player moves to a cave with wumpus and gets eaten

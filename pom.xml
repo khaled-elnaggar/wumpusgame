@@ -56,7 +56,7 @@
 
         <dependency>
             <groupId>org.fitnesse.cucumber</groupId>
-            <artifactId>fitnesse-cucumber</artifactId>
+            <artifactId>cunesse</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
